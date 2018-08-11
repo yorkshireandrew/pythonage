@@ -3,33 +3,17 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Pythonage1</title>
+<script src="frameworkclasses.js" defer></script>
+<script src="queryhandler.js" defer></script>
+<script src="commandhandler.js" defer></script>
 <script src="pythonage1.js" defer></script>
 
-<script>
-// *********************************************
-// *** BASIC FUNCTIONS OTHER SCRIPTS RELY ON ***
-// *********************************************
-function id(theid){
-	return document.getElementById(theid);
-}
-
-function log(text){
-	var div = document.createElement("div");
-	div.innerHTML = text;
-	id("log").appendChild(div);
-}
-
-function clearlog(){
-	var s = id("log");
-	while (s.firstChild) {
-	    s.removeChild(s.firstChild);
-	}
-}
-</script>
 </head>
 
 <body>
-    <canvas id="my_canvas" width="750px" height="451px" >Your browser does not support the HTML5 canvas tag.</canvas>
+    <div style="border: 5px solid red;">
+    	<canvas id="my_canvas" width="750px" height="451px" >Your browser does not support the HTML5 canvas tag.</canvas>
+    </div>
     <br />
 	<div id="log"></div>
 	<button onclick="clearlog()">CLEAR LOG</button>
