@@ -12,7 +12,7 @@ function pythonage_album_pending_loads(album_name){
 }
 
 //Query the number of images in an album, Returns 999 if the album is empty
-function pyhonage_album_image_count(album_name){
+function pythonage_album_image_count(album_name){
 	if(typeof(pythonage_albums[album_name]) == 'undefined') pythonage_error("When querying if an album has loaded the album " + album_name + " did not exist")
 	var album = pythonage_albums[album_name];
 	if(Object.keys(album).length == 0) return 999; // Paradox

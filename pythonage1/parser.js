@@ -109,7 +109,19 @@ function pythonage_continue_parse(commandstring){
 			break;
 			
 		case "r":
-			if(number_of_arguments == 1){pythonage_scene_graph[targetname]}
+			if(number_of_arguments == 1){pythonage_scene_graph[args[1]].render(canvas_context);}
+			break;
+			
+		case "query-album":
+			if(number_of_arguments == 2){pythonage_query_album(args);}
+			break;
+			
+		case "qa":
+			if(number_of_arguments == 2){pythonage_query_album(args);}
+			break;
+			
+		case "query-keys":
+			pythonage_query_keys(args)
 			break;
 			
 	} // end of switch
@@ -183,6 +195,22 @@ function pythonage_command_attach_to(args){
 		return;
 	}
 	var target = pythonage_scene_graph[targetname];
-	target.attach_scene_graph_item(args[2])	
+	target.attach_scene_graph_item(args[2])
 }
+	
+function pythonage_query_album(args){
+	var album_name = args[1];
+	var query_id = args[2];
+	var count = pythonage_album_pending_loads(album_name);
+	var query_album_response = "(qa," + album_name + "," + count + "," + query_id + ")";
+	pythonage_reply(query_album_response);		
+}
+
+function pythonage_query_keys(args){
+	var query_id = args[1];
+	var result = key_listener.query(args.slice(1)); // remove query_id before asking
+	var query_keys_response = "(qk," + query_id + "," + result +")";
+	pythonage_reply(query_keys_response);		
+}
+
 
