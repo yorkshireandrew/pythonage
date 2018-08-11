@@ -3,10 +3,12 @@ var loaded_images = {};
 
 var has_rendered_car = false;
 
-// Maps of names to items for aquiring resources
+// Maps of names to items for acquiring resources, 
+// Image objects and scene graph objects are in different associative arrays to reduce name collisions
 var pythonage_albums = {};
-var pythonage_imagedatas = {};
-
+var pythonage_image_objects = {}; 
+var pythonage_scene_graph = {}
+var canvas_context = null;
 
 function image_loaded(name){
 	loading_images--;
@@ -35,7 +37,7 @@ function clearlog(){
 
 // error function - so you can hook in more error handling
 function pythonage_error(message){
-	log(message);
+	//log(message);
 }
 
 function loadImage(url, name){
@@ -52,21 +54,22 @@ function tick(){
 	if(pythonage_album_pending_loads("testalbum") == 0 && has_rendered_car == false){
 		log("trying to render");
 		has_rendered_car = true;
-		var pimg = new pythonage_image("mycar","testalbum","car", 100, 100);
-		var c = id("my_canvas");
-		ctx = c.getContext("2d");
-		ctx.save();
-		pimg.render(ctx);
-		ctx.restore();		
+		pythonage_consume("(new-img,mycar,testalbum,carimgdata,100,100,true)");
+		pythonage_consume("(new-tran,carposition,0,0,true)");
+		pythonage_consume("(attach-img,carposition,mycar)");
+		pythonage_consume("(render,carposition)");
 	}
 }
 
 function load(){
 	log("load called");
-	pythonage_add_album("testalbum");
-	var imgdata = new pythonage_imagedata("car", "testalbum");
-	imgdata.set_source("img/car_side1_4.bmp");
+	var c = id("my_canvas");
+	canvas_context = c.getContext("2d");
 	setInterval(tick, 50);
+	
+	pythonage_consume("(new-album,testalbum)");
+	pythonage_consume("(new-imgd,carimgdata,testalbum)");
+	pythonage_consume("(set-imgd-src,testalbum,carimgdata,img/car_side1_4.bmp)");
 }
 
 
