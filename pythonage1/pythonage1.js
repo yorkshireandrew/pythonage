@@ -10,6 +10,7 @@ var pythonage_image_objects = {};
 var pythonage_scene_graph = {}
 var canvas_context = null;
 var key_listener = null;
+var web_socket = null;
 
 function image_loaded(name){
 	loading_images--;
@@ -63,10 +64,13 @@ function tick(){
 }
 
 function load(){
-	log("load called");
 	key_listener = new keyboard_listener();
+	
 	var c = id("my_canvas");
 	canvas_context = c.getContext("2d");
+	
+	web_socket = new MyWebSocket("localhost", "8765");
+	
 	setInterval(tick, 50);
 	
 	pythonage_consume_nugget("(new-album,testalbum)");
