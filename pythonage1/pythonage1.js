@@ -55,10 +55,10 @@ function tick(){
 	if(pythonage_album_pending_loads("testalbum") == 0 && has_rendered_car == false){
 		log("trying to render");
 		has_rendered_car = true;
-		pythonage_consume("(new-img,mycar,testalbum,carimgdata,100,100,true)");
-		pythonage_consume("(new-tran,carposition,0,0,true)");
-		pythonage_consume("(attach-img,carposition,mycar)");
-		pythonage_consume("(render,carposition)");
+		pythonage_consume_nugget("(new-img,mycar,testalbum,carimgdata,100,100,true)");
+		pythonage_consume_nugget("(new-tran,carposition,0,0,true)");
+		pythonage_consume_nugget("(attach-img,carposition,mycar)");
+		pythonage_consume_nugget("(render,carposition)");
 	}
 }
 
@@ -69,9 +69,9 @@ function load(){
 	canvas_context = c.getContext("2d");
 	setInterval(tick, 50);
 	
-	pythonage_consume("(new-album,testalbum)");
-	pythonage_consume("(new-imgd,carimgdata,testalbum)");
-	pythonage_consume("(set-imgd-src,testalbum,carimgdata,img/car_side1_4.bmp)");
+	pythonage_consume_nugget("(new-album,testalbum)");
+	pythonage_consume_nugget("(new-imgd,carimgdata,testalbum)");
+	pythonage_consume_nugget("(set-imgd-src,testalbum,carimgdata,img/car_side1_4.bmp)");
 }
 
 

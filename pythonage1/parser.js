@@ -1,6 +1,7 @@
 var pythonage_input_stream = "";
 
-function pythonage_consume(nugget){
+// actually because web sockets are already tokens we do not need this function
+function pythonage_consume_nugget(nugget){
 	pythonage_input_stream += nugget;
 	fragments = pythonage_input_stream.split("(");
 	var frag_length = fragments.length
@@ -11,7 +12,7 @@ function pythonage_consume(nugget){
 			if(frag.length == 0) continue;
 			
 			if(frag.endsWith(")")){
-				pythonage_continue_parse(frag.slice(0,-1));
+				pythonage_consume(frag.slice(0,-1));
 				if(fragment_index == frag_length_minus_one){
 					pythonage_input_stream = "";
 				}
@@ -24,7 +25,7 @@ function pythonage_consume(nugget){
 	}
 }
 
-function pythonage_continue_parse(commandstring){
+function pythonage_consume(commandstring){
 	var args = commandstring.split(",");
 	
 	var command = args[0];
