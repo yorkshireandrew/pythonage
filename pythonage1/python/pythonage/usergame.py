@@ -1,6 +1,6 @@
 import sys
 
-class PythonageUserGame:
+class PUserGame:
 
     def __init__(self, user):
         self.user = user
@@ -9,4 +9,4 @@ class PythonageUserGame:
         self.scene_graph = {}
         self.pending_commands = [];
         self.render_based_flushing = False;
-        print('Created PythonageUserGame')
+        print('Created UserGame')
