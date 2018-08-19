@@ -177,24 +177,6 @@ function pythonage_command_append(args){
 	object_to_append_to.append(object_being_appended_id);	
 }
 
-function pythonage_command_append_to(args){
-	var object_to_move_id = args[1];
-	var object_to_append_to_id = args[2];	
-	
-	if(typeof(pythonage_objects[object_to_move_id]) == 'undefined'){
-		pythonage_error("Executing append-to the item to be moved" + object_to_move_id + " did not exist");
-		return;
-	}
-	var object_to_move = pythonage_objects[object_to_move_id];
-	
-	if(typeof(pythonage_objects[object_to_append_to_id]) == 'undefined'){
-		pythonage_error("Executing append-to the item to append to " + object_to_attach_to_id + " did not exist");
-		return;
-	}	
-
-	object_to_move.append_to(object_to_append_to_id)
-}
-
 function pythonage_command_detach(args){
 	var object_to_detach_id = args[1];
 	var object_to_detach_from_id = args[2];	

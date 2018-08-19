@@ -23,14 +23,7 @@ class pythonage_image{
 		if(this.visible) context.drawImage(this.img, 0, 0, this.width, this.height);
 	}
 	
-	// Detach from our parent if we have one then attach to another node
-	append_to(object_id){
-		if(this.parent != null) this.parent.detatch(this.object_id); 
-		
-		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
-		var new_parent = pythonage_objects[object_id]
-		new_parent.append(this.object_id)
-	}
+
 }
 
 //========== Image Data ==========
@@ -115,15 +108,6 @@ class pythonage_translate{
 			}
 		}		
 	}
-	
-	// Detach from our parent if we have one then attach to another node
-	append_to(object_id){
-		if(this.parent != null) this.parent.detatch(this.object_id); 
-		
-		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
-		var new_parent = pythonage_objects[object_id]
-		new_parent.append(this.object_id)
-	}
 }
 
 
@@ -182,14 +166,5 @@ class pythonage_rotate{
 				break;
 			}
 		}		
-	}
-	
-	// Detach from our parent if we have one then attach to another node
-	append_to(object_id){
-		if(this.parent != null) this.parent.detatch(this.object_id); 
-		
-		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
-		var new_parent = pythonage_objects[object_id]
-		new_parent.append(this.object_id)
 	}
 }
