@@ -32,96 +32,84 @@ function pythonage_consume(commandstring){
 	var number_of_arguments = args.length -1;
 	
 	switch(command){
-	
-		case "new-album":
-			if(number_of_arguments == 1){pythonage_add_album(args[1]);}
-			break;
-			
-		case "na":
-			if(number_of_arguments == 1){pythonage_add_album(args[1]);}
-			break;
 			
 		case "new-imgd":
-			if(number_of_arguments == 2){new pythonage_imagedata(args[1],args[2]);}
+			new pythonage_imagedata(args[1], web_socket); // object_id, websocket
 			break;
 			
 		case "nid":
-			if(number_of_arguments == 2){new pythonage_imagedata(args[1],args[2]);}
+			new pythonage_imagedata(args[1], web_socket); // object_id, websocket
 			break;
 		
 		case "set-imgd-src":
-			if(number_of_arguments == 3){pythonage_command_set_image_data_source(args);}
+			pythonage_command_set_image_data_source(args);
 			break;
 			
 		case "sids":
-			if(number_of_arguments == 3){pythonage_command_set_image_data_source(args);}
+			pythonage_command_set_image_data_source(args);
 			break;
 			
 		case "new-img":
-			if(number_of_arguments == 6){pythonage_command_new_image(args);}
+			pythonage_command_new_image(args);
 			break;
 			
 		case "ni":
-			if(number_of_arguments == 6){pythonage_command_new_image(args);}
+			pythonage_command_new_image(args);
 			break;
 			
 		case "new-tran":
-			if(number_of_arguments == 4){pythonage_command_new_translate(args);}
+			pythonage_command_new_translate(args);
 			break;
 			
 		case "nt":
-			if(number_of_arguments == 4){pythonage_command_new_translate(args);}
+			pythonage_command_new_translate(args);
 			break;
 			
 		case "new-rot":
-			if(number_of_arguments == 4){pythonage_command_new_rotate(args);}
+			pythonage_command_new_rotate(args);
 			break;
 			
 		case "nr":
-			if(number_of_arguments == 3){pythonage_command_new_rotate(args);}
+			pythonage_command_new_rotate(args);
 			break;
 		
-		case "attach-img":
-			if(number_of_arguments == 2){pythonage_command_attach_image(args);}
+		case "append":
+			pythonage_command_append(args);
 			break;
 			
-		case "ai":
-			if(number_of_arguments == 2){pythonage_command_attach_image(args);}
+		case "a":
+			pythonage_command_append(args);
 			break;
 			
-		case "attach-sgi":
-			if(number_of_arguments == 2){pythonage_command_attach_scene_graph_item(args);}
-			break;
-			
-		case "asgi":
-			if(number_of_arguments == 2){pythonage_command_attach_scene_graph_item(args);}
-			break;
-			
-		case "attach-to":
-			if(number_of_arguments == 2){pythonage_command_attach_to(args);}
+		case "append-to":
+			pythonage_command_append_to(args);
 			break;
 			
 		case "at":
-			if(number_of_arguments == 2){pythonage_command_attach_to(args);}
+			pythonage_command_append_to(args);
+			break;
+			
+		case "detach":
+			pythonage_command_detach(args);
+			break;
+			
+		case "dt":
+			pythonage_command_detach(args);
 			break;
 			
 		case "render":
-			if(number_of_arguments == 1){pythonage_scene_graph[args[1]].render(canvas_context);}
+			pythonage_objects[args[1]].render(canvas_context);
 			break;
 			
 		case "r":
-			if(number_of_arguments == 1){pythonage_scene_graph[args[1]].render(canvas_context);}
-			break;
-			
-		case "query-album":
-			if(number_of_arguments == 2){pythonage_query_album(args);}
-			break;
-			
-		case "qa":
-			if(number_of_arguments == 2){pythonage_query_album(args);}
+			pythonage_objects[args[1]].render(canvas_context);
 			break;
 			
 		case "query-keys":
+			pythonage_query_keys(args)
+			break;
+		
+		case "qk":
 			pythonage_query_keys(args)
 			break;
 			
@@ -129,84 +117,102 @@ function pythonage_consume(commandstring){
 }
 
 function pythonage_command_set_image_data_source(args){
-	var album_name = args[1];
-	if(typeof(pythonage_albums[album_name]) == 'undefined'){
-		pythonage_error("Executing set-imagedata-source the album " + album_name + " did not exist");
+	var object_id = args[1];
+	var src = args[2];
+	
+	if(typeof(pythonage_objects[object_id]) == 'undefined'){
+		pythonage_error("Executing set-imagedata-source the the imagedata " + object_id + " did not exist");
 		return;
 	}
-	var album = pythonage_albums[album_name];
-	var image_data_name = args[2];
-	if(typeof(album[image_data_name]) == 'undefined'){
-		pythonage_error("Executing set-imagedata-source the the imagedata " + image_data_name + " did not exist in album " + album_name);
-		return;
-	}
-	var imagedata = album[image_data_name];
-	imagedata.set_source(args[3]);
+	
+	var imagedata = pythonage_objects[object_id];
+	imagedata.set_source(src);
 }
 
-function pythonage_command_new_image(args){
-	var width = parseInt(args[4]);
-	var height = parseInt(args[5]);
+function pythonage_command_new_image(args){ // args = command, object_id, image_data_source_object_id, height, width, visible
+	var object_id = args[1];
+	var image_data_object_id = args[2]; 
+	var width = parseInt(args[3]);
+	var height = parseInt(args[4]);
+	
 	var visible = false;
-	if(args[6]=="t" ||args[6]=="true") visible = true;		
-	new pythonage_image(args[1],args[2],args[3], width, height, visible);
+	if(args[5]=="t" ||args[5]=="true") visible = true;
+	
+	new pythonage_image(object_id, image_data_object_id, width, height, visible);
 	log("new image");
 }
 
-function pythonage_command_new_translate(args){ 
+function pythonage_command_new_translate(args){
+	var object_id = args[1];
 	var x = parseInt(args[2]);
 	var y = parseInt(args[3]);
+	
 	var visible = false;
-	if(args[4]=="t" || args[4]=="true") visible = true;		
-	new pythonage_translate(args[1],x,y, visible);
+	if(args[4]=="t" || args[4]=="true") visible = true;
+	
+	new pythonage_translate(object_id, x, y, visible);
 	log("new translate");
 }
 
-function pythonage_command_new_rotate(args){ 
+function pythonage_command_new_rotate(args){
+	var object_id = args[1];
 	var deg = parseFloat(args[2]);
+	
 	var visible = false;
-	if(args[3]=="t" || args[3]=="true") visible = true;		
-	new pythonage_rotate(args[1],deg, visible);	
+	if(args[3]=="t" || args[3]=="true") visible = true;
+	
+	new pythonage_rotate(object_id, deg, visible);	
 }
 
-function pythonage_command_attach_image(args){
-	var targetname = args[1];
-	if(typeof(pythonage_scene_graph[targetname]) == 'undefined'){
-		pythonage_error("Executing attach-image the the target scene graph item " + targetname + " did not exist");
+function pythonage_command_append(args){
+	var object_being_appended_id = args[1];
+	var object_to_append_to_id = args[2];
+	
+	if(typeof(pythonage_objects[object_to_append_to_id]) == 'undefined'){
+		pythonage_error("Executing append the object to append to " + object_to_append_to_id + " did not exist");
 		return;
 	}
-	var target = pythonage_scene_graph[targetname];
-	target.attach_image(args[2])	
+	var object_to_append_to = pythonage_objects[object_to_append_to_id];
+	
+	object_to_append_to.append(object_being_appended_id);	
 }
 
-function pythonage_command_attach_scene_graph_item(args){
-	var targetname = args[1];
-	if(typeof(pythonage_scene_graph[targetname]) == 'undefined'){
-		pythonage_error("Executing attach-scene-graph-item the target scene graph item " + targetname + " did not exist");
+function pythonage_command_append_to(args){
+	var object_to_move_id = args[1];
+	var object_to_append_to_id = args[2];	
+	
+	if(typeof(pythonage_objects[object_to_move_id]) == 'undefined'){
+		pythonage_error("Executing append-to the item to be moved" + object_to_move_id + " did not exist");
 		return;
 	}
-	var target = pythonage_scene_graph[targetname];
-	target.attach_scene_graph_item(args[2])	
+	var object_to_move = pythonage_objects[object_to_move_id];
+	
+	if(typeof(pythonage_objects[object_to_append_to_id]) == 'undefined'){
+		pythonage_error("Executing append-to the item to append to " + object_to_attach_to_id + " did not exist");
+		return;
+	}	
+
+	object_to_move.append_to(object_to_append_to_id)
 }
 
-function pythonage_command_attach_to(args){
-	var targetname = args[1];
-	if(typeof(pythonage_scene_graph[targetname]) == 'undefined'){
-		pythonage_error("Executing attach-to the scene graph item to be moved" + targetname + " did not exist");
+function pythonage_command_detach(args){
+	var object_to_detach_id = args[1];
+	var object_to_detach_from_id = args[2];	
+	
+	if(typeof(pythonage_objects[object_to_detach_id]) == 'undefined'){
+		pythonage_error("Executing detach the item to be detached" + object_to_detach_id + " did not exist");
 		return;
 	}
-	var target = pythonage_scene_graph[targetname];
-	target.attach_scene_graph_item(args[2])
+	
+	if(typeof(pythonage_objects[object_to_detach_from_id]) == 'undefined'){
+		pythonage_error("Executing detach the item to detach from " + object_to_detach_from_id + " did not exist");
+		return;
+	}
+	object_to_detach_from = pythonage_objects[object_to_detach_from_id];
+
+	object_to_detach_from.detach(object_to_detach_id)
 }
 	
-function pythonage_query_album(args){
-	var album_name = args[1];
-	var query_id = args[2];
-	var count = pythonage_album_pending_loads(album_name);
-	var query_album_response = "(qa," + album_name + "," + count + "," + query_id + ")";
-	pythonage_reply(query_album_response);		
-}
-
 function pythonage_query_keys(args){
 	var query_id = args[1];
 	var result = key_listener.query(args.slice(1)); // remove query_id before asking

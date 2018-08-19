@@ -4,10 +4,8 @@ var loaded_images = {};
 var has_rendered_car = false;
 
 // Maps of names to items for acquiring resources, 
-// Image objects and scene graph objects are in different associative arrays to reduce name collisions
-var pythonage_albums = {};
-var pythonage_image_objects = {}; 
-var pythonage_scene_graph = {}
+var pythonage_objects = {}
+
 var canvas_context = null;
 var key_listener = null;
 var web_socket = null;
@@ -53,12 +51,12 @@ function loadImage(url, name){
 }
 
 function tick(){
-	if(pythonage_album_pending_loads("testalbum") == 0 && has_rendered_car == false){
+	if(has_rendered_car == false && pythonage_objects['cardata'].loaded){
 		log("trying to render");
 		has_rendered_car = true;
-		pythonage_consume_nugget("(new-img,mycar,testalbum,carimgdata,100,100,true)");
+		pythonage_consume_nugget("(new-img,mycar,cardata,100,100,true)");
 		pythonage_consume_nugget("(new-tran,carposition,0,0,true)");
-		pythonage_consume_nugget("(attach-img,carposition,mycar)");
+		pythonage_consume_nugget("(append,mycar,carposition)");
 		pythonage_consume_nugget("(render,carposition)");
 	}
 }
@@ -71,11 +69,10 @@ function load(){
 	
 	web_socket = new MyWebSocket("localhost", "8765");
 	
-	setInterval(tick, 50);
+	pythonage_consume_nugget("(new-imgd,cardata)");
+	pythonage_consume_nugget("(set-imgd-src,cardata,img/car_side1_4.bmp)");
 	
-	pythonage_consume_nugget("(new-album,testalbum)");
-	pythonage_consume_nugget("(new-imgd,carimgdata,testalbum)");
-	pythonage_consume_nugget("(set-imgd-src,testalbum,carimgdata,img/car_side1_4.bmp)");
+	setInterval(tick, 50);
 }
 
 

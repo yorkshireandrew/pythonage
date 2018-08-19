@@ -5,20 +5,18 @@
 // Represents something that can be rendered in the scene graph
 class pythonage_image{
 	
-	constructor(name, album_name, image_data_name, width, height, visible){
-		this.name = name;
+	constructor(object_id, imagedata_object_id, width, height, visible){
+		this.object_id = object_id;
 		this.width = width;
 		this.height = height;
 		this.visible = visible;
 		
-		// Additional
-		if(typeof(pythonage_albums[album_name]) == 'undefined') pythonage_error("Constructing image " + name + " the album " + album_name + " did not exist")
-		var album = pythonage_albums[album_name];
-		if(typeof(album[image_data_name]) == 'undefined') pythonage_error("Constructing image " + name + " the imagedata " + image_data_name + " did not exist in album " + album_name)		
-		this.img = album[image_data_name].img;
+		// Additional construction
+		if(typeof(pythonage_objects[imagedata_object_id]) == 'undefined') pythonage_error("Constructing image " + object_id + " the imagedata " + imagedata_object_id + " did not exist")		
+		this.img = pythonage_objects[imagedata_object_id].img;
 		
 		this.parent = null;
-		pythonage_image_objects[name] = this; // Add ourselves to image objects
+		pythonage_objects[object_id] = this; // Add ourselves
 	}
 	
 	render(context){
@@ -26,26 +24,28 @@ class pythonage_image{
 	}
 	
 	// Detach from our parent if we have one then attach to another node
-	attach_to(name){
-		if(this.parent != null) this.parent.detatch(this.name); 
+	append_to(object_id){
+		if(this.parent != null) this.parent.detatch(this.object_id); 
 		
-		if(typeof(pythonage_scene_graph[name]) == 'undefined') pythonage_error("Attaching image " + this.name + " to scene item " + name + "," + name + " did not exist");
-		var new_parent = pythonage_scene_graph[name];
-		new_parent.attach_image(this.name)
+		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
+		var new_parent = pythonage_objects[object_id]
+		new_parent.append(this.object_id)
 	}
 }
 
 //========== Image Data ==========
-// Image data that is required to create an image - Tracks the loaded state
+// Image data that is required to create an image - tracks its loaded state
 class pythonage_imagedata{
-	constructor(name, album_name){
-		if(typeof(pythonage_albums[album_name]) == 'undefined') pythonage_error("Constructing imagedata " + name + " the album " + album_name + " did not exist")
-		var album = pythonage_albums[album_name];
-		this.name = name;
+	
+	constructor(object_id, websocket){
+		this.object_id = object_id;
+		this.websocket = websocket;
+		
+		// Additional construction
 		this.loaded = false;
 		this.src = null;
 		this.img = null;
-		album[name] = this;
+		pythonage_objects[object_id] = this; // Add ourselves
 	}
 	
 	// Set the source url of the image either absolute or relative to the root
@@ -55,8 +55,16 @@ class pythonage_imagedata{
 		this.src = src;
 		this.loaded = false;
 		var image = new Image();
-		var thisimagedata = this; // capture this (imagedata) reference and pass into the onload function
-		image.onload = function(){thisimagedata.loaded = true;}
+		var self = this; // capture a reference to ourselves to pass into onload function. A javascript quirk worth learning.
+		image.onload = function(){
+			// Tell ourselves we have loaded
+			self.loaded = true;
+			log("Image loaded");
+			// Tell the server we have loaded
+			if(self.websocket){
+				self.websocket.send("il," + self.object_id)
+			}
+		}
 		image.src = src;
 		this.img = image;		
 	}
@@ -65,16 +73,16 @@ class pythonage_imagedata{
 //========== Translate ==========
 // Translate is a scene graph component that applies x,y movement and can have multiple children
 class pythonage_translate{
-	constructor(name, x, y, visible){
-		this.name = name;
+	constructor(object_id, x, y, visible){
+		this.object_id = object_id;
 		this.x = x;
 		this.y = y;
 		this.visible = visible;
 		
-		// Additional
+		// Additional construction
 		this.parent = null;
 		this.children = []; // Store children as an array so we can control render ordering
-		pythonage_scene_graph[name] = this; // Add ourselves to the scene graph
+		pythonage_objects[object_id] = this; // Add ourselves
 	}
 		
 	render(context){
@@ -88,26 +96,19 @@ class pythonage_translate{
 		}
 	}
 	
-	attach_scene_graph_item(name){
-		if(typeof(pythonage_scene_graph[name]) == 'undefined') pythonage_error("Attaching scene graph item to translate node " + this.name + " the item " + name + " did not exist");
-		var node = pythonage_scene_graph[name];
-		if(node.parent != null) node.parent.detach(node.name); // If the node is already attached to something then detach it first.
+	append(object_id){
+		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append on translate node " + this.name + " the object to append " + object_id + " did not exist");
+		var node = pythonage_objects[object_id];
+		
+		if(node.parent != null) node.parent.detach(node.object_id); // If the node is already attached to something then detach it first.
 		node.parent = this;
 		this.children.push(node);
 	}
 	
-	// Attach an image to this node
-	attach_image(name){
-		if(typeof(pythonage_image_objects[name]) == 'undefined') pythonage_error("Attaching image to translate node " + this.name + " the image " + name + " did not exist");
-		var image = pythonage_image_objects[name];
-		image.parent = this;
-		this.children.push(image);
-	}
-	
-	// Detach a specific child from this node
-	detach_child(name){
+	// Detach a child from this node
+	detach(object_id){
 		for(var child_index in this.children){
-			if(this.children[child_index].name == name){
+			if(this.children[child_index].object_id == object_id){
 				this.children[child_index].parent == null;
 				this.children.splice(child_index, 1);
 				break;
@@ -116,18 +117,18 @@ class pythonage_translate{
 	}
 	
 	// Detach from our parent if we have one then attach to another node
-	attach_to(name){
-		if(this.parent != null) this.parent.detatch(this.name); 
+	append_to(object_id){
+		if(this.parent != null) this.parent.detatch(this.object_id); 
 		
-		if(typeof(pythonage_scene_graph[name]) == 'undefined') pythonage_error("Attaching translate node " + this.name + " to scene item " + name + "," + name + " did not exist");
-		var new_parent = pythonage_scene_graph[name];
-		new_parent.attach_scene_item(this.name)
+		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
+		var new_parent = pythonage_objects[object_id]
+		new_parent.append(this.object_id)
 	}
 }
 
 
 //========== Rotate ==========
-//Translate is a scene graph component that applies rotation and can have multiple children
+// Rotate is a scene graph component that applies rotation and can have multiple children
 var pythonage_deg_to_radians = Math.PI/180.0;
 var pythonage_radians_to_deg = 180.0/Math.PI;
 
@@ -141,13 +142,13 @@ class pythonage_rotate{
 		// Additional
 		this.parent = null;
 		this.children = []; // Store children as an array so we can control render ordering
-		pythonage_scene_graph[name] = this; // Add ourselves to the scene graph
+		pythonage_objects[object_id] = this; // Add ourselves
 	}
 	
 	render(context){
 		if(this.visible){
 			context.save();
-			context.translate(this.x, this.y);
+			context.rotate(this.rotation);
 			for(var child_index in this.children){
 				this.children[child_index].render(context);
 			}
@@ -163,26 +164,19 @@ class pythonage_rotate{
 		this.rotation = rotation_in_radians;
 	}
 	
-	attach_scene_graph_item(name){
-		if(typeof(pythonage_scene_graph[name]) == 'undefined') pythonage_error("Attaching scene graph item to rotation node " + this.name + " the item " + name + " did not exist");
-		var node = pythonage_scene_graph[name];
-		if(node.parent != null) node.parent.detach(node.name); // If the node is already attached to something then detach it first.
+	append(object_id){
+		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append on translate node " + this.name + " the object to append " + object_id + " did not exist");
+		var node = pythonage_objects[object_id];
+		
+		if(node.parent != null) node.parent.detach(node.object_id); // If the node is already attached to something then detach it first.
 		node.parent = this;
 		this.children.push(node);
 	}
 	
-	// Attach an image to this node
-	attach_image(name){
-		if(typeof(pythonage_image_objects[name]) == 'undefined') pythonage_error("Attaching image to rotation node " + this.name + " the image " + name + " did not exist");
-		var image = pythonage_image_objects[name];
-		image.parent = this;
-		this.children.push(image);
-	}
-	
-	// Detach a specific child from this node
-	detach_child(name){
+	// Detach a child from this node
+	detach(object_id){
 		for(var child_index in this.children){
-			if(this.children[child_index].name == name){
+			if(this.children[child_index].object_id == object_id){
 				this.children[child_index].parent == null;
 				this.children.splice(child_index, 1);
 				break;
@@ -191,11 +185,11 @@ class pythonage_rotate{
 	}
 	
 	// Detach from our parent if we have one then attach to another node
-	attach_to(name){
-		if(this.parent != null) this.parent.detatch(this.name); 
+	append_to(object_id){
+		if(this.parent != null) this.parent.detatch(this.object_id); 
 		
-		if(typeof(pythonage_scene_graph[name]) == 'undefined') pythonage_error("Attaching rotation node " + this.name + " to scene item " + name + "," + name + " did not exist");
-		var new_parent = pythonage_scene_graph[name];
-		new_parent.attach_scene_item(this.name)
+		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append_to on " + this.object_id + " to " + object_id + "," + object_id + " did not exist");
+		var new_parent = pythonage_objects[object_id]
+		new_parent.append(this.object_id)
 	}
 }
