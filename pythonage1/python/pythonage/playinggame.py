@@ -11,7 +11,6 @@ class PPlayingGame:
         self._next_object_id = 0
         print('Created PlayingGame')
 
-
     def __len__(self):
         return len(self._objects)
     

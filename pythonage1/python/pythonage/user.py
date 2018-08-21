@@ -27,4 +27,5 @@ class PUser:
                 self.pending_messages.append(message)
                 print('User {0} queued message: {1}'.format(self.user_id, message))
         else:
+            print('User {0} sending message: {1}'.format(self.user_id, message))
             websocket.send(message)
