@@ -5,8 +5,9 @@ from scenegraph import *
 # Subclass this to create a game that responds to a user connecting and playing.
 class PPlayingGame:
 
-    def __init__(self, user):
+    def __init__(self, user, server_services):
         self._user = user
+        self._server_services = server_services
         self._objects = {}
         self._next_object_id = 0
         print('Created PlayingGame')
@@ -20,8 +21,8 @@ class PPlayingGame:
     def __getitem__(self, key):
         return self._objects[key]  
 		
-    def send(self, message):
-        user.send(message)
+ #   def send(self, message):
+ #       user.send(message)
 
     def create_album(self):
         new_album = PAlbum()
