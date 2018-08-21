@@ -1,10 +1,14 @@
 import sys
+from scenegraph import *
 
+# Superclass to encapsulate a particular users version of a game.
+# Subclass this to create a game that responds to a user connecting and playing.
 class PPlayingGame:
 
     def __init__(self, user):
         self._user = user
         self._objects = {}
+        self._next_object_id = 0
         print('Created PlayingGame')
 
 
@@ -19,3 +23,33 @@ class PPlayingGame:
 		
     def send(self, message):
         user.send(message)
+
+    def create_album(self):
+        new_album = PAlbum()
+        self._objects[self._next_object_id] = new_album
+        self._next_object_id += 1
+        return new_album
+
+    def create_imagedata(self, new_src):
+        new_imagedata = PImageData(self._next_object_id, new_src, self._user)
+        self._objects[self._next_object_id] = new_imagedata
+        self._next_object_id += 1
+        return new_imagedata
+
+    def create_image(image_data_object, width, height, visible=True):
+        new_image = PImage(self._next_object_id, image_data_object, width, height, visible, self._user)
+        self._objects[self._next_object_id] = new_image
+        self._next_object_id += 1
+        return new_image
+
+    def create_translate(x, y, visible=True):
+        new_translate = PTranslate(self._next_object_id, x, y, visible, self._user)
+        self._objects[self._next_object_id] = new_translate
+        self._next_object_id += 1
+        return new_translate
+
+    def create_rotate(angle, visible=True):
+        new_rotate = PRotate(self._next_object_id, x, y, visible, self._user)
+        self._objects[self._next_object_id] = new_rotate
+        self._next_object_id += 1
+        return new_rotate

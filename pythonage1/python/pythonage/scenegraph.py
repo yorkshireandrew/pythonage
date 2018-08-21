@@ -12,14 +12,11 @@ def command_from_bool(input_bool):
 
 class PAlbum:
 
-    def __init__(self, object_id):
+    def __init__(self):
 
         # Additional construction
         self._imagedata = {}
         self.name = None
-        
-        # Add ourselves to usergame 
-        usergame[object_id] = self
 
     @property
     def pending(self):
@@ -49,11 +46,11 @@ class PAlbum:
 
 class PImageData:
 
-    def __init__(self, object_id, new_src, usergame):
+    def __init__(self, object_id, new_src, user):
         self._object_id = object_id
-        self._usergame = usergame
+        self._user = user
 
-        usergame.send('nid,{0}'.format(object_id));
+        user.send('nid,{0}'.format(object_id));
 
         # Additional construction
         self._loaded = False
@@ -61,9 +58,6 @@ class PImageData:
         
         if new_src:
             self.src = new_src  # Delegate to src setter
-
-        # Add ourselves to usergame  
-        usergame[object_id] = self
 
     @property
     def src(self):
@@ -74,7 +68,7 @@ class PImageData:
         self._loaded = False;
         self._album.imagedata_pending_event()
         self._src = new_src
-        self._usergame.send('sids,{0},{1}'.format(self._object_id, new_src))
+        self._user.send('sids,{0},{1}'.format(self._object_id, new_src))
 
     @property
     def loaded(self):
@@ -97,12 +91,12 @@ class PImageData:
 
 class PImage:
 
-    def __init__(self, object_id, image_data_object, width, height, visible, usergame):
+    def __init__(self, object_id, image_data_object, width, height, visible, user):
         self._object_id = object_id
         self._width = width
         self._height = height
         self._visible = visible
-        self._usergame = usergame
+        self._user = user
 
         # Check the image has loaded
         if image_data_object.not_loaded:
@@ -111,14 +105,11 @@ class PImage:
             else:
                 raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.name))
 
-        usergame.send('ni,{0},{1},{2},{3},{4},{5}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
+        _user.send('ni,{0},{1},{2},{3},{4},{5}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
 
         # Additional construction
         self.name = None
         self.parent = None
-
-        # Add ourselves to usergame
-        usergame[object_id] = self
 
     @property
     def object_id(self):
@@ -129,23 +120,20 @@ class PImage:
 
 class PTranslate
 
-    def __init__(self, object_id, x, y, visible, usergame):
+    def __init__(self, object_id, x, y, visible, user):
         self._object_id = object_id
         self._x = x
         self._y = y
         self._visible = visible
-        self._usergame = usergame
+        self._user = user
 
-        usergame.send('nt,{0},{1},{2},{3}'.format(object_id, str(x), str(y), command_from_bool(visible)))
+        user.send('nt,{0},{1},{2},{3}'.format(object_id, str(x), str(y), command_from_bool(visible)))
 
         # Additional construction
         self._changed = True
         self._children = []
         self.parent = None
         self.name = None
-        
-        # Add ourselves to usergame
-        usergame[object_id] = self
         
     def __iter__(self):
         return iter(self._children)
@@ -154,7 +142,7 @@ class PTranslate
         if child.parent:
             child.parent.detach(child)
             
-        self._usergame.send('a,{0},{1}'.format(child.object_id, self._object_id))
+        self._user.send('a,{0},{1}'.format(child.object_id, self._object_id))
         self._children.append(child)
         child.parent = self;
 
@@ -163,13 +151,13 @@ class PTranslate
         if self.parent:
             self.parent.detach(self)
 
-        self._usergame.send('at,{0},{1}'.format(self._object_id, item_to_append_to.object_id))
+        self._user.send('at,{0},{1}'.format(self._object_id, item_to_append_to.object_id))
         self.parent = item_to_append_to
 
     def detach(self, child):
         child_id = child.object_id
 
-        self._usergame.send('dt,{0},{1}'.format(child.object_id, self._object_id))
+        self._user.send('dt,{0},{1}'.format(child.object_id, self._object_id))
         
         new_children = [e in self._children if e.object_id != child_id]
         self._children = new_children
@@ -188,22 +176,19 @@ class PTranslate
 # ===================== PRotate ============
 # Represents a rotation by a given angle
 
-    def __init__(self, object_id, rotation, visible, usergame):
+    def __init__(self, object_id, angle, visible, user):
         self._object_id = object_id
-        self._rotation = rotation
+        self._angle = angle
         self._visible = visible
-        self._usergame = usergame
+        self._user = user
 
-        usergame.send('nr,{0},{1},{2}'.format(object_id, str(rotation), command_from_bool(visible)))
+        user.send('nr,{0},{1},{2}'.format(object_id, str(angle), command_from_bool(visible)))
 
         # Additional construction
         self._changed = True
         self._children = []
         self.parent = None
         self.name = None
-        
-        # Add ourselves to usergame
-        usergame[object_id] = self
         
     def __iter__(self):
         return iter(self._children)
@@ -212,7 +197,7 @@ class PTranslate
         if child.parent:
             child.parent.detach(child)
             
-        self._usergame.send('a,{0},{1}'.format(child.object_id, self._object_id))
+        self._user.send('a,{0},{1}'.format(child.object_id, self._object_id))
         self._children.append(child)
         child.parent(self)
 
@@ -221,13 +206,13 @@ class PTranslate
         if self.parent:
             self.parent.detach(self)
 
-        self._usergame.send('at,{0},{1}'.format(self._object_id, item_to_append_to.object_id))
+        self._user.send('at,{0},{1}'.format(self._object_id, item_to_append_to.object_id))
         self.parent = item_to_append_to
 
     def detach(self, child):
         child_id = child.object_id
 
-        self._usergame.send('dt,{0},{1}'.format(child.object_id, self._object_id))
+        self._user.send('dt,{0},{1}'.format(child.object_id, self._object_id))
 
         new_children = [e in self._children if e.object_id != child_id]
         self._children = new_children
