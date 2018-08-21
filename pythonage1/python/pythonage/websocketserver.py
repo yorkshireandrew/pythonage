@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import asyncio
 import websockets
 
-async def echo(websocket, path):
+async def handle_connect(websocket, path):
     count = 0
     async for message in websocket:
         print(message)
@@ -12,5 +12,5 @@ async def echo(websocket, path):
         #await websocket.send(message)
 
 asyncio.get_event_loop().run_until_complete(
-    websockets.serve(echo, 'localhost', 8765))
+    websockets.serve(handle_connect, 'localhost', 8765))
 asyncio.get_event_loop().run_forever()
