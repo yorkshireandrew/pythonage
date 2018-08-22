@@ -1,4 +1,5 @@
 from timerinfo import *
+import asyncio
 
 # Encapsulates services the server provides to playablegames
 class PServerServices():
@@ -6,6 +7,7 @@ class PServerServices():
     def __init__(self):
         self.timer_info = {}
         self.timer_users_next_id = {}
+        self.timer_task = asyncio.ensure_future(self._ticking_task())
 
     def _next_timer_id(self, user_id):
         try:
@@ -62,17 +64,8 @@ class PServerServices():
 
         for timer_info_key in undertakers_list:
             del timer_infos[timer_info_key]
-            
-            
-        
 
-    
-        
-        
-        
-            
-        
-
-
-        
-    
+    async def ticking_task(self):
+        while(true):
+            self.tick()
+            await asyncio.sleep(0.01) # 10ms tick
