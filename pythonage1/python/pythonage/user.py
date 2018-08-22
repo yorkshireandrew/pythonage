@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 # Encapsulates communication with a user via a websocket connection
 # and provides a way for a playing game to hook into the servers services.
@@ -7,8 +8,11 @@ class PUser:
     def __init__(self, user_id, websocket):
         self.user_id = user_id
         self._websocket = websocket
-        self.pending_messages = []
-        self.flush_on_render = False
+
+        # Additional construction
+        self._stored_messages = deque()
+        self._send_immediately_messages = deque()
+        self.store_messages = False
         self._playing_game = None
         self._keys = {}
         print('Created User {0}'.format(user_id))
@@ -16,24 +20,35 @@ class PUser:
     def set_playing_game(self, playing_game):
         self._playing_game = playing_game
         
-    # Send a message to the user, buffering them if flush_on_render is enabled
-    def send(self, message, is_rendering_message=False):
-        if not self.websocket:
+    # Send a message to the users browser, buffering them if store_messages is true. Allows double buffering.
+    def send(self, message):
+        
+        if not self._websocket:
             print('User {0} faked message send: {1}'.format(self.user_id, message))
             return
         
-        if self.flush_on_render:
-            if is_rendering_message:
-                for pending_message in self.pending_messages:
-                    websocket.send(pending_message)
-                websocket.send(message)
-                self.pending_messages = []
-            else:      
-                self.pending_messages.append(message)
-                print('User {0} queued message: {1}'.format(self.user_id, message))
+        if self.store_messages:
+            self._stored_messages.append(message)
         else:
-            print('User {0} sending message: {1}'.format(self.user_id, message))
-            websocket.send(message)
+            self._send_immediately_messages.append(message)
+
+    # Send a message to the users browser immediately ignoring the store_messages field
+    def send_immediately(self, message):
+        
+        self._send_immediately_messages.append(message)
+
+    # Async call that the server uses to send all the queued messages
+    async def send_async(self):
+        websocket = self._websocket
+        
+        if not self.store_messages:
+            while self._stored_messages:
+                message = self._stored_messages.pop()
+                async websocket.send(message)
+
+        while self._send_immediately_messages:
+            message = _send_immediately_messages.pop()
+            async websocket.send(message)
 
 
     # Coroutine that continually listens to websocket, exiting only when the client says byebye

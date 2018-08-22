@@ -20,17 +20,21 @@ class PAlbum:
 
     @property
     def pending(self):
-        return len([data for data in self._imagedata if not data.loaded])
+        return len([data for data in self._imagedata.values() if not data.loaded])
 
     @property
     def loaded(self):
         len(self) > 0 and self.pending == 0
 
+    @property
+    def not_loaded(self):
+        return not self.loaded
+
     def get_imagedata_named(self, name):
-        matches = [data for data in self._imagedata if data.name == name]
-        if len(matches) == 0:
+        try:
+            return next([data for data in self._imagedata.values() if data.name == name])
+        except StopIteration:
             raise KeyError
-        return matches[0]
 
     def __len__(self):
         return len(self._imagedata)
@@ -66,7 +70,6 @@ class PImageData:
     @src.setter
     def src(self, new_src):
         self._loaded = False;
-        self._album.imagedata_pending_event()
         self._src = new_src
         self._user.send('sids,{0},{1}'.format(self._object_id, new_src))
 

@@ -12,7 +12,7 @@ class Car_PlayingGame(PPlayingGame):
         while car_album.not_loaded:
             print('waiting for album load')
             time.sleep(100) # Should not really do async waiting like this but we are still in dev phase
-
+        print('album loaded')
         car_image = self.create_image(car_imagedata, 100, 100)
         translate = self.create_translate(0,0)
         translate.append()
