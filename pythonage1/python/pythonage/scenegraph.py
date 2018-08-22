@@ -174,7 +174,7 @@ class PSceneGraphNode:
 class PTranslate(PSceneGraphNode):
 
     def __init__(self, object_id, x, y, visible, user):
-        super(PSceneGraphNode, self).__init__(user, object_id)
+        super().__init__(user, object_id)
         
         self._x = x
         self._y = y
@@ -192,7 +192,7 @@ class PTranslate(PSceneGraphNode):
 class PRotate(PSceneGraphNode):
 
     def __init__(self, object_id, angle, visible, user):
-        super(PSceneGraphNode, self).__init__(user, object_id)
+        super().__init__(user, object_id)
         
         self._angle = angle
         self._visible = visible

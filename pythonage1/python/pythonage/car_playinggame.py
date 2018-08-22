@@ -4,7 +4,7 @@ import time
 class Car_PlayingGame(PPlayingGame):
 
     def __init__(self, user, server_services):
-        super(PPlayingGame, self).__init__(self, user, server_services) # First thing must be initialise our super class
+        super().__init__(user, server_services) # First thing must be initialise our super class
         
         car_imagedata = self.create_imagedata('cardata,img/car_side1_4.bmp')
         car_album = self.create_album()
