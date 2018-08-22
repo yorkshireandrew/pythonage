@@ -20,18 +20,18 @@ class Car_PlayingGame(PPlayingGame):
             self.car_loaded = True
             print('album loaded')
             car_image = self.create_image(self.car_imagedata, 100, 100)
-            print('created car image')
             translate = self.create_translate(0,0)
-            print('created translate')
             translate.append(car_image)
-            print('appended to translate')
+            translate2 = self.create_translate(0,0)
+            translate2.append(translate)
             self.translate = translate
-            self.translate.render()
+            self.translate2 = translate2
+            self.translate2.render()
 
         if self.car_loaded:
             self.translate.x += 10
             self.translate.update()
-            self.translate.render()
+            self.translate2.render()
         
         
 

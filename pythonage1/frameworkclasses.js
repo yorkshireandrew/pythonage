@@ -20,6 +20,7 @@ class pythonage_image{
 	}
 	
 	render(context){
+		log('rendering image')
 		if(this.visible) context.drawImage(this.img, 0, 0, this.width, this.height);
 	}
 	
