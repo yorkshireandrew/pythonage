@@ -44,6 +44,7 @@ class pythonage_imagedata{
 	// Set the source url of the image either absolute or relative to the root
 	// It kicks off the loading of the image
 	// remember to use / rather than \
+	
 	set_source(src){
 		this.src = src;
 		this.loaded = false;

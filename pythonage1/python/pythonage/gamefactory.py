@@ -1,15 +1,19 @@
-from cargame import *
+from car_game import *
 
 class PGameFactory:
 
     def __init__(self):
         self._games = {}
+        self.register_game('cargame', Car_Game())
+        
 
-        self._games['cargame'] = new CarGame()
+    def register_game(self, game_name, game):
+        self._games[game_name] = game  
 
-    def get_usergame(self, gamename, websocket):
+    def get_playinggame(self, gamename, user, server_services):
         try:
             game = self._games[gamename]
-            return game.get_usergame(websocket)
+            return game.get_playinggame(user, server_services)
         except KeyError:
+            print('User asked for game {0} but it was not registered in PGameFactory'.format(gamename))
             return None

@@ -1,7 +1,7 @@
 from playinggame import *
 import time
 
-class CarGame(PPlayingGame):
+class Car_PlayingGame(PPlayingGame):
 
     def __init__(self, user):
         super(PPlayingGame, self).__init__(user) # First thing must be initialise our super class

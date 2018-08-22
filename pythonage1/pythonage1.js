@@ -1,6 +1,3 @@
-var loading_images = 999;
-var loaded_images = {};
-
 var has_rendered_car = false;
 
 // Maps of names to items for acquiring resources, 
@@ -9,11 +6,6 @@ var pythonage_objects = {}
 var canvas_context = null;
 var key_listener = null;
 var web_socket = null;
-
-function image_loaded(name){
-	loading_images--;
-	log("loaded image" + name );
-}
 
 // shorthand to get an doc element by its id
 function id(theid){
@@ -38,16 +30,6 @@ function clearlog(){
 // error function - so you can hook in more error handling
 function pythonage_error(message){
 	//log(message);
-}
-
-function loadImage(url, name){
-	loading_images++;
-	if(loading_images == 1000) loading_images = 1;
-	var image = new Image();
-	image.src = url;
-	image.onload = function(){log("foo");image_loaded(name);};
-	loaded_images[name] = image;
-	log("started to load image " + name );
 }
 
 function tick(){

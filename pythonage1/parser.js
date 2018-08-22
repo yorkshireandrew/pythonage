@@ -104,7 +104,7 @@ function pythonage_consume(commandstring){
 		case "r":
 			pythonage_objects[args[1]].render(canvas_context);
 			break;
-			
+					
 		case "query-keys":
 			pythonage_query_keys(args)
 			break;
@@ -113,6 +113,10 @@ function pythonage_consume(commandstring){
 			pythonage_query_keys(args)
 			break;
 			
+		case "reset":
+			pythonage_command_reset(args);
+			break;
+						
 	} // end of switch
 }
 
@@ -200,6 +204,10 @@ function pythonage_query_keys(args){
 	var result = key_listener.query(args.slice(1)); // remove query_id before asking
 	var query_keys_response = "(qk," + query_id + "," + result +")";
 	pythonage_reply(query_keys_response);		
+}
+
+function pythonage_command_reset(args){
+	var pythonage_objects = {}
 }
 
 

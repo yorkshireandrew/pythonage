@@ -36,6 +36,20 @@ class PServerServices():
         except KeyError:
             print('some user tried to remove timer {0} which did not exist'.format(key))
 
+    def remove_timers_for_user(self, user_id):
+        hit_list = []
+        timer_infos = self.timer_info
+        target = '{0}_'.format(user_id)
+
+        hitlist = [key in timer_infos.keys() if key.startswith(target)]
+
+        for hit in hitlist:
+            try:
+               timer_infos[hit].dead = True
+            except:
+                pass # Timer was already dead
+        
+
     def tick(self): # Periodically called by the server
         undertakers_list = []
         timer_infos = self.timer_info

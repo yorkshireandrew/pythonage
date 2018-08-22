@@ -36,20 +36,24 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_imagedata
 
-    def create_image(image_data_object, width, height, visible=True):
+    def create_image(self, image_data_object, width, height, visible=True):
         new_image = PImage(self._next_object_id, image_data_object, width, height, visible, self._user)
         self._objects[self._next_object_id] = new_image
         self._next_object_id += 1
         return new_image
 
-    def create_translate(x, y, visible=True):
+    def create_translate(self, x, y, visible=True):
         new_translate = PTranslate(self._next_object_id, x, y, visible, self._user)
         self._objects[self._next_object_id] = new_translate
         self._next_object_id += 1
         return new_translate
 
-    def create_rotate(angle, visible=True):
+    def create_rotate(self, angle, visible=True):
         new_rotate = PRotate(self._next_object_id, x, y, visible, self._user)
         self._objects[self._next_object_id] = new_rotate
         self._next_object_id += 1
         return new_rotate
+
+    def handle_imagedata_loaded(self, object_id):
+        self._objects[object_id].loaded = true # TODO add exception catching
+        
