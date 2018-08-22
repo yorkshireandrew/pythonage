@@ -90,48 +90,22 @@ class PImageData:
     def handle_imagedata_loaded(self):
         self._loaded = True;
         print('{0} image loaded'.format(self.object_id))
-        	
-# ============= PImage ==============================================================================
-# Image that can be appended to scene graph objects. Expects to be passed an valid image data object
 
-class PImage:
-
-    def __init__(self, object_id, image_data_object, width, height, visible, user):
-        self._object_id = object_id
-        self._width = width
-        self._height = height
-        self._visible = visible
-        self._user = user
-
-        # Check the image has loaded
-        if image_data_object.not_loaded:
-            if image_data_object.name == None:
-                raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.object_id))
-            else:
-                raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.name))
-
-        user.send('ni,{0},{1},{2},{3},{4}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
-
-        # Additional construction
-        self.name = None
-        self.parent = None
-
-    @property
-    def object_id(self):
-        return self._object_id
 
 # ===================== SceneGraphNode =========================================================
 # Superclass responsible for scenegraph components that can have parents and children
 class PSceneGraphNode:
     
-    def __init__(self, user, object_id):
+    def __init__(self, user, object_id, visible):
         self._user = user
         self._object_id = object_id
+        self._visible = visible
 
         # Additional construction 
         self._children = []
         self.parent = None
         self.name = None
+        self._changed = False
 
     def __iter__(self):
         return iter(self._children)
@@ -167,10 +141,51 @@ class PSceneGraphNode:
         except StopIteration:
             raise KeyError
 
+    def render(self):
+        self._user.send('r,{0}'.format(self._object_id))
+
+    def update(self):
+        for child in self._children:
+            child.update()
+
     @property
     def object_id(self):
         return self._object_id
+
+    @property
+    def visible(self):
+        return self._visible
+
+    @visible.setter
+    def visible(self, new_visible):
+        if not new_visible == self._visible:
+            self._changed = True
+        self._visible = visible
+
     
+# ============= PImage ==============================================================================
+# Image that can be appended to scene graph objects. Expects to be passed an valid image data object
+
+class PImage(PSceneGraphNode):
+
+    def __init__(self, object_id, image_data_object, width, height, visible, user):
+        super().__init__(user, object_id, visible)
+
+        self._width = width
+        self._height = height
+
+        # Check the image has loaded
+        if image_data_object.not_loaded:
+            if image_data_object.name == None:
+                raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.object_id))
+            else:
+                raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.name))
+
+        user.send('ni,{0},{1},{2},{3},{4}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
+
+    def update(self):
+        if self._changed:
+            user.send('ui,{0},{1}'.format(self._object_id, command_from_bool(self._visible)))        
 
     
 # ===================== PTranslate =============================================================
@@ -179,31 +194,69 @@ class PSceneGraphNode:
 class PTranslate(PSceneGraphNode):
 
     def __init__(self, object_id, x, y, visible, user):
-        super().__init__(user, object_id)
+        super().__init__(user, object_id, visible)
         
         self._x = x
         self._y = y
-        self._visible = visible
-        self._user = user
 
         user.send('nt,{0},{1},{2},{3}'.format(object_id, x, y, command_from_bool(visible)))
 
         # Additional construction
         self._changed = True
 
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, new_x):
+        if not new_x == self._x:
+            self._changed = True
+        self._x = new_x
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, new_y):
+        if not new_y == self._y:
+            self._changed = True
+        self._y = new_y     
+        
+    def update(self):
+        if self._changed:
+            self._user.send('ut,{0},{1},{2},{3}'.format(self._object_id, self._x, self._y, command_from_bool(self._visible)))
+
+        super().update()
 # ===================== PRotate ============
 # Represents a rotation by a given angle
 
 class PRotate(PSceneGraphNode):
 
     def __init__(self, object_id, angle, visible, user):
-        super().__init__(user, object_id)
+        super().__init__(user, object_id, visible)
         
         self._angle = angle
-        self._visible = visible
-        self._user = user
 
         user.send('nr,{0},{1},{2}'.format(object_id, angle, command_from_bool(visible)))
 
         # Additional construction
         self._changed = True
+
+    @property
+    def angle(self):
+        return self._angle
+
+    @angle.setter
+    def angle(self, new_angle):
+        if not new_angle == self._angle:
+            self._changed = True
+        self._angle = new_angle
+
+    def update(self):
+        if self._changed:
+            self._user.send('ur,{0},{1},{2}'.format(self._object_id, self._angle, command_from_bool(self._visible)))
+
+        super().update()
+            

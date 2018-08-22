@@ -116,6 +116,16 @@ function pythonage_consume(commandstring){
 		case "reset":
 			pythonage_command_reset(args);
 			break;
+			
+		case "ui":
+			pythonage_command_update_image(args)
+			
+		case "ut":
+			pythonage_command_update_translate(args)
+			
+		case "ur":
+			pythonage_command_update_rotate(args)
+			
 						
 	} // end of switch
 }
@@ -208,6 +218,42 @@ function pythonage_query_keys(args){
 
 function pythonage_command_reset(args){
 	var pythonage_objects = {}
+}
+
+function pythonage_command_update_image(args){
+	var object_id = args[1];
+	
+	var visible = false;
+	if(args[2] == "t" || args[2] == "true") visible = true;
+	
+	image = pythonage_objects[object_id];
+	image.visible = visible
+}
+
+function pythonage_command_update_translate(args){
+	var object_id = args[1];
+	var new_x = args[2];
+	var new_y = args[3];
+	
+	var visible = false;
+	if(args[4] == "t" || args[4] == "true") visible = true;
+	
+	translate = pythonage_objects[object_id];
+	translate.x = new_x
+	translate.y = new_y
+	translate.visible = visible
+}
+
+function pythonage_command_update_rotate(args){
+	var object_id = args[1];
+	var new_angle = args[2];
+	
+	var visible = false;
+	if(args[3] == "t" || args[3] == "true") visible = true;
+	
+	rotate = pythonage_objects[object_id];
+	rotate.rotation = pythonage_deg_to_radians * new_angle
+	rotate.visible = visible
 }
 
 

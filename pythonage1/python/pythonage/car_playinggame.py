@@ -26,6 +26,12 @@ class Car_PlayingGame(PPlayingGame):
             translate.append(car_image)
             print('appended to translate')
             self.translate = translate
+            self.translate.render()
+
+        if self.car_loaded:
+            self.translate.x += 10
+            self.translate.update()
+            self.translate.render()
         
         
 
