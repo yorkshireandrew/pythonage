@@ -4,17 +4,18 @@ class MyWebSocket{
          if ("WebSocket" in window) {
         	 
 			 var websocket = new WebSocket("ws://" + host + ":" + port + "/");
-			 this.identity = "new";
 			 this.opened = false;
 			 this.pending_open = [];
 			 var self = this
 			 
 			 websocket.onopen = function(){
-				 websocket.send("connection," + self.identity);
-				 for(pending_open_index in self.pending_open){
+				 log("Websocket onopen")
+				 for(var pending_open_index in self.pending_open){
 					 websocket.send(self.pending_open[pending_open_index]);
+					 log("sending pending message: " + self.pending_open[pending_open_index]);
 				 }
-				 self.opened = true;			 
+				 self.opened = true;
+				log("Websocket onopen complete")				 
 			 };
 			 
 			 websocket.onmessage = function (evt) { 
@@ -36,8 +37,10 @@ class MyWebSocket{
 	 
 	 send(message){
 		 if(this.opened){
+			 log('websocket open and sending message: ' + message)
 			 this.websocket.send(message);
 		 }else{
+			 log('websocket not ready storing pending message: ' + message)
 			 this.pending_open.push(message);
 		 }
 	 }

@@ -9,15 +9,6 @@ class PServerServices():
         self.timer_users_next_id = {}
         self.timer_task = asyncio.ensure_future(self._ticking_task())
 
-    def _next_timer_id(self, user_id):
-        try:
-            timer_users_next_id = self.timer_users_next_id[user_id]
-        except: KeyError
-            timer_users_next_id = 0
-
-        self.timer_users_next_id[user_id] += 1    
-        return timer_users_next_id
-
     def create_timer(self, user_id, interval, callback):
         timer_id = self._next_timer_id(user_id)
         key = '{0}_{1}'.format(user_id, timer_id)
@@ -43,16 +34,24 @@ class PServerServices():
         timer_infos = self.timer_info
         target = '{0}_'.format(user_id)
 
-        hitlist = [key in timer_infos.keys() if key.startswith(target)]
+        hitlist = [key for key in timer_infos.keys() if key.startswith(target)]
 
         for hit in hitlist:
             try:
                timer_infos[hit].dead = True
             except:
                 pass # Timer was already dead
-        
 
-    def tick(self): # Periodically called by the server
+    def _next_timer_id(self, user_id):
+        try:
+            timer_users_next_id = self.timer_users_next_id[user_id]
+        except KeyError:
+            timer_users_next_id = 0
+
+        self.timer_users_next_id[user_id] += 1    
+        return timer_users_next_id
+
+    def _tick(self): # Periodically called by _ticking_task
         undertakers_list = []
         timer_infos = self.timer_info
         
@@ -65,7 +64,7 @@ class PServerServices():
         for timer_info_key in undertakers_list:
             del timer_infos[timer_info_key]
 
-    async def ticking_task(self):
+    async def _ticking_task(self):
         while(true):
-            self.tick()
+            self._tick()
             await asyncio.sleep(0.01) # 10ms tick

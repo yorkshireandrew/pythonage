@@ -50,6 +50,7 @@ function load(){
 	canvas_context = c.getContext("2d");
 	
 	web_socket = new MyWebSocket("localhost", "8765");
+	web_socket.send("requestinggame,"+pythonage_game_name);
 	
 	pythonage_consume_nugget("(new-imgd,cardata)");
 	pythonage_consume_nugget("(set-imgd-src,cardata,img/car_side1_4.bmp)");

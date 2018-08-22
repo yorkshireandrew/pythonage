@@ -8,7 +8,7 @@ class PTimerInfo():
             raise PythonageError('Attempt to create a timer with interval {0}'.format(interval))
         
         self._countdown = interval
-        self._reset_ to = interval
+        self._reset_to = interval
         self._callback
         self._once_only = once_only
         self.dead = False
@@ -23,5 +23,5 @@ class PTimerInfo():
 
             if once_only:
                 self.dead = True
-            else
-                self._countdown = self._interval
+            else:
+                self._countdown = self._reset_to

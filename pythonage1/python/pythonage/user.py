@@ -11,7 +11,7 @@ class PUser:
         self.flush_on_render = False
         self._playing_game = None
         self._keys = {}
-        print('Created User ' + name)
+        print('Created User {0}'.format(user_id))
 
     def set_playing_game(self, playing_game):
         self._playing_game = playing_game

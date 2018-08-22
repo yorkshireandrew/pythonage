@@ -1,5 +1,5 @@
 import sys
-from pythonage.pythonageerror import *
+from pythonageerror import *
 
 def command_from_bool(input_bool):
     if input_bool:
