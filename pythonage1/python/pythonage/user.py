@@ -28,8 +28,10 @@ class PUser:
             return
         
         if self.store_messages:
+            print('Adding to stored messages:' + message)
             self._stored_messages.append(message)
         else:
+            print('Adding to Immediate messages:' + message)
             self._send_immediately_messages.append(message)
 
     # Send a message to the users browser immediately ignoring the store_messages field
@@ -39,21 +41,22 @@ class PUser:
 
     # Async call that the server uses to send all the queued messages
     async def send_async(self):
-        websocket = self._websocket
-        
+        websocket = self._websocket       
         if not self.store_messages:
-            while self._stored_messages:
-                message = self._stored_messages.pop()
-                async websocket.send(message)
-
-        while self._send_immediately_messages:
-            message = _send_immediately_messages.pop()
-            async websocket.send(message)
+            while len(self._stored_messages):
+                message = self._stored_messages.popleft()
+                await websocket.send(message)
+                
+        while len(self._send_immediately_messages):
+            message = self._send_immediately_messages.popleft()
+            print('sent: {0}'.format(message))
+            await websocket.send(message)
 
 
     # Coroutine that continually listens to websocket, exiting only when the client says byebye
     async def listen_to_websocket_async(self):
         message = await self._websocket.recv()
+        print('User {0} recieved: {1}'.format(self.user_id, message))
         while not message == 'byebye':
             fragments = message.split(',')
             command = fragments[0]
@@ -71,6 +74,7 @@ class PUser:
 
             elif command == 'il':
                 object_id = fragments[1]
-                self._playing_game.handle_imagedata_loaded(object_id)
+                self._playing_game.handle_imagedata_loaded(int(object_id))
 
             message = await self._websocket.recv()
+            print('User {0} recieved: {1}'.format(self.user_id, message))

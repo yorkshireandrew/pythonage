@@ -21,10 +21,11 @@ class PAlbum:
     @property
     def pending(self):
         return len([data for data in self._imagedata.values() if not data.loaded])
+        print([data for data in self._imagedata.values() if not data.loaded])
 
     @property
     def loaded(self):
-        len(self) > 0 and self.pending == 0
+        return len(self._imagedata) > 0 and self.pending == 0
 
     @property
     def not_loaded(self):
@@ -39,11 +40,10 @@ class PAlbum:
     def __len__(self):
         return len(self._imagedata)
 
-    def __setitem__(self, key, value):
-        self._imagedata[key] = value
-
-    def __getitem__(self, key):
-        return self._imagedata[key]    
+    def append(self, image_data):
+        # print('registering imagedata {0} {1} in album'.format(image_data.object_id, type(image_data.object_id)))
+        self._imagedata[image_data.object_id] = image_data
+  
 
 # ========================= PImageData ==============================================
 # Represents image data that the client loads that can later be used to create images 
@@ -51,6 +51,7 @@ class PAlbum:
 class PImageData:
 
     def __init__(self, object_id, new_src, user):
+        print('Created imagedata with object id {0}'.format(object_id))
         self._object_id = object_id
         self._user = user
 
@@ -86,8 +87,9 @@ class PImageData:
         return self._object_id
 
     # Callback which is called by the user when the imagedata is loaded in their browser
-    def imagedata_loaded_event(self):
+    def handle_imagedata_loaded(self):
         self._loaded = True;
+        print('{0} image loaded'.format(self.object_id))
         	
 # ============= PImage ==============================================================================
 # Image that can be appended to scene graph objects. Expects to be passed an valid image data object
@@ -108,7 +110,7 @@ class PImage:
             else:
                 raise PythonageError('Creating the image {0} the image data {1} has not yet loaded'.format(object_id, image_data_object.name))
 
-        _user.send('ni,{0},{1},{2},{3},{4},{5}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
+        user.send('ni,{0},{1},{2},{3},{4}'.format(object_id, image_data_object.object_id, str(width), str(height), command_from_bool(visible)))
 
         # Additional construction
         self.name = None
@@ -184,7 +186,7 @@ class PTranslate(PSceneGraphNode):
         self._visible = visible
         self._user = user
 
-        user.send('nt,{0},{1},{2},{3}'.format(object_id, str(x), str(y), command_from_bool(visible)))
+        user.send('nt,{0},{1},{2},{3}'.format(object_id, x, y, command_from_bool(visible)))
 
         # Additional construction
         self._changed = True
@@ -201,7 +203,7 @@ class PRotate(PSceneGraphNode):
         self._visible = visible
         self._user = user
 
-        user.send('nr,{0},{1},{2}'.format(object_id, str(angle), command_from_bool(visible)))
+        user.send('nr,{0},{1},{2}'.format(object_id, angle, command_from_bool(visible)))
 
         # Additional construction
         self._changed = True

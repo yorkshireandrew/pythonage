@@ -55,5 +55,5 @@ class PPlayingGame:
         return new_rotate
 
     def handle_imagedata_loaded(self, object_id):
-        self._objects[object_id].loaded = true # TODO add exception catching
+        self._objects[object_id].handle_imagedata_loaded()
         

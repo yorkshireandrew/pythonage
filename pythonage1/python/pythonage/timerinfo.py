@@ -1,4 +1,5 @@
 from pythonageerror import *
+import traceback
 
 # Encapsulates information and functionality for each timer a user creates 
 class PTimerInfo():
@@ -9,19 +10,22 @@ class PTimerInfo():
         
         self._countdown = interval
         self._reset_to = interval
-        self._callback
+        self._callback = callback
         self._once_only = once_only
         self.dead = False
 
     def handle_tick(self):
-        self.countdown -= 1
-        if self.countdown == 0 and not self.dead:
+        self._countdown -= 1
+        if self._countdown == 0 and not self.dead:
             try:
                 self._callback()
             except Exception as e:
-                print('PTimerInfo ate exception: {0}'.format(e))
+                tb = traceback.format_exc()
+                print('===== TIMER SWALLOWED EXCEPTION ===')
+                print(tb)
+                print('===================================')
 
-            if once_only:
+            if self._once_only:
                 self.dead = True
             else:
                 self._countdown = self._reset_to

@@ -26,6 +26,9 @@ class PythonageServer:
         game_name = frags[1]
         playing_game = self._game_factory.get_playinggame(game_name, user, self._server_services)
 
+        # Route traffic from the user to the game
+        user.set_playing_game(playing_game)
+
         self._users.append(user) # Add ourselves to the list of users so users can send messages
         await user.listen_to_websocket_async()
 
@@ -35,6 +38,8 @@ class PythonageServer:
                 for user in self._users:
                     await user.send_async()
                 await asyncio.sleep(0.01) # 10ms
+
+            #print('waiting for users')
             await asyncio.sleep(0.5) # Relax we have no users
 
 game_factory = PGameFactory()

@@ -1,6 +1,7 @@
 class keyboard_listener{
 	constructor(){
 		this.pressed = {};
+		var self = this
 		
 		document.onkeydown = function(evt) {
 			evt = evt || window.event;
@@ -9,179 +10,179 @@ class keyboard_listener{
 			switch(cc){
 			
 			case 37:
-				this.pressed["left"] = true;
+				self.pressed["left"] = true;
 				break;
 			
 			case 38:
-				this.pressed["up"] = true;
+				self.pressed["up"] = true;
 				break;
 			
 			case 39:
-				this.pressed["right"] = true;
+				self.pressed["right"] = true;
 				break;
 			
 			case 40:
-				this.pressed["down"] = true;
+				self.pressed["down"] = true;
 				break;
 			
 			case 32:
-				this.pressed["space"] = true;
+				self.pressed["space"] = true;
 				break;
 				
 			case 8:
-				this.pressed["backspace"] = true;
+				self.pressed["backspace"] = true;
 				break;
 			
 			case 13:
-				this.pressed["enter"] = true;
+				self.pressed["enter"] = true;
 				break;
 				
 			// numbers
 			
 			case 48+0:
-				this.pressed["0"] = true;
+				self.pressed["0"] = true;
 				break;
 
 			case 48+1:
-				this.pressed["1"] = true;
+				self.pressed["1"] = true;
 				break;
 
 			case 48+2:
-				this.pressed["2"] = true;
+				self.pressed["2"] = true;
 				break;
 
 			case 48+3:
-				this.pressed["3"] = true;
+				self.pressed["3"] = true;
 				break;
 
 			case 48+4:
-				this.pressed["4"] = true;
+				self.pressed["4"] = true;
 				break;
 
 			case 48+5:
-				this.pressed["5"] = true;
+				self.pressed["5"] = true;
 				break;
 
 			case 48+6:
-				this.pressed["6"] = true;
+				self.pressed["6"] = true;
 				break;
 
 			case 48+7:
-				this.pressed["7"] = true;
+				self.pressed["7"] = true;
 				break;
 
 			case 48+8:
-				this.pressed["8"] = true;
+				self.pressed["8"] = true;
 				break;
 
 			case 48+9:
-				this.pressed["9"] = true;
+				self.pressed["9"] = true;
 				break;
 				
 			// Letters	
 			
 			case 64+1:
-				this.pressed["a"] = true;
+				self.pressed["a"] = true;
 				break;
 
 			case 64+2:
-				this.pressed["b"] = true;
+				self.pressed["b"] = true;
 				break;
 
 			case 64+3:
-				this.pressed["c"] = true;
+				self.pressed["c"] = true;
 				break;
 
 			case 64+4:
-				this.pressed["d"] = true;
+				self.pressed["d"] = true;
 				break;
 
 			case 64+5:
-				this.pressed["e"] = true;
+				self.pressed["e"] = true;
 				break;
 
 			case 64+6:
-				this.pressed["f"] = true;
+				self.pressed["f"] = true;
 				break;
 
 			case 64+7:
-				this.pressed["g"] = true;
+				self.pressed["g"] = true;
 				break;
 
 			case 64+8:
-				this.pressed["h"] = true;
+				self.pressed["h"] = true;
 				break;
 
 			case 64+9:
-				this.pressed["i"] = true;
+				self.pressed["i"] = true;
 				break;
 
 			case 64+10:
-				this.pressed["j"] = true;
+				self.pressed["j"] = true;
 				break;
 
 			case 64+11:
-				this.pressed["k"] = true;
+				self.pressed["k"] = true;
 				break;
 
 			case 64+12:
-				this.pressed["l"] = true;
+				self.pressed["l"] = true;
 				break;
 
 			case 64+13:
-				this.pressed["m"] = true;
+				self.pressed["m"] = true;
 				break;
 
 			case 64+14:
-				this.pressed["n"] = true;
+				self.pressed["n"] = true;
 				break;
 
 			case 64+15:
-				this.pressed["o"] = true;
+				self.pressed["o"] = true;
 				break;
 
 			case 64+16:
-				this.pressed["p"] = true;
+				self.pressed["p"] = true;
 				break;
 
 			case 64+17:
-				this.pressed["q"] = true;
+				self.pressed["q"] = true;
 				break;
 
 			case 64+18:
-				this.pressed["r"] = true;
+				self.pressed["r"] = true;
 				break;
 
 			case 64+19:
-				this.pressed["s"] = true;
+				self.pressed["s"] = true;
 				break;
 
 			case 64+20:
-				this.pressed["t"] = true;
+				self.pressed["t"] = true;
 				break;
 
 			case 64+21:
-				this.pressed["u"] = true;
+				self.pressed["u"] = true;
 				break;
 
 			case 64+22:
-				this.pressed["v"] = true;
+				self.pressed["v"] = true;
 				break;
 
 			case 64+23:
-				this.pressed["w"] = true;
+				self.pressed["w"] = true;
 				break;
 
 			case 64+24:
-				this.pressed["x"] = true;
+				self.pressed["x"] = true;
 				break;
 
 			case 64+25:
-				this.pressed["y"] = true;
+				self.pressed["y"] = true;
 				break;
 
 			case 64+26:
-				this.pressed["z"] = true;
+				self.pressed["z"] = true;
 				break;
 			}
 
@@ -195,179 +196,179 @@ class keyboard_listener{
 			switch(cc){
 			
 			case 37:
-				this.pressed["left"] = false;
+				self.pressed["left"] = false;
 				break;
 			
 			case 38:
-				this.pressed["up"] = false;
+				self.pressed["up"] = false;
 				break;
 			
 			case 39:
-				this.pressed["right"] = false;
+				self.pressed["right"] = false;
 				break;
 			
 			case 40:
-				this.pressed["down"] = false;
+				self.pressed["down"] = false;
 				break;
 			
 			case 32:
-				this.pressed["space"] = false;
+				self.pressed["space"] = false;
 				break;
 				
 			case 8:
-				this.pressed["backspace"] = false;
+				self.pressed["backspace"] = false;
 				break;
 			
 			case 13:
-				this.pressed["enter"] = false;
+				self.pressed["enter"] = false;
 				break;
 				
 			// numbers
 			
 			case 48+0:
-				this.pressed["0"] = false;
+				self.pressed["0"] = false;
 				break;
 
 			case 48+1:
-				this.pressed["1"] = false;
+				self.pressed["1"] = false;
 				break;
 
 			case 48+2:
-				this.pressed["2"] = false;
+				self.pressed["2"] = false;
 				break;
 
 			case 48+3:
-				this.pressed["3"] = false;
+				self.pressed["3"] = false;
 				break;
 
 			case 48+4:
-				this.pressed["4"] = false;
+				self.pressed["4"] = false;
 				break;
 
 			case 48+5:
-				this.pressed["5"] = false;
+				self.pressed["5"] = false;
 				break;
 
 			case 48+6:
-				this.pressed["6"] = false;
+				self.pressed["6"] = false;
 				break;
 
 			case 48+7:
-				this.pressed["7"] = false;
+				self.pressed["7"] = false;
 				break;
 
 			case 48+8:
-				this.pressed["8"] = false;
+				self.pressed["8"] = false;
 				break;
 
 			case 48+9:
-				this.pressed["9"] = false;
+				self.pressed["9"] = false;
 				break;
 				
 			// Letters	
 			
 			case 64+1:
-				this.pressed["a"] = false;
+				self.pressed["a"] = false;
 				break;
 
 			case 64+2:
-				this.pressed["b"] = false;
+				self.pressed["b"] = false;
 				break;
 
 			case 64+3:
-				this.pressed["c"] = false;
+				self.pressed["c"] = false;
 				break;
 
 			case 64+4:
-				this.pressed["d"] = false;
+				self.pressed["d"] = false;
 				break;
 
 			case 64+5:
-				this.pressed["e"] = false;
+				self.pressed["e"] = false;
 				break;
 
 			case 64+6:
-				this.pressed["f"] = false;
+				self.pressed["f"] = false;
 				break;
 
 			case 64+7:
-				this.pressed["g"] = false;
+				self.pressed["g"] = false;
 				break;
 
 			case 64+8:
-				this.pressed["h"] = false;
+				self.pressed["h"] = false;
 				break;
 
 			case 64+9:
-				this.pressed["i"] = false;
+				self.pressed["i"] = false;
 				break;
 
 			case 64+10:
-				this.pressed["j"] = false;
+				self.pressed["j"] = false;
 				break;
 
 			case 64+11:
-				this.pressed["k"] = false;
+				self.pressed["k"] = false;
 				break;
 
 			case 64+12:
-				this.pressed["l"] = false;
+				self.pressed["l"] = false;
 				break;
 
 			case 64+13:
-				this.pressed["m"] = false;
+				self.pressed["m"] = false;
 				break;
 
 			case 64+14:
-				this.pressed["n"] = false;
+				self.pressed["n"] = false;
 				break;
 
 			case 64+15:
-				this.pressed["o"] = false;
+				self.pressed["o"] = false;
 				break;
 
 			case 64+16:
-				this.pressed["p"] = false;
+				self.pressed["p"] = false;
 				break;
 
 			case 64+17:
-				this.pressed["q"] = false;
+				self.pressed["q"] = false;
 				break;
 
 			case 64+18:
-				this.pressed["r"] = false;
+				self.pressed["r"] = false;
 				break;
 
 			case 64+19:
-				this.pressed["s"] = false;
+				self.pressed["s"] = false;
 				break;
 
 			case 64+20:
-				this.pressed["t"] = false;
+				self.pressed["t"] = false;
 				break;
 
 			case 64+21:
-				this.pressed["u"] = false;
+				self.pressed["u"] = false;
 				break;
 
 			case 64+22:
-				this.pressed["v"] = false;
+				self.pressed["v"] = false;
 				break;
 
 			case 64+23:
-				this.pressed["w"] = false;
+				self.pressed["w"] = false;
 				break;
 
 			case 64+24:
-				this.pressed["x"] = false;
+				self.pressed["x"] = false;
 				break;
 
 			case 64+25:
-				this.pressed["y"] = false;
+				self.pressed["y"] = false;
 				break;
 
 			case 64+26:
-				this.pressed["z"] = false;
+				self.pressed["z"] = false;
 				break;
 			}
 

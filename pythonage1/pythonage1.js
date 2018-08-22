@@ -36,10 +36,10 @@ function tick(){
 	if(has_rendered_car == false && pythonage_objects['cardata'].loaded){
 		log("trying to render");
 		has_rendered_car = true;
-		pythonage_consume_nugget("(new-img,mycar,cardata,100,100,true)");
-		pythonage_consume_nugget("(new-tran,carposition,0,0,true)");
-		pythonage_consume_nugget("(append,mycar,carposition)");
-		pythonage_consume_nugget("(render,carposition)");
+		//pythonage_consume_nugget("(new-img,mycar,cardata,100,100,true)");
+		//pythonage_consume_nugget("(new-tran,carposition,0,0,true)");
+		//pythonage_consume_nugget("(append,mycar,carposition)");
+		//pythonage_consume_nugget("(render,carposition)");
 	}
 }
 
@@ -52,10 +52,10 @@ function load(){
 	web_socket = new MyWebSocket("localhost", "8765");
 	web_socket.send("requestinggame,"+pythonage_game_name);
 	
-	pythonage_consume_nugget("(new-imgd,cardata)");
-	pythonage_consume_nugget("(set-imgd-src,cardata,img/car_side1_4.bmp)");
+	//pythonage_consume_nugget("(new-imgd,cardata)");
+	//pythonage_consume_nugget("(set-imgd-src,cardata,img/car_side1_4.bmp)");
 	
-	setInterval(tick, 50);
+	//setInterval(tick, 50);
 }
 
 
