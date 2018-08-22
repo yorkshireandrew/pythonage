@@ -2,7 +2,7 @@ import sys
 from pythonage.pythonageerror import *
 
 def command_from_bool(input_bool):
-    if(input_bool):
+    if input_bool:
         return 't'
     else:
         return 'f'
@@ -20,14 +20,14 @@ class PAlbum:
 
     @property
     def pending(self):
-        return len([element in self._imagedata if not element.loaded])
+        return len([data for data in self._imagedata if not data.loaded])
 
     @property
     def loaded(self):
         len(self) > 0 and self.pending == 0
 
     def get_imagedata_named(self, name):
-        matches = [element in self._imagedata if element.name == name]
+        matches = [data for data in self._imagedata if data.name == name]
         if len(matches) == 0:
             raise KeyError
         return matches[0]
@@ -114,27 +114,20 @@ class PImage:
     @property
     def object_id(self):
         return self._object_id
+
+# ===================== SceneGraphNode =========================================================
+# Superclass responsible for scenegraph components that can have parents and children
+class PSceneGraphNode:
     
-# ===================== PTranslate =============================================================
-# Scene graph object representing a translation in any direction, for example up,down,left,right
-
-class PTranslate
-
-    def __init__(self, object_id, x, y, visible, user):
-        self._object_id = object_id
-        self._x = x
-        self._y = y
-        self._visible = visible
+    def __init__(self, user, object_id):
         self._user = user
+        self._object_id = object_id
 
-        user.send('nt,{0},{1},{2},{3}'.format(object_id, str(x), str(y), command_from_bool(visible)))
-
-        # Additional construction
-        self._changed = True
+        # Additional construction 
         self._children = []
         self.parent = None
         self.name = None
-        
+
     def __iter__(self):
         return iter(self._children)
 
@@ -159,25 +152,48 @@ class PTranslate
 
         self._user.send('dt,{0},{1}'.format(child.object_id, self._object_id))
         
-        new_children = [e in self._children if e.object_id != child_id]
+        new_children = [child for child in self._children if not child.object_id == child_id]
         self._children = new_children
         child.parent = None      
 
     def get_named_child(self, child_name):
         try:
-            return next(x for x in self._children if x.name == target_child_name)
+            return next([child for child in self._children if child.name == target_child_name])
         except StopIteration:
             raise KeyError
 
     @property
     def object_id(self):
         return self._object_id
+    
+
+    
+# ===================== PTranslate =============================================================
+# Scene graph object representing a translation in any direction, for example up,down,left,right
+
+class PTranslate(PSceneGraphNode):
+
+    def __init__(self, object_id, x, y, visible, user):
+        super(PSceneGraphNode, self).__init__(user, object_id)
+        
+        self._x = x
+        self._y = y
+        self._visible = visible
+        self._user = user
+
+        user.send('nt,{0},{1},{2},{3}'.format(object_id, str(x), str(y), command_from_bool(visible)))
+
+        # Additional construction
+        self._changed = True
 
 # ===================== PRotate ============
 # Represents a rotation by a given angle
 
+class PRotate(PSceneGraphNode):
+
     def __init__(self, object_id, angle, visible, user):
-        self._object_id = object_id
+        super(PSceneGraphNode, self).__init__(user, object_id)
+        
         self._angle = angle
         self._visible = visible
         self._user = user
@@ -186,45 +202,3 @@ class PTranslate
 
         # Additional construction
         self._changed = True
-        self._children = []
-        self.parent = None
-        self.name = None
-        
-    def __iter__(self):
-        return iter(self._children)
-
-    def append(self, child):
-        if child.parent:
-            child.parent.detach(child)
-            
-        self._user.send('a,{0},{1}'.format(child.object_id, self._object_id))
-        self._children.append(child)
-        child.parent(self)
-
-    def append_to(self, item_to_append_to):
-
-        if self.parent:
-            self.parent.detach(self)
-
-        self._user.send('at,{0},{1}'.format(self._object_id, item_to_append_to.object_id))
-        self.parent = item_to_append_to
-
-    def detach(self, child):
-        child_id = child.object_id
-
-        self._user.send('dt,{0},{1}'.format(child.object_id, self._object_id))
-
-        new_children = [e in self._children if e.object_id != child_id]
-        self._children = new_children
-        child.parent = None
-
-    def get_named_child(self, child_name):
-        try:
-            return next(x for x in self._children if x.name == target_child_name)
-        except StopIteration:
-            raise KeyError
-
-    @property
-    def object_id(self):
-        return self._object_id
-
