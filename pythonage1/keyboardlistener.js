@@ -377,19 +377,22 @@ class keyboard_listener{
 	}
 	
 	query(to_check){
-		response = "";
+		var response = "";
 		for(var index in to_check){
-			// undefined == false evaluates to false
-			if(this.pressed[to_check[index]] == false){
-				response += to_check[index];
+			var key = to_check[index]
+
+			if(this.pressed[key] == false || typeof(this.pressed[key]) == 'undefined'){
+				response += key;
 				response += ",";
 				response += "0";
 				response += ",";
-			}else{
-				response += to_check[index];
+			}
+			else
+			{
+				response += key;
 				response += ",";
 				response += "1";
-				response += ",";				
+				response += ",";									
 			}
 		}
 		response = response.slice(0,-1); // remove trailing comma

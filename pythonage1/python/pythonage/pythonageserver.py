@@ -2,6 +2,7 @@
 
 import asyncio
 import websockets
+from websockets.exceptions import ConnectionClosed
 from gamefactory import *
 from user import *
 
@@ -16,19 +17,23 @@ class PythonageServer:
     async def handle_connect(self, websocket, path):
         user = PUser(self._user_id, websocket)
         self._user_id += 1
-        message = await websocket.recv() # First message should tell us what game the client wants
-        print('PythonageServer got message: {0}'.format(message))
+        try:
+            message = await websocket.recv() # First message should tell us what game the client wants
+            print('PythonageServer got message: {0}'.format(message))
 
-        # Use our game factory to create a playing game for us
-        frags = message.split(',')
-        game_name = frags[1]
-        playing_game = self._game_factory.get_playinggame(game_name, user)
+            # Use our game factory to create a playing game for us
+            frags = message.split(',')
+            game_name = frags[1]
+            playing_game = self._game_factory.get_playinggame(game_name, user)
 
-        # Route traffic from the user to the game
-        user.set_playing_game(playing_game)
+            # Route traffic from the user to the game
+            user.set_playing_game(playing_game)
 
-        self._users.append(user) # Add ourselves to the list of users so users can send messages
-        await user.listen_to_websocket_async()
+            self._users.append(user) # Add ourselves to the list of users so users can send messages
+            await user.listen_to_websocket_async()
+        except websockets.exceptions.ConnectionClosed:
+            del self._users[user.user_id]
+       
 
     async def _send_all_user_messages(self):
         while True:

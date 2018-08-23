@@ -16,6 +16,7 @@ class Car_PlayingGame(PPlayingGame):
 
     def check_car_loaded(self):
         print('check car loaded called')
+        self.update_keys(('a','s','w','d'))
         
         if not self.car_loaded and self.car_album.loaded:
             self.car_loaded = True
@@ -31,6 +32,8 @@ class Car_PlayingGame(PPlayingGame):
 
         if self.car_loaded:
             self.translate.x += 10
+            if self.key_pressed('a'):
+                self.translate.x -= 20
             self.translate.update()
             self.translate2.render()
         

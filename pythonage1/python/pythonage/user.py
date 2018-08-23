@@ -70,11 +70,14 @@ class PUser:
             # Response to a key query
             if command == 'qk':
                 fragment_iterator = iter(fragments)
-                fragment_iterator.next() # Skip over the command
+                next(fragment_iterator) # Skip over the command
                 try:
-                    key = fragment_iterator.next()
-                    pressed_string = fragment_iterator.next()
-                    self._keypresses[key] = pressed_string == 't'
+                    while True:
+                        key = next(fragment_iterator)
+                        pressed_string = next(fragment_iterator)
+                        pressed = pressed_string == '1'
+                        self._keypresses[key] = pressed
+                        #print('{0}:{1}'.format(key,pressed))
                 except StopIteration:
                     pass
 
@@ -100,6 +103,16 @@ class PUser:
     def tick(self):
         
         self._timer_collection.tick()
+
+    def update_keys(self, key_list):
+    
+        if len(key_list):
+            joined = ','.join(key_list)
+            self.send_immediately('qk,{0}'.format(joined))
+
+    def is_pressed(self, key):
+        return self._keypresses.setdefault(key, False)
+        
         
         
         

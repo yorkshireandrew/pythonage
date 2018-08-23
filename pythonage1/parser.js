@@ -211,10 +211,9 @@ function pythonage_command_detach(args){
 }
 	
 function pythonage_query_keys(args){
-	var query_id = args[1];
-	var result = key_listener.query(args.slice(1)); // remove query_id before asking
-	var query_keys_response = "(qk," + query_id + "," + result +")";
-	pythonage_reply(query_keys_response);		
+	var result = key_listener.query(args.slice(1)); // remove command before asking
+	var query_keys_response = "qk," + result;
+	web_socket.send(query_keys_response);		
 }
 
 function pythonage_command_reset(args){
