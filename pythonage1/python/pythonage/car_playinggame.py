@@ -18,7 +18,7 @@ class Car_PlayingGame(PPlayingGame):
 
     def check_car_loaded(self):
         print('check car loaded called')
-        self.update_keys(('a','s','w','d'))
+        #self.update_keys(('a','s','w','d'))
         
         if not self.car_loaded and self.car_album.loaded:
             self.car_loaded = True
@@ -30,17 +30,41 @@ class Car_PlayingGame(PPlayingGame):
             translate2.append(translate)
             self.translate = translate
             self.translate2 = translate2
-            self.translate2.render()
+            #self.translate2.render()
+            
+            #self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 50,50)
+            #self.car_pixelmap.make_blue_transparent()
+            #self.car_pixelmap.render()
+
+            dood = [
+                '   BBBB   ',
+                '   pppp   ',
+                '   pppp   ',
+                '    RR    ',
+                ' BBBBBBBB ',
+                ' B BBBB B ',
+                ' B BBBB B ',
+                ' B BBBB B ',
+                '   BBBB   ',
+                '   YYYY   ',
+                '   Y  Y   ',
+                '   Y  Y   ',
+                '   Y  Y   '              
+                ]
+
+            self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
+            self.dood_pixelmap.render()         
 
         if self.car_album.loaded:
-            self.sound.play()
+            pass
+            #self.sound.play()
 
         if self.car_loaded:
             self.translate.x += 10
             if self.key_pressed('a'):
                 self.translate.x -= 20
             self.translate.update()
-            self.translate2.render()
+            #self.translate2.render()
         
         
 

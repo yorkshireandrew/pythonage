@@ -93,7 +93,21 @@ class PPlayingGame:
         new_sound = PSound(self._next_object_id, src, self._user)
         self._objects[self._next_object_id] = new_sound
         self._next_object_id += 1
-        return new_sound  
+        return new_sound
+
+    def create_pixelmap_from_imagedata(self, imagedata, x, y, visible=True):
+        new_imagedata = PPixelMap(self._next_object_id, x, y, visible, self._user)
+        new_imagedata.from_imagedata(imagedata)
+        self._next_object_id += 1
+        return new_imagedata
+
+    def create_pixelmap_from_string(self, x, y, scaling, string_array, visible=True):
+        new_imagedata = PPixelMap(self._next_object_id, x, y, visible, self._user)
+        height = len(string_array)
+        width = len(string_array[0])
+        new_imagedata.from_string(width, height, scaling, string_array)
+        self._next_object_id += 1
+        return new_imagedata
 
     def remove_timer_from_server(self, timer):
         

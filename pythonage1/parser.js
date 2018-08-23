@@ -35,7 +35,7 @@ function pythonage_consume(commandstring){
 			
 		case "new-imgd":
 			new pythonage_imagedata(args[1], web_socket); // object_id, websocket
-			break;
+			break; // DO NOT FORGET TO BREAK
 			
 		case "nid":
 			new pythonage_imagedata(args[1], web_socket); // object_id, websocket
@@ -131,9 +131,27 @@ function pythonage_consume(commandstring){
 			
 		case "ns":
 			pythonage_command_new_sound(args);
+			break;
 			
 		case "ps":
 			pythonage_command_play_sound(args);
+			break;
+			
+		case "npmfid":
+			pythonage_command_new_pixelmap_from_imagedata(args);
+			break;
+			
+		case "npmfs":
+			pythonage_command_new_pixelmap_from_string(args);
+			break;
+			
+		case "mbt":
+			pythonage_command_make_blue_transparent(args);
+			break;
+			
+		case "upm":
+			pythonage_command_update_pixelmap(args);
+			break;
 			
 	} // end of switch
 }
@@ -275,4 +293,56 @@ function pythonage_command_play_sound(args){
 	pythonage_objects[object_id].play();
 }
 
+function pythonage_command_new_pixelmap_from_imagedata(args){
+	log("pythonage_command_new_pixelmap");
+	var object_id = args[1];
+	var imagedata_object_id = args[2];
+	var x = parseInt(args[3]);
+	var y = parseInt(args[4]);
+	
+	var visible = false;
+	if(args[5] == "t" || args[5] == "true") visible = true
+	var new_pixelmap = new pixelmap(object_id, x, y, visible);	
+	new_pixelmap.from_imagedata(imagedata_object_id);
+	
+	pythonage_objects[object_id] = new_pixelmap;
+}
 
+function pythonage_command_new_pixelmap_from_string(args){
+	var object_id = args[1];
+	var x = parseInt(args[2]);
+	var y = parseInt(args[3]);
+	var width = parseInt(args[4]);
+	var height = parseInt(args[5]);
+	var scaling = parseInt(args[6]);
+	var string_data = args[7];
+	
+	var visible = false;
+	if(args[8] == "t" || args[8] == "true") visible = true
+	var new_pixelmap = new pixelmap(object_id, x, y, visible);
+	log("got here")
+	new_pixelmap.from_string(width, height, scaling, string_data);
+	
+	pythonage_objects[object_id] = new_pixelmap;
+}
+
+function pythonage_command_make_blue_transparent(args){
+	var object_id = args[1];
+	var target_pixelmap = pythonage_objects[object_id];
+	target_pixelmap.make_blue_transparent();
+}
+
+function pythonage_update_pixelmap(args){
+	var object_id = args[1];
+	var x = parseInt(args[2]);
+	var y = parseInt(args[3]);
+	
+	var visible = false;
+	if(args[4] == "t" || args[4] == "true") visible = true
+	
+	var target_pixelmap = pythonage_objects[object_id];
+	
+	target_pixelmap.x = x;
+	target_pixelmap.y = y;
+	target_pixelmap.visible = visible;	
+}

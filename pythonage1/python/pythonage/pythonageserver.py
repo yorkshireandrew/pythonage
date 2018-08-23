@@ -11,7 +11,7 @@ class PythonageServer:
     def __init__(self, game_factory):
         self._game_factory = game_factory
         self._user_id = 0
-        self._users = []
+        self._users = {}
         self._send_messages_task = asyncio.ensure_future(self._send_all_user_messages())
 
     async def handle_connect(self, websocket, path):
@@ -29,7 +29,7 @@ class PythonageServer:
             # Route traffic from the user to the game
             user.set_playing_game(playing_game)
 
-            self._users.append(user) # Add ourselves to the list of users so users can send messages
+            self._users[user.user_id] = user # Add ourselves to the dictionary of users so users can send messages
             await user.listen_to_websocket_async()
         except websockets.exceptions.ConnectionClosed:
             del self._users[user.user_id]
@@ -37,8 +37,8 @@ class PythonageServer:
 
     async def _send_all_user_messages(self):
         while True:
-            while self._users:
-                for user in self._users:
+            while self._users.items():
+                for key, user in self._users.items():
                     await user.send_async()
                 await asyncio.sleep(0.01) # 10ms
 
@@ -46,12 +46,12 @@ class PythonageServer:
             await asyncio.sleep(0.5) # Relax we have no users
 
     def _tick(self): # Periodically called by ticking_task_async
-        for user in self._users:
+        for key, user in self._users.items():
             user.tick()
 
     async def ticking_task_async(self):
         while True:
-            while self._users:
+            while self._users.items():
                 self._tick()
                 await asyncio.sleep(0.01) # 10ms tick
 
