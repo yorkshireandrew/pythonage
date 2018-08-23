@@ -1,16 +1,24 @@
 import sys
 from scenegraph import *
+from timer import PTimer
+from timeout import PTimeout
 
 # Superclass to encapsulate a particular users version of a game.
 # Subclass this to create a game that responds to a user connecting and playing.
 class PPlayingGame:
 
-    def __init__(self, user, server_services):
+    def __init__(self, user, gamename):
         self._user = user
-        self._server_services = server_services
+        self._gamename = gamename
+
+        # Additional construction
         self._objects = {}
         self._next_object_id = 0
         print('Created PlayingGame')
+
+    @property
+    def gamename(self):
+        return self._gamename
 
     def __len__(self):
         return len(self._objects)
@@ -54,6 +62,30 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_rotate
 
+    def create_timer(self, interval, callback):
+        timer = PTimer(interval, callback, self._gamename)
+        self._user.append_timer_to_server(timer)
+        return timer
+
+    def create_timeout(self, interval, callback):
+        timeout = PTimeout(interval, callback, self._gamename)
+        self._user.append_timer_to_server(timeout)
+        return timeout
+
+    def remove_timer_from_server(self, timer):
+        self._user.remove_timer_from_server(timer)
+
+    def remove_timeout_from_server(self, timeout):
+        self._user.remove_timer_from_server(timeout)
+
+    def remove_all_timers_from_server(self, timer):
+        self._user.remove_all_timers_from_server()
+
     def handle_imagedata_loaded(self, object_id):
         self._objects[object_id].handle_imagedata_loaded()
+
+    def update_keys(self, key_list):
+        self._user.update_keys(key_list)
+
+        
         

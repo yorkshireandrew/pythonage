@@ -9,6 +9,6 @@ class PGame:
     def __init__(self):
         self._playinggames = []
 
-    def get_playinggame(self, user, server_services):
+    def get_playinggame(self, user):
         print('ERROR: get_playinggame was not implemented by a subclass of PGame')
         return None

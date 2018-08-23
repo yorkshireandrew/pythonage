@@ -3,15 +3,16 @@ import time
 
 class Car_PlayingGame(PPlayingGame):
 
-    def __init__(self, user, server_services):
-        super().__init__(user, server_services) # First thing must be initialise our super class
+    def __init__(self, user):
+        # First thing we must do is initialise our super class
+        # We tell it the name of the game it is playing so it can be shown in logging
+        super().__init__(user, 'cargame')
         
         self.car_imagedata = self.create_imagedata('img/car_side1_4.bmp')
         self.car_album = self.create_album()
         self.car_album.append(self.car_imagedata)
         self.car_loaded = False
-        
-        server_services.create_timer('someuser', 100, self.check_car_loaded)
+        self.create_timer(100, self.check_car_loaded)
 
     def check_car_loaded(self):
         print('check car loaded called')
