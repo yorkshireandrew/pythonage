@@ -3,10 +3,10 @@ import time
 
 class Car_PlayingGame(PPlayingGame):
 
-    def __init__(self, user):
+    def __init__(self, user, game):
         # First thing we must do is initialise our super class
         # We tell it the name of the game it is playing so it can be shown in logging
-        super().__init__(user, 'cargame')
+        super().__init__(user, game)
         
         self.car_imagedata = self.create_imagedata('img/car_side1_4.bmp')
         self.car_album = self.create_album()

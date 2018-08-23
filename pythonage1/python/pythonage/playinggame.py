@@ -1,5 +1,6 @@
 import sys
 from scenegraph import *
+from pythonageerror import PythonageError
 from timer import PTimer
 from timeout import PTimeout
 
@@ -7,10 +8,13 @@ from timeout import PTimeout
 # Subclass this to create a game that responds to a user connecting and playing.
 class PPlayingGame:
 
-    def __init__(self, user, gamename):
+    def __init__(self, user, game):
         
         self._user = user
-        self._gamename = gamename
+        self._game = game
+
+        if not game.gamename:
+            raise PythonageError('PPlayingGame constructor was passed a Game with no gamename')    
 
         # Additional construction
         self._objects = {}
@@ -20,7 +24,7 @@ class PPlayingGame:
     @property
     def gamename(self):
         
-        return self._gamename
+        return self._game.gamename
 
     def __len__(self):
         
@@ -74,13 +78,13 @@ class PPlayingGame:
 
     def create_timer(self, interval, callback):
         
-        timer = PTimer(interval, callback, self._gamename)
+        timer = PTimer(interval, callback, self.gamename)
         self._user.append_timer_to_server(timer)
         return timer
 
     def create_timeout(self, interval, callback):
         
-        timeout = PTimeout(interval, callback, self._gamename)
+        timeout = PTimeout(interval, callback, self.gamename)
         self._user.append_timer_to_server(timeout)
         return timeout
 
