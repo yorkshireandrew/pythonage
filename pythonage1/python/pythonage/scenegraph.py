@@ -89,7 +89,7 @@ class PImageData:
     # Callback which is called by the user when the imagedata is loaded in their browser
     def handle_imagedata_loaded(self):
         self._loaded = True;
-        print('{0} image loaded'.format(self.object_id))
+        print('{0} image loaded'.format(self._object_id))
 
 
 # ===================== SceneGraphNode =========================================================

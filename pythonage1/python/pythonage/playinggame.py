@@ -1,5 +1,6 @@
 import sys
 from scenegraph import *
+from sound import PSound
 from pythonageerror import PythonageError
 from timer import PTimer
 from timeout import PTimeout
@@ -87,6 +88,12 @@ class PPlayingGame:
         timeout = PTimeout(interval, callback, self.gamename)
         self._user.append_timer_to_server(timeout)
         return timeout
+
+    def create_sound(self, src):
+        new_sound = PSound(self._next_object_id, src, self._user)
+        self._objects[self._next_object_id] = new_sound
+        self._next_object_id += 1
+        return new_sound  
 
     def remove_timer_from_server(self, timer):
         

@@ -13,6 +13,8 @@ class Car_PlayingGame(PPlayingGame):
         self.car_album.append(self.car_imagedata)
         self.car_loaded = False
         self.create_timer(100, self.check_car_loaded)
+        self.sound = self.create_sound('sound/punch.wav')
+        self.car_album.append(self.sound)
 
     def check_car_loaded(self):
         print('check car loaded called')
@@ -29,6 +31,9 @@ class Car_PlayingGame(PPlayingGame):
             self.translate = translate
             self.translate2 = translate2
             self.translate2.render()
+
+        if self.car_album.loaded:
+            self.sound.play()
 
         if self.car_loaded:
             self.translate.x += 10
