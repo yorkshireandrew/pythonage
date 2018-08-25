@@ -17,7 +17,7 @@ class Car_PlayingGame(PPlayingGame):
 
     def check_car_loaded(self):
         print('check car loaded called')
-        #self.update_keys(('a','s','w','d'))
+        self.update_keys(('a','s','w','d'))
         
         if not self.car_loaded and self.car_album.loaded:
             self.car_loaded = True
@@ -53,8 +53,8 @@ class Car_PlayingGame(PPlayingGame):
 
             self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
             self.dood_pixelmap.render()
-            self.line = self.create_line(0,0,100,100)
-            #self.line.render()
+            self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
+            self.line.render()
 
         if self.car_album.loaded:
             pass

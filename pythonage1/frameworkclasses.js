@@ -247,10 +247,6 @@ class pixelmap{
 	}
 	
 	from_string(width, height, scaling, string_data){
-		log(width)
-		log(height)
-		log(scaling)
-		log('stringdata:' + string_data);
 		var colour_data = {
 				'w': [255,255,255,255],
 				'r': [200,50,50,255],
@@ -261,7 +257,12 @@ class pixelmap{
 				'B': [0,0,255,255],
 				'y': [200,200,50,255],
 				'Y': [255,255,0,255],
-				'p': [253,207,176,255],
+				'p': [253,207,176,255], // Pink
+				'#': [0,0,0,255],
+				'm': [185,122,87,255], // Light mud
+				'M': [119,70,49,255],  // Dark mud
+				'o': [255,176,89,255], // Light orange
+				'O': [255,127,39,255], // Orange
 				' ': [0,0,0,0]
 		}
 		
@@ -276,10 +277,7 @@ class pixelmap{
 			for(var sc = 0; sc < scaling; sc++){
 				read_index = y * width;
 				for(var x = 0; x < width; x++){
-					log(read_index);
-					log(string_data[read_index]);
 					var to_fill = colour_data[string_data[read_index++]];
-					log(to_fill);
 					for(var sc2 = 0; sc2 < scaling; sc2++){
 						data.data[write_index++] = to_fill[0];
 						data.data[write_index++] = to_fill[1];
@@ -300,7 +298,7 @@ class pixelmap{
 
 class pythonage_line{
 	
-	constructor(){
+	constructor(object_id, x1, y1, x2, y2, style, width, visible){
 		this.object_id = object_id;
 		this.x1 = x1;
 		this.y1 = y1;
@@ -308,16 +306,25 @@ class pythonage_line{
 		this.y2 = y2;
 		this.style = style;
 		this.width = width;
+		this.visible = visible;
+		log('newline' + object_id + ',' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + style + ',' + width +',' + visible);
 	}
 	
 	render(context){
 		if(this.visible){
+			log('rr1');
 			context.beginPath();
+			log('rr2');
 			context.strokeStyle = this.style;
+			log('rr3');
 			context.lineWidth = this.width;
+			log('rr4');
 			context.moveTo(this.x1, this.y1);
+			log('rr5');
 			context.lineTo(this.x2, this.y2);
-			context.stroke();			
+			log('rr6');
+			context.stroke();
+			log('rr7');
 		}
 	}
 	

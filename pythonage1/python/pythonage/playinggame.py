@@ -11,6 +11,7 @@ from .timeout import PTimeout
 from .sound import PSound
 from .pixelmap import PPixelMap
 from .line import PLine
+from .javascriptstyle import JavascriptStyle
 
 # Superclass encapsulating a particular users version of a game.
 # Subclass this to create a game which responds to a user connecting and playing.
@@ -104,33 +105,28 @@ class PPlayingGame:
         return new_sound
 
     def create_pixelmap_from_imagedata(self, imagedata, x, y, visible=True):
-        new_imagedata = PPixelMap(self._next_object_id, x, y, visible, self._user)
-        new_imagedata.from_imagedata(imagedata)
+        new_pixelmap = PPixelMap(self._next_object_id, x, y, visible, self._user)
+        new_pixelmap.from_imagedata(imagedata)
+        self._objects[self._next_object_id] = new_pixelmap
         self._next_object_id += 1
-        return new_imagedata
+        return new_pixelmap
 
     def create_pixelmap_from_string(self, x, y, scaling, string_array, visible=True):
-        new_imagedata = PPixelMap(self._next_object_id, x, y, visible, self._user)
+        new_pixelmap = PPixelMap(self._next_object_id, x, y, visible, self._user)
         height = len(string_array)
         width = len(string_array[0])
-        new_imagedata.from_string(width, height, scaling, string_array)
+        new_pixelmap.from_string(width, height, scaling, string_array)
+        self._objects[self._next_object_id] = new_pixelmap
         self._next_object_id += 1
-        return new_imagedata
-
-    def rgb_to_style(self, r, g, b):
-        rs = hex(r)[2:]
-        if len(rs) == 1:
-            rs = '0{0}'.format(rs)
-        gs = hex(g)[2:]
-        if len(gs) == 1:
-            gs = '0{0}'.format(gs)       
-        bs = hex(b)[2:]
-        if len(bs) == 1:
-            bs = '0{0}'.format(bs)  
-        return '#{0}{1}{2}'.format(rs,gs,bs);
+        return new_pixelmap       
 
     def create_line(self, x1, y1, x2, y2, style="black", width=5, visible=True):
-        print(self.rgb_to_style(255,0,0))  # TODO create styles from single charcaters  
+        js_style = JavascriptStyle.compute_style(style)
+        
+        new_line = PLine(self._next_object_id, x1, y1, x2, y2, js_style, width, visible, self._user)
+        self._objects[self._next_object_id] = new_line
+        self._next_object_id += 1
+        return new_line
 
     def remove_timer_from_server(self, timer):
         

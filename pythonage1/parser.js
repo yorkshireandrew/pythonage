@@ -328,7 +328,6 @@ function pythonage_command_new_pixelmap_from_string(args){
 	var visible = false;
 	if(args[8] == "t" || args[8] == "true") visible = true
 	var new_pixelmap = new pixelmap(object_id, x, y, visible);
-	log("got here")
 	new_pixelmap.from_string(width, height, scaling, string_data);
 	
 	pythonage_objects[object_id] = new_pixelmap;
@@ -367,7 +366,7 @@ function pythonage_command_new_line(args){
 	var visible = false;
 	if(args[8] == "t" || args[8] == "true") visible = true
 	
-	new_line = new pythonage_line(object_id, x1, y1, x2, y2, style, width);	
+	new_line = new pythonage_line(object_id, x1, y1, x2, y2, style, width, visible);	
 	pythonage_objects[object_id] = new_line;	
 }
 
