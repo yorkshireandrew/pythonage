@@ -11,6 +11,7 @@ from .timeout import PTimeout
 from .sound import PSound
 from .pixelmap import PPixelMap
 from .line import PLine
+from .text import PText
 from .javascriptstyle import JavascriptStyle
 
 # Superclass encapsulating a particular users version of a game.
@@ -120,13 +121,21 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_pixelmap       
 
-    def create_line(self, x1, y1, x2, y2, style="black", width=5, visible=True):
+    def create_line(self, x1, y1, x2, y2, style='black', width=5, visible=True):
         js_style = JavascriptStyle.compute_style(style)
         
         new_line = PLine(self._next_object_id, x1, y1, x2, y2, js_style, width, visible, self._user)
         self._objects[self._next_object_id] = new_line
         self._next_object_id += 1
         return new_line
+
+    def create_text(self, x, y, text, font='20px Georgia', style='black', visible=True):
+        js_style = JavascriptStyle.compute_style(style)
+        
+        new_text = PText(self._next_object_id, x, y, font, js_style, text, visible, self._user)
+        self._objects[self._next_object_id] = new_text
+        self._next_object_id += 1
+        return new_text
 
     def remove_timer_from_server(self, timer):
         

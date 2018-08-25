@@ -56,6 +56,12 @@ class Car_PlayingGame(PPlayingGame):
             self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
             self.line.render()
 
+            self.text = self.create_text(50,50,'Yippee',style='r')
+            self.text.render()
+            self.text.text = 'FOOOBARRR'
+            self.text.update()
+            self.text.render()
+
         if self.car_album.loaded:
             pass
             #self.sound.play()

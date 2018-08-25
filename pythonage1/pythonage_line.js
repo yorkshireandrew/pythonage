@@ -9,7 +9,6 @@ class pythonage_line{
 		this.style = style;
 		this.width = width;
 		this.visible = visible;
-		log('newline' + object_id + ',' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + style + ',' + width +',' + visible);
 	}
 	
 	render(context){
