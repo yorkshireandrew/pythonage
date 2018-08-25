@@ -310,7 +310,7 @@ function pythonage_command_new_pixelmap_from_imagedata(args){
 	
 	var visible = false;
 	if(args[5] == "t" || args[5] == "true") visible = true
-	var new_pixelmap = new pixelmap(object_id, x, y, visible);	
+	var new_pixelmap = new pythonage_pixelmap(object_id, x, y, visible);	
 	new_pixelmap.from_imagedata(imagedata_object_id);
 	
 	pythonage_objects[object_id] = new_pixelmap;
@@ -327,7 +327,7 @@ function pythonage_command_new_pixelmap_from_string(args){
 	
 	var visible = false;
 	if(args[8] == "t" || args[8] == "true") visible = true
-	var new_pixelmap = new pixelmap(object_id, x, y, visible);
+	var new_pixelmap = new pythonage_pixelmap(object_id, x, y, visible);
 	new_pixelmap.from_string(width, height, scaling, string_data);
 	
 	pythonage_objects[object_id] = new_pixelmap;
@@ -391,3 +391,4 @@ function pythonage_command_update_line(args){
 	line.width = width;
 	line.visible = visible;
 }
+

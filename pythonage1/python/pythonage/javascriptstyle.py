@@ -53,3 +53,4 @@ class JavascriptStyle:
             style = JavascriptStyle.rgb_to_style(255, 127, 39)
         else:
             style = 'black' # default to black if not recognised
+        return style
