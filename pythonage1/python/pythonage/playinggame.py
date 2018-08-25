@@ -109,6 +109,21 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_imagedata
 
+    def rgb_to_style(self, r, g, b):
+        rs = hex(r)[2:]
+        if len(rs) == 1:
+            rs = '0{0}'.format(rs)
+        gs = hex(g)[2:]
+        if len(gs) == 1:
+            gs = '0{0}'.format(gs)       
+        bs = hex(b)[2:]
+        if len(bs) == 1:
+            bs = '0{0}'.format(bs)  
+        return '#{0}{1}{2}'.format(rs,gs,bs);
+
+    def create_line(self, x1, y1, x2, y2, style="black", width=5, visible=True):
+        print(self.rgb_to_style(255,0,0))  # TODO create styles from single charcaters  
+
     def remove_timer_from_server(self, timer):
         
         self._user.remove_timer_from_server(timer)

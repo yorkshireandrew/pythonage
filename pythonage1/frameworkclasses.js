@@ -118,8 +118,8 @@ var pythonage_radians_to_deg = 180.0/Math.PI;
 
 class pythonage_rotate{
 	
-	constructor(name, rotation_in_deg, visible){
-		this.name = name;
+	constructor(object_id, rotation_in_deg, visible){
+		this.object_id = object_id;
 		this.rotation = pythonage_deg_to_radians * rotation_in_deg;
 		this.visible = visible;
 
@@ -293,9 +293,33 @@ class pixelmap{
 	}
 	
 	render(context){
-		log("rendering pixelmap");
 		if(this.visible) context.putImageData(this.data, this.x, this.y);
-		log("rendered pixelmap");
 	}
+	
+}
+
+class pythonage_line{
+	
+	constructor(){
+		this.object_id = object_id;
+		this.x1 = x1;
+		this.y1 = y1;
+		this.x2 = x2;
+		this.y2 = y2;
+		this.style = style;
+		this.width = width;
+	}
+	
+	render(context){
+		if(this.visible){
+			context.beginPath();
+			context.strokeStyle = this.style;
+			context.lineWidth = this.width;
+			context.moveTo(this.x1, this.y1);
+			context.lineTo(this.x2, this.y2);
+			context.stroke();			
+		}
+	}
+	
 	
 }

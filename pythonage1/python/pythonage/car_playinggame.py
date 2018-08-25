@@ -53,7 +53,9 @@ class Car_PlayingGame(PPlayingGame):
                 ]
 
             self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
-            self.dood_pixelmap.render()         
+            self.dood_pixelmap.render()
+            self.line = self.create_line(0,0,100,100)
+            #self.line.render()
 
         if self.car_album.loaded:
             pass
