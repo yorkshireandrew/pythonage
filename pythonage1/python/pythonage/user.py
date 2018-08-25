@@ -1,6 +1,6 @@
 import sys
 from collections import deque
-from timercollection import PTimerCollection
+from .timercollection import PTimerCollection
 
 # Encapsulates communication with a user via a websocket connection
 # and provides a way for a playing game to hook into the servers services.

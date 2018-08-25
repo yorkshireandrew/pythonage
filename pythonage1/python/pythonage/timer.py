@@ -1,4 +1,4 @@
-from pythonageerror import *
+from .pythonageerror import PythonageError
 import traceback
 
 # Timer that can be created by a playinggame and attached to the server 

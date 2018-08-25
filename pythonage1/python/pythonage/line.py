@@ -1,5 +1,5 @@
-from scenegraphnode import SceneGraphNode
-from pythonageerror import PythonageError
+from .scenegraphnode import PSceneGraphNode
+from .pythonageerror import PythonageError
 
 # ===================== PLine ============
 # Represents a line on the canvas

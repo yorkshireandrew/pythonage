@@ -1,4 +1,4 @@
-from scenegraphnode import SceneGraphNode
+from .scenegraphnode import PSceneGraphNode
 
 # ===================== PRotate ============
 # Represents a rotation by a given angle

@@ -1,5 +1,5 @@
 import sys
-from pythonageerror import PythonageError
+from .pythonageerror import PythonageError
 
 # Superclass whose subclasses are responsible for the generation of a playable game 
 # they are also responsible for encapsulating and managing any shared state (e.g. highest score) shared

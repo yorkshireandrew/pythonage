@@ -1,11 +1,10 @@
-from car_game import *
+# Class that the pythonage server queries for games when a user attaches
 
 class PGameFactory:
 
     def __init__(self):
         
         self._games = {}
-        self.register_game(Car_Game())
         
     def register_game(self, game):
         

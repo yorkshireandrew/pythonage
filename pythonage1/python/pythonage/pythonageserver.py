@@ -3,8 +3,7 @@
 import asyncio
 import websockets
 from websockets.exceptions import ConnectionClosed
-from gamefactory import *
-from user import *
+from .user import PUser
 
 class PythonageServer:
 
@@ -13,6 +12,7 @@ class PythonageServer:
         self._user_id = 0
         self._users = {}
         self._send_messages_task = asyncio.ensure_future(self._send_all_user_messages())
+        self._ticking_timers_task = asyncio.ensure_future(self.ticking_task_async())
 
     async def handle_connect(self, websocket, path):
         user = PUser(self._user_id, websocket)
@@ -57,10 +57,12 @@ class PythonageServer:
 
             await asyncio.sleep(0.5) # Relax we have no users
 
-game_factory = PGameFactory()
-pythonage_server = PythonageServer(game_factory)
-
-loop = asyncio.get_event_loop()
-loop.create_task(pythonage_server.ticking_task_async())
-loop.run_until_complete(websockets.serve(pythonage_server.handle_connect, 'localhost', 8765))
-loop.run_forever()
+#if __name__ == '__main__':
+#    
+#    game_factory = PGameFactory()
+#    # game_factory.register_game(mygame)
+#    pythonage_server = PythonageServer(game_factory)
+#    loop = asyncio.get_event_loop()
+#    loop.create_task(pythonage_server.ticking_task_async())
+#    loop.run_until_complete(websockets.serve(pythonage_server.handle_connect, 'localhost', 8765))
+#    loop.run_forever()

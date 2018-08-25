@@ -1,5 +1,5 @@
-from game import PGame
-from car_playinggame import *
+from pythonage.game import PGame
+from car_playinggame import Car_PlayingGame
 
 class Car_Game(PGame):
 

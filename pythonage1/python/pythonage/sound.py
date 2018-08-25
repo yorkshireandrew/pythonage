@@ -1,5 +1,5 @@
 import sys
-from pythonageerror import *
+from .pythonageerror import PythonageError
 
 # ====================== PSound =================================
 # Plays a sound. Can be added to albums like imagedata

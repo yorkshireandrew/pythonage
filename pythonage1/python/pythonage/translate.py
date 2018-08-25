@@ -1,4 +1,4 @@
-from scenegraphnode import SceneGraphNode
+from .scenegraphnode import PSceneGraphNode
 
 # ===================== PTranslate =============================================================
 # Scene graph object representing a translation in any direction, for example up, down, left, right

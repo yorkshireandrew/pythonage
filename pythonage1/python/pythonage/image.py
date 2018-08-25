@@ -1,5 +1,5 @@
-from scenegraphnode import SceneGraphNode
-from pythonageerror import PythonageError
+from .scenegraphnode import PSceneGraphNode
+from .pythonageerror import PythonageError
 
 # ============= PImage ==============================================================================
 # Image that can be appended to scene graph objects. Expects to be passed an valid image data object

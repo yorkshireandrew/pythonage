@@ -1,5 +1,5 @@
-from scenegraphnode import SceneGraphNode
-from pythonageerror import PythonageError
+from .scenegraphnode import PSceneGraphNode
+from .pythonageerror import PythonageError
 
 # ===================== PPixelMap ============
 # Represents an array of pixels, that can be rendered at an aboslute position. It does not care about translate or rotate nodes.

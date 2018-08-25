@@ -1,5 +1,4 @@
-from playinggame import *
-import time
+from pythonage.playinggame import PPlayingGame
 
 class Car_PlayingGame(PPlayingGame):
 

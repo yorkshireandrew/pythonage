@@ -1,16 +1,16 @@
 import sys
 
-from pythonageerror import PythonageError
-from album import PAlbum
-from imagedata import PImageData
-from image import PImage
-from translate import PTranslate
-from rotate import PRotate
-from timer import PTimer
-from timeout import PTimeout
-from sound import PSound
-from pixelmap import PPixelMap
-from line import PLine
+from .pythonageerror import PythonageError
+from .album import PAlbum
+from .imagedata import PImageData
+from .image import PImage
+from .translate import PTranslate
+from .rotate import PRotate
+from .timer import PTimer
+from .timeout import PTimeout
+from .sound import PSound
+from .pixelmap import PPixelMap
+from .line import PLine
 
 # Superclass encapsulating a particular users version of a game.
 # Subclass this to create a game which responds to a user connecting and playing.
