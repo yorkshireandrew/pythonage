@@ -20,6 +20,7 @@ class Car_PlayingGame(PPlayingGame):
         self.update_keys(('a','s','w','d'))
         
         if not self.car_loaded and self.car_album.loaded:
+            self.render_complete_notification = True
             self.car_loaded = True
             print('album loaded')
             car_image = self.create_image(self.car_imagedata, 100, 100)
@@ -30,9 +31,15 @@ class Car_PlayingGame(PPlayingGame):
             self.translate = translate
             self.translate2 = translate2
             self.translate2.render()
+            #print('rendering:' + self.rendering)
+            #print('rendering:' + self.rendering)
+            #print('rendering:' + self.rendering)
             
             self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 50,50)
             self.car_pixelmap.make_blue_transparent()
+            #print('rendering2:' + self.rendering)
+            #print('rendering2:' + self.rendering)
+            #print('rendering2:' + self.rendering)
             self.car_pixelmap.render()
 
             dood = [
@@ -71,9 +78,15 @@ class Car_PlayingGame(PPlayingGame):
             if self.key_pressed('a'):
                 self.translate.x -= 20
             self.translate.update()
-            #self.translate2.render()
+            print('prior to rendering:' + str(self.rendering))
+            print('sent render' + str(self.rendering))
+            self.translate2.render()
+            print('rendering:' + str(self.rendering))
+            print('rendering:' + str(self.rendering))
+            print('rendering:' + str(self.rendering))
 
             if self.clicked:
+                self.reset_clicked()
                 self.line.x2 = self.click_x
                 self.line.y2 = self.click_y
                 self.line.update()

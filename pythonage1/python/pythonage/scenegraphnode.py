@@ -49,6 +49,7 @@ class PSceneGraphNode:
             raise KeyError
 
     def render(self):
+        self._user.rendering = True
         self._user.send('r,{0}'.format(self._object_id))
 
     def update(self):

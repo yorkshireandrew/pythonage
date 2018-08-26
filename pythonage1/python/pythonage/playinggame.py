@@ -165,6 +165,9 @@ class PPlayingGame:
     def clicked(self):
         return self._user.clicked
 
+    def reset_clicked(self):
+        self._user.reset_clicked()
+
     @property
     def click_x(self):
         return self._user.click_x
@@ -172,6 +175,19 @@ class PPlayingGame:
     @property
     def click_y(self):
         return self._user.click_y
+
+    @property
+    def render_complete_notification(self):
+        return self._user.render_complete_notification
+
+    @render_complete_notification.setter
+    def render_complete_notification(self, new_value):
+        self._user.render_complete_notification = new_value
+
+    @property
+    def rendering(self):
+        return self._user.rendering
+    
 
         
         

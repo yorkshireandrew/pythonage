@@ -21,6 +21,8 @@ class PUser:
         self._new_click = False
         self._new_click_x = 0
         self._new_click_y = 0
+        self._render_complete_notification = False
+        self.rendering = False
         
         print('Created User {0}'.format(user_id))
 
@@ -94,6 +96,9 @@ class PUser:
                 self._new_click_x = int(fragments[1])
                 self._new_click_y = int(fragments[2])
 
+            elif command == 'rc':
+                self.rendering = False
+
             message = await self._websocket.recv()
             print('User {0} recieved: {1}'.format(self.user_id, message))
 
@@ -125,6 +130,8 @@ class PUser:
     @property
     def clicked(self):
         return self._new_click
+
+    def reset_clicked(self):
         self._new_click = False 
 
     @property
@@ -134,3 +141,19 @@ class PUser:
     @property
     def click_y(self):
         return self._new_click_y
+
+    @property
+    def render_complete_notification(self):
+        return self._render_complete_notification
+
+    @render_complete_notification.setter
+    def render_complete_notification(self, new_value):
+        print('GOT HERE')
+        if new_value:
+            self._render_complete_notification = True
+            self.send_immediately('srcn,t')
+        else:
+            self._render_complete_notification = False
+            self.send_immediately('srcn,f')
+
+        

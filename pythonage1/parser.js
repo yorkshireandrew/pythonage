@@ -1,4 +1,5 @@
 var pythonage_input_stream = "";
+var pythonage_notify_render_completed = false;
 
 // actually because web sockets are already tokens we do not need this function
 function pythonage_consume_nugget(nugget){
@@ -99,10 +100,12 @@ function pythonage_consume(commandstring){
 			
 		case "render":
 			pythonage_objects[args[1]].render(canvas_context);
+			if(pythonage_notify_render_completed) 	web_socket.send('rc');	
 			break;
 			
 		case "r":
 			pythonage_objects[args[1]].render(canvas_context);
+			if(pythonage_notify_render_completed) 	web_socket.send('rc');	
 			break;
 					
 		case "query-keys":
@@ -167,6 +170,10 @@ function pythonage_consume(commandstring){
 			
 		case "utxt":
 			pythonage_command_update_text(args)
+			break;
+			
+		case "srcn":
+			pythonage_command_set_render_completed_notification(args);
 			break;
 			
 					
@@ -446,5 +453,18 @@ function pythonage_command_update_text(args){
 	text_object = pythonage_objects[object_id];
 	text_object.text = text;
 	text_object.visible = visible;
+}
+
+function pythonage_command_set_render_completed_notification(args){
+	
+	if(args[1] == "t")
+	{
+		pythonage_notify_render_completed = true;
+	}
+	else
+	{
+		pythonage_notify_render_completed = false;
+	}
+	
 }
 
