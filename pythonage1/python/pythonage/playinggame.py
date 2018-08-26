@@ -112,11 +112,11 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_pixelmap
 
-    def create_pixelmap_from_string(self, width, height, string_array, visible=True):
+    def create_pixelmap_from_string(self, width, height, oversample, string_array, visible=True):
         new_pixelmap = PPixelMap(self._next_object_id, width, height, visible, self._user)
         data_height = len(string_array)
         data_width = len(string_array[0])
-        new_pixelmap.from_string(data_width, data_height, string_array)
+        new_pixelmap.from_string(data_width, data_height, oversample, string_array)
         self._objects[self._next_object_id] = new_pixelmap
         self._next_object_id += 1
         return new_pixelmap       

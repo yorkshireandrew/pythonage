@@ -370,13 +370,14 @@ function pythonage_command_new_pixelmap_from_string(args){
 	var height = parseInt(args[3]);	
 	var data_width = parseInt(args[4]);
 	var data_height = parseInt(args[5]);
-	var string_data = args[6];
+	var oversample = parseInt(args[6]);
+	var string_data = args[7];
 	
 	var visible = false;
-	if(args[7] == "t") visible = true
+	if(args[8] == "t") visible = true
 	
 	var new_pixelmap = new pythonage_pixelmap(object_id, width, height, visible);
-	new_pixelmap.from_string(data_width, data_height, string_data);
+	new_pixelmap.from_string(data_width, data_height, oversample, string_data);
 	
 	pythonage_objects[object_id] = new_pixelmap;
 }

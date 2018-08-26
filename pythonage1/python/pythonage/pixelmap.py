@@ -15,7 +15,7 @@ class PPixelMap(PSceneGraphNode):
     def from_imagedata(self, image_data):
         self._user.send('npmfid,{0},{1},{2},{3},{4}'.format(self._object_id, image_data.object_id, self._width, self._height, self.command_from_bool(self._visible)))
 
-    def from_string(self, data_width, data_height, string_array):
+    def from_string(self, data_width, data_height, oversample, string_array):
         first_line_length = len(string_array[0])
         big_string = ''
         for line in string_array:
@@ -23,7 +23,7 @@ class PPixelMap(PSceneGraphNode):
                 raise PythonageError('While creating a pixelmap the string array was unequal')
             big_string += line
 
-        self._user.send('npmfs,{0},{1},{2},{3},{4},{5},{6}'.format(self._object_id, self._width, self._height, data_width, data_height, big_string, self.command_from_bool(self._visible)))
+        self._user.send('npmfs,{0},{1},{2},{3},{4},{5},{6},{7}'.format(self._object_id, self._width, self._height, data_width, data_height, oversample, big_string, self.command_from_bool(self._visible)))
 
     def make_blue_transparent(self):
 
