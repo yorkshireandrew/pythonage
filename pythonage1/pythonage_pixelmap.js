@@ -39,7 +39,6 @@ class pythonage_pixelmap{
 			
 			write_index += 4;
 		}
-		this.data.data = pix;
 	}
 	
 	from_string(width, height, scaling, string_data){
