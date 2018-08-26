@@ -21,6 +21,26 @@ class PImage(PSceneGraphNode):
 
         user.send('ni,{0},{1},{2},{3},{4}'.format(object_id, image_data_object.object_id, str(width), str(height), self.command_from_bool(visible)))
 
+    @property
+    def width(self):
+        return self._width
+
+    @width.setter
+    def width(self, new_width):
+        if not new_width == self._width:
+            self._changed = True
+        self._x = new_x
+
+    @property
+    def height(self):
+        return self._height
+
+    @height.setter
+    def height(self, new_height):
+        if not new_height == self._height:
+            self._changed = True
+        self._height = new_height  
+
     def update(self):
         if self._changed:
-            user.send('ui,{0},{1}'.format(self._object_id, self.command_from_bool(self._visible)))
+            user.send('ui,{0},{1},{2},{3}'.format(self._object_id, self._width, self._height, self.command_from_bool(self._visible)))

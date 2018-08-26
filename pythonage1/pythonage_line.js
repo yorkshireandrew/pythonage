@@ -10,15 +10,17 @@ class pythonage_line{
 		this.width = width;
 		this.visible = visible;
 		this.layer = 0;
+		this.scale = 1.0;
 	}
 	
 	render(context){
 		if(this.visible){
+			var sc = this.scale;
 			context.beginPath();
 			context.strokeStyle = this.style;
-			context.lineWidth = this.width;
-			context.moveTo(this.x1, this.y1);
-			context.lineTo(this.x2, this.y2);
+			context.lineWidth = Math.floor(this.width * sc);
+			context.moveTo(this.x1 * sc, this.y1 * sc);
+			context.lineTo(this.x2 * sc, this.y2 * sc);
 			context.stroke();
 		}
 	}

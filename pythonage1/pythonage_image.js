@@ -14,11 +14,14 @@ class pythonage_image{
 		
 		this.parent = null;
 		this.layer = 0;
+		this.scale = 1.0;
+		
 		pythonage_objects[object_id] = this; // Add ourselves
 	}
 	
 	render(context){
-		if(this.visible) context.drawImage(this.img, 0, 0, this.width, this.height);
+		var sc = this.scale;
+		if(this.visible) context.drawImage(this.img, 0, 0, this.width * sc, this.height * sc);
 	}
 	
 	renderlayer(context, layer){

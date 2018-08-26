@@ -1,16 +1,19 @@
 // ================== pixelmap ===========================
 class pythonage_pixelmap{
 	
-	constructor(object_id, x, y, visible){
+	constructor(object_id, width, height, visible){
 		this.object_id = object_id;
-		this.data = null;
+		this.render_width = width;
+		this.render_height = height;
 		this.visible = visible;
-		this.width = 0;
-		this.height = 0;
-		this.x = x;
-		this.y = y;
+		
+		// Additional construction
+		this.width = 0; // data width
+		this.height = 0; // data height
 		this.canvas2 = null;
 		this.layer = 0;
+		this.data = null;
+		this.scale = 1.0;
 	}
 	
 	from_imagedata(imagedata_object_id){
@@ -46,7 +49,7 @@ class pythonage_pixelmap{
 		temp_context.putImageData(this.data,0,0);
 	}
 	
-	from_string(width, height, scaling, string_data){
+	from_string(width, height, string_data){
 		var colour_data = {
 				'w': [255,255,255,255],
 				'r': [200,50,50,255],
@@ -69,30 +72,27 @@ class pythonage_pixelmap{
 		var canvas2 = document.createElement('canvas');
 		var context2 = canvas2.getContext('2d');
 		var data = context2.createImageData(width * scaling, height * scaling);
-		this.width = width * scaling;
-		this.height = height * scaling;
+		this.width = width;
+		this.height = height;
 		var read_index = 0;
 		var write_index = 0;
 		for(var y = 0; y < height; y++){
-			for(var sc = 0; sc < scaling; sc++){
-				read_index = y * width;
-				for(var x = 0; x < width; x++){
-					var to_fill = colour_data[string_data[read_index++]];
-					for(var sc2 = 0; sc2 < scaling; sc2++){
-						data.data[write_index++] = to_fill[0];
-						data.data[write_index++] = to_fill[1];
-						data.data[write_index++] = to_fill[2];
-						data.data[write_index++] = to_fill[3];
-					}
-				}					
-			}		
+			read_index = y * width;
+			for(var x = 0; x < width; x++){
+				var to_fill = colour_data[string_data[read_index++]];
+				data.data[write_index++] = to_fill[0];
+				data.data[write_index++] = to_fill[1];
+				data.data[write_index++] = to_fill[2];
+				data.data[write_index++] = to_fill[3];
+			}							
 		}
 		context2.putImageData(data,0,0);
 		this.canvas2 = canvas2;		
 	}
 	
 	render(context){
-		if(this.visible) context.drawImage(this.canvas2, this.x, this.y);
+		var sc = this.scale;
+		if(this.visible) context.drawImage(this.canvas2, 0, 0, this.render_width * sc, this.render_height * sc);
 	}
 	
 	renderlayer(context, layer){

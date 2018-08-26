@@ -105,18 +105,18 @@ class PPlayingGame:
         self._next_object_id += 1
         return new_sound
 
-    def create_pixelmap_from_imagedata(self, imagedata, x, y, visible=True):
-        new_pixelmap = PPixelMap(self._next_object_id, x, y, visible, self._user)
+    def create_pixelmap_from_imagedata(self, imagedata, width, height, visible=True):
+        new_pixelmap = PPixelMap(self._next_object_id, width, height, visible, self._user)
         new_pixelmap.from_imagedata(imagedata)
         self._objects[self._next_object_id] = new_pixelmap
         self._next_object_id += 1
         return new_pixelmap
 
-    def create_pixelmap_from_string(self, x, y, scaling, string_array, visible=True):
-        new_pixelmap = PPixelMap(self._next_object_id, x, y, visible, self._user)
-        height = len(string_array)
-        width = len(string_array[0])
-        new_pixelmap.from_string(width, height, scaling, string_array)
+    def create_pixelmap_from_string(self, width, height, string_array, visible=True):
+        new_pixelmap = PPixelMap(self._next_object_id, width, height, visible, self._user)
+        data_height = len(string_array)
+        data_width = len(string_array[0])
+        new_pixelmap.from_string(data_width, data_height, string_array)
         self._objects[self._next_object_id] = new_pixelmap
         self._next_object_id += 1
         return new_pixelmap       

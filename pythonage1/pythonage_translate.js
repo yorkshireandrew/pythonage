@@ -6,6 +6,7 @@ class pythonage_translate{
 		this.x = x;
 		this.y = y;
 		this.visible = visible;
+		this.scale = 1.0;
 		
 		// Additional construction
 		this.parent = null;
@@ -16,7 +17,7 @@ class pythonage_translate{
 	render(context){
 		if(this.visible){
 			context.save();
-			context.translate(this.x, this.y);
+			context.translate(this.x * this.scale, this.y * this.scale);
 			for(var child_index in this.children){
 				this.children[child_index].render(context);
 			}
@@ -27,7 +28,7 @@ class pythonage_translate{
 	renderlayer(context, layer){
 		if(this.visible){
 			context.save();
-			context.translate(this.x, this.y);
+			context.translate(this.x * this.scale, this.y * this.scale);
 			for(var child_index in this.children){
 				this.children[child_index].renderlayer(context, layer);
 			}
