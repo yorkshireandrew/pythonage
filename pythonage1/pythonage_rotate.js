@@ -27,6 +27,17 @@ class pythonage_rotate{
 		}
 	}
 	
+	renderlayer(context, layer){
+		if(this.visible){
+			context.save();
+			context.rotate(this.rotation);
+			for(var child_index in this.children){
+				this.children[child_index].renderlayer(context, layer);
+			}
+			context.restore();
+		}
+	}
+	
 	set_degrees(rotation_in_deg){
 		this.rotation = pythonage_deg_to_radians * rotation_in_deg;
 	}

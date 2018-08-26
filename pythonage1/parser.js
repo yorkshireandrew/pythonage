@@ -176,7 +176,21 @@ function pythonage_consume(commandstring){
 			pythonage_command_set_render_completed_notification(args);
 			break;
 			
-					
+		case "sl":
+			pythonage_command_set_layer(args);
+			break;
+			
+		case "rl":
+			var target = pythonage_objects[args[1]];
+			target.renderlayer(canvas_context,'0');
+			target.renderlayer(canvas_context,'1');
+			target.renderlayer(canvas_context,'2');
+			target.renderlayer(canvas_context,'3');
+			target.renderlayer(canvas_context,'4');
+			if(pythonage_notify_render_completed) 	web_socket.send('rc');	
+			break;
+			
+			
 	} // end of switch - do not forget to break
 }
 
@@ -466,5 +480,11 @@ function pythonage_command_set_render_completed_notification(args){
 		pythonage_notify_render_completed = false;
 	}
 	
+}
+
+function pythonage_command_set_layer(args){
+	var object_id = args[1];
+	var layer = args[2];
+	pythonage_objects[object_id].layer = layer;
 }
 

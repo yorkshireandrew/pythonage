@@ -13,6 +13,7 @@ class PSceneGraphNode:
         self.parent = None
         self.name = None
         self._changed = False
+        self._layer = 0
 
     def __iter__(self):
         return iter(self._children)
@@ -52,6 +53,10 @@ class PSceneGraphNode:
         self._user.rendering = True
         self._user.send('r,{0}'.format(self._object_id))
 
+    def render_layers(self):
+        self._user.rendering = True
+        self._user.send('rl,{0}'.format(self._object_id))
+
     def update(self):
         for child in self._children:
             child.update()
@@ -74,4 +79,13 @@ class PSceneGraphNode:
         if input_bool:
             return 't'
         else:
-            return 'f' 
+            return 'f'
+
+    @property
+    def layer(self):
+        return self._layer
+
+    @layer.setter
+    def layer(self, new_value):
+        self._user.send('sl,{0}'.format(self._object_id))
+        

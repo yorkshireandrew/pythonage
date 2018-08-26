@@ -13,10 +13,15 @@ class pythonage_image{
 		this.img = pythonage_objects[imagedata_object_id].img;
 		
 		this.parent = null;
+		this.layer = 0;
 		pythonage_objects[object_id] = this; // Add ourselves
 	}
 	
 	render(context){
 		if(this.visible) context.drawImage(this.img, 0, 0, this.width, this.height);
+	}
+	
+	renderlayer(context, layer){
+		if(this.layer == layer) this.render(context);
 	}
 }

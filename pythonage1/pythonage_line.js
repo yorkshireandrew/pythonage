@@ -9,6 +9,7 @@ class pythonage_line{
 		this.style = style;
 		this.width = width;
 		this.visible = visible;
+		this.layer = 0;
 	}
 	
 	render(context){
@@ -20,5 +21,9 @@ class pythonage_line{
 			context.lineTo(this.x2, this.y2);
 			context.stroke();
 		}
-	}	
+	}
+	
+	renderlayer(context, layer){
+		if(this.layer == layer) this.render(context);
+	}
 }

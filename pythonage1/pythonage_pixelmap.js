@@ -10,6 +10,7 @@ class pythonage_pixelmap{
 		this.x = x;
 		this.y = y;
 		this.canvas2 = null;
+		this.layer = 0;
 	}
 	
 	from_imagedata(imagedata_object_id){
@@ -92,6 +93,10 @@ class pythonage_pixelmap{
 	
 	render(context){
 		if(this.visible) context.drawImage(this.canvas2, this.x, this.y);
+	}
+	
+	renderlayer(context, layer){
+		if(this.layer == layer) this.render(context);
 	}
 	
 }

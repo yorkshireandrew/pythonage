@@ -24,6 +24,17 @@ class pythonage_translate{
 		}
 	}
 	
+	renderlayer(context, layer){
+		if(this.visible){
+			context.save();
+			context.rotate(this.rotation);
+			for(var child_index in this.children){
+				this.children[child_index].renderlayer(context, layer);
+			}
+			context.restore();
+		}
+	}
+	
 	append(object_id){
 		if(typeof(pythonage_objects[object_id]) == 'undefined') pythonage_error("Calling append on translate node " + this.name + " the object to append " + object_id + " did not exist");
 		var node = pythonage_objects[object_id];

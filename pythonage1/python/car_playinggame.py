@@ -27,20 +27,16 @@ class Car_PlayingGame(PPlayingGame):
             translate = self.create_translate(0,0)
             translate.append(car_image)
             translate2 = self.create_translate(0,0)
-            translate2.append(translate)
             self.translate = translate
             self.translate2 = translate2
-            self.translate2.render()
-            #print('rendering:' + self.rendering)
-            #print('rendering:' + self.rendering)
-            #print('rendering:' + self.rendering)
             
             self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 50,50)
             self.car_pixelmap.make_blue_transparent()
-            #print('rendering2:' + self.rendering)
-            #print('rendering2:' + self.rendering)
-            #print('rendering2:' + self.rendering)
-            self.car_pixelmap.render()
+            self.car_pixelmap.layer = 1           
+            self.translate2.append(self.car_pixelmap)
+            self.translate2.append(translate) # translate now after car_pixelmap
+
+            self.translate2.render()
 
             dood = [
                 '   BBBB   ',

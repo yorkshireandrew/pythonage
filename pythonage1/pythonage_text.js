@@ -8,6 +8,7 @@ class pythonage_text{
 		this.style = style;
 		this.text = text;
 		this.visible = visible;
+		this.layer = 0;
 	}
 	
 	render(context){
