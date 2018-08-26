@@ -17,7 +17,11 @@ class PUser:
         self._send_immediately_messages = deque()
         self.store_messages = False
         self._playing_game = None
-        self._keypresses = {} 
+        self._keypresses = {}
+        self._new_click = False
+        self._new_click_x = 0
+        self._new_click_y = 0
+        
         print('Created User {0}'.format(user_id))
 
     def set_playing_game(self, playing_game):
@@ -85,6 +89,11 @@ class PUser:
                 object_id = fragments[1]
                 self._playing_game.handle_imagedata_loaded(int(object_id))
 
+            elif command == 'cl':
+                self._new_click = True
+                self._new_click_x = int(fragments[1])
+                self._new_click_y = int(fragments[2])
+
             message = await self._websocket.recv()
             print('User {0} recieved: {1}'.format(self.user_id, message))
 
@@ -112,9 +121,16 @@ class PUser:
 
     def is_pressed(self, key):
         return self._keypresses.setdefault(key, False)
-        
-        
-        
-        
 
-    
+    @property
+    def clicked(self):
+        return self._new_click
+        self._new_click = False 
+
+    @property
+    def click_x(self):
+        return self._new_click_x
+
+    @property
+    def click_y(self):
+        return self._new_click_y

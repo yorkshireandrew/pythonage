@@ -53,8 +53,8 @@ class Car_PlayingGame(PPlayingGame):
 
             #self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
             #self.dood_pixelmap.render()
-            #self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
-            #self.line.render()
+            self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
+            self.line.render()
 
             self.text = self.create_text(50,50,'Yippee',style='r')
             self.text.render()
@@ -72,6 +72,14 @@ class Car_PlayingGame(PPlayingGame):
                 self.translate.x -= 20
             self.translate.update()
             #self.translate2.render()
+
+            if self.clicked:
+                self.line.x2 = self.click_x
+                self.line.y2 = self.click_y
+                self.line.update()
+                self.line.render()
+                
+                
         
         
 

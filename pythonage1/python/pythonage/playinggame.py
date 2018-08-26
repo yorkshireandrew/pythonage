@@ -161,5 +161,17 @@ class PPlayingGame:
         
         return self._user.is_pressed(key)
 
+    @property
+    def clicked(self):
+        return self._user.clicked
+
+    @property
+    def click_x(self):
+        return self._user.click_x
+
+    @property
+    def click_y(self):
+        return self._user.click_y
+
         
         
