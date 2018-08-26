@@ -11,20 +11,31 @@ var web_socket = null;
 function id(theid){
 	return document.getElementById(theid);
 }
+pythonage_log_length = 0;
 
 // add to on screen log
 function log(text){
+	var lognode = id("log");
+	lognode.style.display = 'block';
+	
+	var loglist = id("log_list");
 	var div = document.createElement("div");
 	div.innerHTML = text;
-	id("log").appendChild(div);
+	loglist.appendChild(div);
+	
+	if(pythonage_log_length > 100) loglist.removeChild(loglist.firstChild);
+	pythonage_log_length++;
 }
 
 // clear on screen log
 function clearlog(){
-	var s = id("log");
+	var s = id("log_list");
 	while (s.firstChild) {
 	    s.removeChild(s.firstChild);
 	}
+	pythonage_log_length = 0;
+	var lognode = id("log");
+	lognode.style.display = 'none';
 }
 
 // error function - so you can hook in more error handling

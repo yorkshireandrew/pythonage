@@ -187,6 +187,9 @@ class PPlayingGame:
     @property
     def rendering(self):
         return self._user.rendering
+
+    def log_on_client(self, message):
+        self._user.log_on_client(message)
     
 
         

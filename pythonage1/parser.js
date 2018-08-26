@@ -190,6 +190,8 @@ function pythonage_consume(commandstring){
 			if(pythonage_notify_render_completed) 	web_socket.send('rc');	
 			break;
 			
+		case "log":
+			pythonage_command_log(args);			
 			
 	} // end of switch - do not forget to break
 }
@@ -486,5 +488,10 @@ function pythonage_command_set_layer(args){
 	var object_id = args[1];
 	var layer = parseInt(args[2]);
 	pythonage_objects[object_id].layer = layer;
+}
+
+function pythonage_command_log(args){
+	to_log = args[1].split("{{comma}}").join(",");
+	log(to_log);
 }
 

@@ -75,12 +75,8 @@ class Car_PlayingGame(PPlayingGame):
                 self.translate.x -= 20
             self.translate.update()
             self.translate2.update()
-            print('prior to rendering:' + str(self.rendering))
-            print('sent render' + str(self.rendering))
             self.translate2.render_layers()
-            print('rendering:' + str(self.rendering))
-            print('rendering:' + str(self.rendering))
-            print('rendering:' + str(self.rendering))
+            self.log_on_client('<foo,bar>')
 
             if self.clicked:
                 self.reset_clicked()
