@@ -14,6 +14,7 @@ class PSceneGraphNode:
         self.name = None
         self._changed = False
         self._layer = 0
+        self._scale = 1.0
 
     def __iter__(self):
         return iter(self._children)
@@ -88,4 +89,12 @@ class PSceneGraphNode:
     @layer.setter
     def layer(self, new_value):
         self._user.send('sl,{0},{1}'.format(self._object_id, new_value))
+
+    @property
+    def scale(self):
+        return self._scale
+
+    @scale.setter
+    def scale(self, new_value):
+        self._user.send('usc,{0},{1}'.format(self._object_id, new_value))
         

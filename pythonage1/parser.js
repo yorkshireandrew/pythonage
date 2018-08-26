@@ -191,7 +191,10 @@ function pythonage_consume(commandstring){
 			break;
 			
 		case "log":
-			pythonage_command_log(args);			
+			pythonage_command_log(args);
+			
+		case "usc":
+			pythonage_command_update_scale(args);
 			
 	} // end of switch - do not forget to break
 }
@@ -493,5 +496,11 @@ function pythonage_command_set_layer(args){
 function pythonage_command_log(args){
 	to_log = args[1].split("{{comma}}").join(",");
 	log(to_log);
+}
+
+function pythonage_command_update_scale(args){
+	var object_id = args[1];
+	var scale = parseFloat(args[2]);
+	pythonage_objects[object_id].scale = scale;
 }
 

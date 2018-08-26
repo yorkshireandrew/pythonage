@@ -23,7 +23,8 @@ class Car_PlayingGame(PPlayingGame):
             self.render_complete_notification = True
             self.car_loaded = True
             print('album loaded')
-            car_image = self.create_image(self.car_imagedata, 100, 200)
+            car_image = self.create_image(self.car_imagedata, 100, 100)
+            car_image.scale = 0.25
             translate = self.create_translate(0,0)
             translate.append(car_image)
             translate2 = self.create_translate(0,0)
@@ -57,8 +58,9 @@ class Car_PlayingGame(PPlayingGame):
 
             self.dood_pixelmap = self.create_pixelmap_from_string(50, 80, 10, dood)
             self.dood_pixelmap.render()
-            self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
-            #self.line.render()
+            self.line = self.create_line(0, 10, 10, 10,'r', 2, True)
+            self.line.scale = 10
+            self.line.render()
 
             self.text = self.create_text(50,50,'Yippee',style='r')
             self.text.render()
