@@ -17,5 +17,9 @@ class pythonage_text{
 			context.fillStyle = this.style;
 			context.fillText(this.text, this.x, this.y);
 		}
-	}	
+	}
+	
+	renderlayer(context, layer){
+		if(this.layer == layer) this.render(context);
+	}
 }

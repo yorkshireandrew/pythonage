@@ -87,5 +87,5 @@ class PSceneGraphNode:
 
     @layer.setter
     def layer(self, new_value):
-        self._user.send('sl,{0}'.format(self._object_id))
+        self._user.send('sl,{0},{1}'.format(self._object_id, new_value))
         

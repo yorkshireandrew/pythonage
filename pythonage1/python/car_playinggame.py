@@ -36,7 +36,7 @@ class Car_PlayingGame(PPlayingGame):
             self.translate2.append(self.car_pixelmap)
             self.translate2.append(translate) # translate now after car_pixelmap
 
-            self.translate2.render()
+            self.translate2.render_layers()
 
             dood = [
                 '   BBBB   ',
@@ -74,9 +74,10 @@ class Car_PlayingGame(PPlayingGame):
             if self.key_pressed('a'):
                 self.translate.x -= 20
             self.translate.update()
+            self.translate2.update()
             print('prior to rendering:' + str(self.rendering))
             print('sent render' + str(self.rendering))
-            self.translate2.render()
+            self.translate2.render_layers()
             print('rendering:' + str(self.rendering))
             print('rendering:' + str(self.rendering))
             print('rendering:' + str(self.rendering))

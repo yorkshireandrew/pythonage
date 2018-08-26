@@ -27,7 +27,7 @@ class pythonage_translate{
 	renderlayer(context, layer){
 		if(this.visible){
 			context.save();
-			context.rotate(this.rotation);
+			context.translate(this.x, this.y);
 			for(var child_index in this.children){
 				this.children[child_index].renderlayer(context, layer);
 			}
