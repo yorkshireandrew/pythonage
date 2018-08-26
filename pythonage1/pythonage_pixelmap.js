@@ -9,6 +9,7 @@ class pythonage_pixelmap{
 		this.height = 0;
 		this.x = x;
 		this.y = y;
+		this.canvas2 = null;
 	}
 	
 	from_imagedata(imagedata_object_id){
@@ -19,6 +20,7 @@ class pythonage_pixelmap{
 		this.data = temp_context.getImageData(0, 0, img.width, img.height);
 		this.width = img.width;
 		this.height = img.height;
+		this.canvas2 = temp_canvas;
 	}
 	
 	make_blue_transparent(){
@@ -39,6 +41,8 @@ class pythonage_pixelmap{
 			
 			write_index += 4;
 		}
+		var temp_context = this.canvas2.getContext('2d');
+		temp_context.putImageData(this.data,0,0);
 	}
 	
 	from_string(width, height, scaling, string_data){
@@ -61,9 +65,9 @@ class pythonage_pixelmap{
 				' ': [0,0,0,0]
 		}
 		
-		var canvas = document.createElement('canvas');
-		var context = canvas.getContext('2d');
-		var data = context.createImageData(width * scaling, height * scaling);
+		var canvas2 = document.createElement('canvas');
+		var context2 = canvas2.getContext('2d');
+		var data = context2.createImageData(width * scaling, height * scaling);
 		this.width = width * scaling;
 		this.height = height * scaling;
 		var read_index = 0;
@@ -82,11 +86,12 @@ class pythonage_pixelmap{
 				}					
 			}		
 		}
-		this.data = data
+		context2.putImageData(data,0,0);
+		this.canvas2 = canvas2;		
 	}
 	
 	render(context){
-		if(this.visible) context.putImageData(this.data, this.x, this.y);
+		if(this.visible) context.drawImage(this.canvas2, this.x, this.y);
 	}
 	
 }
