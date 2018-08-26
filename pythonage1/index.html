@@ -18,22 +18,23 @@
 <script src="parser.js" defer></script>
 <script src="keyboardlistener.js" defer></script>
 <script src="websocket.js" defer></script>
+<script src="resizehandler.js" defer></script>
 <script src="pythonage1.js" defer></script>
 
 <!-- What to ask the pythonage server for -->
 <script>
 	pythonage_game_name = "cargame";
 </script>
-
+<link rel="stylesheet" href="pythonage.css" type="text/css">
 </head>
 
 <body>
-    <div style="border: 5px solid red;">
-    	<canvas id="my_canvas" width="750px" height="451px" >Your browser does not support the HTML5 canvas tag.</canvas>
+    <div>
+    	<canvas id="my_canvas" width="1000px" height="500px" >Your browser does not support the HTML5 canvas tag.</canvas>
     </div>
+	
     <br />
-	<div id="log"></div>
-	<button onclick="clearlog()">CLEAR LOG</button>
+	<div id="log"><button onclick="clearlog()">CLEAR LOG</button></div>
     
 </body>
 </html>

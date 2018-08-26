@@ -56,6 +56,7 @@ function load(){
 	//pythonage_consume_nugget("(set-imgd-src,cardata,img/car_side1_4.bmp)");
 	
 	//setInterval(tick, 50);
+	resized();
 }
 
 

@@ -29,11 +29,11 @@ class Car_PlayingGame(PPlayingGame):
             translate2.append(translate)
             self.translate = translate
             self.translate2 = translate2
-            #self.translate2.render()
+            self.translate2.render()
             
-            #self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 50,50)
-            #self.car_pixelmap.make_blue_transparent()
-            #self.car_pixelmap.render()
+            self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 50,50)
+            self.car_pixelmap.make_blue_transparent()
+            self.car_pixelmap.render()
 
             dood = [
                 '   BBBB   ',
@@ -51,10 +51,10 @@ class Car_PlayingGame(PPlayingGame):
                 '   Y  Y   '              
                 ]
 
-            self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
-            self.dood_pixelmap.render()
-            self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
-            self.line.render()
+            #self.dood_pixelmap = self.create_pixelmap_from_string(50, 50, 10, dood)
+            #self.dood_pixelmap.render()
+            #self.line = self.create_line(0, 0, 100, 100,'r', 2, True)
+            #self.line.render()
 
             self.text = self.create_text(50,50,'Yippee',style='r')
             self.text.render()
