@@ -82,7 +82,7 @@ class PPlayingGame:
 
     def create_rotate(self, angle, visible=True):
         
-        new_rotate = PRotate(self._next_object_id, x, y, visible, self._user)
+        new_rotate = PRotate(self._next_object_id, angle, visible, self._user)
         self._objects[self._next_object_id] = new_rotate
         self._next_object_id += 1
         return new_rotate

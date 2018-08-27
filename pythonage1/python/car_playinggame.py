@@ -34,8 +34,9 @@ class Car_PlayingGame(PPlayingGame):
             self.car_pixelmap = self.create_pixelmap_from_imagedata(self.car_imagedata, 100,100)
             self.car_pixelmap.make_blue_transparent()
             self.car_pixelmap.layer = 1
-            
-            self.translate2.append(self.car_pixelmap)
+            self.rotty = self.create_rotate(10)
+            self.rotty.append(self.car_pixelmap)
+            self.translate2.append(self.rotty)
             self.translate2.append(translate) # translate now after car_pixelmap
 
             self.translate2.render_layers()
