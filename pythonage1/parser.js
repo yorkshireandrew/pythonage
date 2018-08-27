@@ -207,9 +207,13 @@ function pythonage_consume(commandstring){
 			break;
 			
 		case "ra":
-			pythonage_objects = {} // removes all objects
+			pythonage_objects = {}; // removes all objects
 			break;
-					
+			
+		case "rem":
+			var object_id = args[1];
+			delete pythonage_objects[object_id];
+			
 	} // end of switch - do not forget to break
 }
 

@@ -72,6 +72,7 @@ class Car_PlayingGame(PPlayingGame):
 
             self.translate3 = self.create_translate(0,0)
             self.circle = self.create_circle(10, 'O')
+            self.circle.remove_from_browser() # should stop circle rendering even though it exists at the python end
             self.translate3.append(self.circle)
             
 
@@ -96,7 +97,6 @@ class Car_PlayingGame(PPlayingGame):
                 self.line.y2 = self.click_y
                 self.line.update()
                 self.line.render()
-                self.remove_all_from_browser() # should stop everything on browser
 
                 self.translate3.x = self.click_x
                 self.translate3.y = self.click_y

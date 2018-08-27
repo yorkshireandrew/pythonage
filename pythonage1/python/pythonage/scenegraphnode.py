@@ -100,4 +100,7 @@ class PSceneGraphNode:
     @scale.setter
     def scale(self, new_value):
         self._user.send('usc,{0},{1}'.format(self._object_id, new_value))
+
+    def remove_from_browser(self):
+        self._user.send('rem,{0}'.format(self._object_id))
         

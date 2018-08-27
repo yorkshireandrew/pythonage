@@ -32,3 +32,7 @@ class PSound:
     def play(self):
         if self._loaded:
             self._user.send('ps,{0}'.format(self._object_id))
+
+    def remove_from_browser(self):
+        self._user.send('rem,{0}'.format(self._object_id))
+        

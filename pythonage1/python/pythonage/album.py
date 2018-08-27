@@ -34,3 +34,6 @@ class PAlbum:
     def append(self, image_data):
         # print('registering imagedata {0} {1} in album'.format(image_data.object_id, type(image_data.object_id)))
         self._imagedata[image_data.object_id] = image_data
+
+    def remove_from_browser(self):
+        pass # albums do not exist on the browser

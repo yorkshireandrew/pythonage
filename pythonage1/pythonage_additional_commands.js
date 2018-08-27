@@ -40,11 +40,6 @@ function pythonage_query_keys(args){
 	web_socket.send(query_keys_response);		
 }
 
-function pythonage_command_reset(args){
-	
-	var pythonage_objects = {}
-}
-
 function pythonage_command_set_render_completed_notification(args){
 	
 	if(args[1] == "t")

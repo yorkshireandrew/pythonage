@@ -43,3 +43,6 @@ class PImageData:
     def handle_imagedata_loaded(self):
         self._loaded = True;
         print('{0} image loaded'.format(self._object_id))
+
+    def remove_from_browser(self):
+        self._user.send('rem,{0}'.format(self._object_id))
