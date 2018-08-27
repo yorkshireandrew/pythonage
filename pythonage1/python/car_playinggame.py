@@ -81,7 +81,7 @@ class Car_PlayingGame(PPlayingGame):
 
         if self.car_loaded:
             self.translate.x += 10
-            if self.key_pressed('a'):
+            if self.this_key_is_pressed('a'):
                 self.translate.x -= 20
             print('First translate update')
             self.translate.update()
@@ -96,6 +96,7 @@ class Car_PlayingGame(PPlayingGame):
                 self.line.y2 = self.click_y
                 self.line.update()
                 self.line.render()
+                self.remove_all_from_browser() # should stop everything on browser
 
                 self.translate3.x = self.click_x
                 self.translate3.y = self.click_y

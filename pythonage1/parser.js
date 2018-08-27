@@ -205,6 +205,10 @@ function pythonage_consume(commandstring){
 		case "uc":
 			pythonage_command_update_circle(args);
 			break;
+			
+		case "ra":
+			pythonage_objects = {} // removes all objects
+			break;
 					
 	} // end of switch - do not forget to break
 }

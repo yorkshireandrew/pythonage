@@ -31,7 +31,6 @@ class PPlayingGame:
         # Additional construction
         self._objects = {}
         self._next_object_id = 0
-        print('Created PlayingGame')
 
     @property
     def gamename(self):
@@ -158,6 +157,10 @@ class PPlayingGame:
         
         self._user.remove_all_timers_from_server()
 
+    def remove_all_from_browser(self):
+
+        self._user.remove_all_from_browser()
+
     def handle_imagedata_loaded(self, object_id):
         
         self._objects[object_id].handle_imagedata_loaded()
@@ -166,7 +169,7 @@ class PPlayingGame:
         
         self._user.update_keys(key_list)
 
-    def key_pressed(self, key):
+    def this_key_is_pressed(self, key):
         
         return self._user.is_pressed(key)
 
