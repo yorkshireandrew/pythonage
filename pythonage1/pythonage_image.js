@@ -28,3 +28,29 @@ class pythonage_image{
 		if(this.layer == layer) this.render(context);
 	}
 }
+
+function pythonage_command_new_image(args){
+	
+	var object_id = args[1];
+	var image_data_object_id = args[2]; 
+	var width = parseInt(args[3]);
+	var height = parseInt(args[4]);
+	
+	var visible = false;
+	if(args[5] == "t") visible = true;
+	
+	new pythonage_image(object_id, image_data_object_id, width, height, visible);
+}
+
+function pythonage_command_update_image(args){
+	
+	var object_id = args[1];
+	
+	var visible = false;
+	if(args[4] == "t") visible = true;
+	
+	image = pythonage_objects[object_id];
+	image.width = parseInt(args[2]);
+	image.height = parseInt(args[3]);
+	image.visible = visible
+}

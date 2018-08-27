@@ -56,3 +56,31 @@ class pythonage_translate{
 		}		
 	}
 }
+
+function pythonage_command_new_translate(args){
+	
+	var object_id = args[1];
+	var x = parseInt(args[2]);
+	var y = parseInt(args[3]);
+	
+	var visible = false;
+	if(args[4] == "t") visible = true;
+	
+	new pythonage_translate(object_id, x, y, visible);
+	log("new translate");
+}
+
+function pythonage_command_update_translate(args){
+	
+	var object_id = parseInt(args[1]);
+	var new_x = parseInt(args[2]);
+	var new_y = parseInt(args[3]);
+	
+	var visible = false;
+	if(args[4] == "t") visible = true;
+	
+	translate = pythonage_objects[object_id];
+	translate.x = new_x
+	translate.y = new_y
+	translate.visible = visible
+}

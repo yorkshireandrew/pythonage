@@ -66,3 +66,27 @@ class pythonage_rotate{
 		}		
 	}
 }
+
+function pythonage_command_new_rotate(args){
+	
+	var object_id = args[1];
+	var deg = parseFloat(args[2]);
+	
+	var visible = false;
+	if(args[3] == "t") visible = true;
+	
+	new pythonage_rotate(object_id, deg, visible);	
+}
+
+function pythonage_command_update_rotate(args){
+	
+	var object_id = args[1];
+	var new_angle = parseFloat(args[2]);
+	
+	var visible = false;
+	if(args[3] == "t") visible = true;
+	
+	rotate = pythonage_objects[object_id];
+	rotate.rotation = pythonage_deg_to_radians * new_angle
+	rotate.visible = visible
+}

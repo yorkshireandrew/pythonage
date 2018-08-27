@@ -34,3 +34,17 @@ class pythonage_imagedata{
 		this.img = image;		
 	}
 }
+
+function pythonage_command_set_image_data_source(args){
+	
+	var object_id = args[1];
+	var src = args[2];
+	
+	if(typeof(pythonage_objects[object_id]) == 'undefined'){
+		pythonage_error("Executing set-imagedata-source the the imagedata " + object_id + " did not exist");
+		return;
+	}
+	
+	var imagedata = pythonage_objects[object_id];
+	imagedata.set_source(src);
+}

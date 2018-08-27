@@ -31,3 +31,17 @@ class pythonage_sound{
 		if(this.loaded) this.audio.play();
 	}
 }
+
+function pythonage_command_new_sound(args){
+	
+	var object_id = args[1];
+	var src = args[2];
+	
+	new pythonage_sound(object_id, web_socket, src);
+}
+
+function pythonage_command_play_sound(args){
+	
+	var object_id = args[1];
+	pythonage_objects[object_id].play();
+}
