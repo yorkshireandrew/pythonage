@@ -12,6 +12,7 @@ from .sound import PSound
 from .pixelmap import PPixelMap
 from .line import PLine
 from .text import PText
+from .circle import PCircle
 from .javascriptstyle import JavascriptStyle
 
 # Superclass encapsulating a particular users version of a game.
@@ -136,6 +137,14 @@ class PPlayingGame:
         self._objects[self._next_object_id] = new_text
         self._next_object_id += 1
         return new_text
+
+    def create_circle(self, radius, style='black', visible=True):
+        js_style = JavascriptStyle.compute_style(style)
+        
+        new_circle = PCircle(self._next_object_id, radius, js_style, visible, self._user)
+        self._objects[self._next_object_id] = new_circle
+        self._next_object_id += 1
+        return new_circle
 
     def remove_timer_from_server(self, timer):
         

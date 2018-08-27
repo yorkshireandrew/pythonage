@@ -192,10 +192,20 @@ function pythonage_consume(commandstring){
 			
 		case "log":
 			pythonage_command_log(args);
+			break;
 			
 		case "usc":
 			pythonage_command_update_scale(args);
+			break;
 			
+		case "nc":
+			pythonage_command_new_circle(args);
+			break;
+			
+		case "uc":
+			pythonage_command_update_circle(args);
+			break;
+					
 	} // end of switch - do not forget to break
 }
 

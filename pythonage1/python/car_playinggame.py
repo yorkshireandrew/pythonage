@@ -60,7 +60,7 @@ class Car_PlayingGame(PPlayingGame):
             self.dood_pixelmap = self.create_pixelmap_from_string(50, 80, 10, dood)
             self.dood_pixelmap.render()
             self.line = self.create_line(0, 10, 10, 10,'r', 2, True)
-            self.line.scale = 10
+            self.line.scale = 1
             self.line.render()
 
             self.text = self.create_text(50,50,'Yippee',style='r')
@@ -69,6 +69,11 @@ class Car_PlayingGame(PPlayingGame):
             self.text.update()
             self.text.render()
             self.store_messages = False
+
+            self.translate3 = self.create_translate(0,0)
+            self.circle = self.create_circle(10, 'O')
+            self.translate3.append(self.circle)
+            
 
         if self.car_album.loaded:
             pass
@@ -91,7 +96,12 @@ class Car_PlayingGame(PPlayingGame):
                 self.line.y2 = self.click_y
                 self.line.update()
                 self.line.render()
-                
+
+                self.translate3.x = self.click_x
+                self.translate3.y = self.click_y
+                self.translate3.update()
+                self.translate3.render()
+                self.circle.radius += 10
                 
         
         
