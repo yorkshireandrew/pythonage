@@ -56,6 +56,7 @@ class Car_PlayingGame(PPlayingGame):
                 '   Y  Y   '              
                 ]
 
+            self.store_messages = True
             self.dood_pixelmap = self.create_pixelmap_from_string(50, 80, 10, dood)
             self.dood_pixelmap.render()
             self.line = self.create_line(0, 10, 10, 10,'r', 2, True)
@@ -67,6 +68,7 @@ class Car_PlayingGame(PPlayingGame):
             self.text.text = 'FOOOBARRR'
             self.text.update()
             self.text.render()
+            self.store_messages = False
 
         if self.car_album.loaded:
             pass
@@ -76,7 +78,9 @@ class Car_PlayingGame(PPlayingGame):
             self.translate.x += 10
             if self.key_pressed('a'):
                 self.translate.x -= 20
+            print('First translate update')
             self.translate.update()
+            print('Second translate update')
             self.translate2.update()
             self.translate2.render_layers()
             self.log_on_client('<foo,bar>')

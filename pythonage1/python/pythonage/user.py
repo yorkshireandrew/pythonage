@@ -148,7 +148,6 @@ class PUser:
 
     @render_complete_notification.setter
     def render_complete_notification(self, new_value):
-        print('GOT HERE')
         if new_value:
             self._render_complete_notification = True
             self.send_immediately('srcn,t')
@@ -161,6 +160,7 @@ class PUser:
         to_send = to_send.replace('<','&lt;')
         to_send = to_send.replace('>','&gt;')
         self.send_immediately('log,{0}'.format(to_send))
+
         
 
         

@@ -59,8 +59,11 @@ class PSceneGraphNode:
         self._user.send('rl,{0}'.format(self._object_id))
 
     def update(self):
+        print('update called on {0}'.format(self.object_id))
         for child in self._children:
             child.update()
+        self._changed = False
+        print('set changed false on {0}'.format(self.object_id))
 
     @property
     def object_id(self):

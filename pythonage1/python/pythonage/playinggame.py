@@ -190,6 +190,15 @@ class PPlayingGame:
 
     def log_on_client(self, message):
         self._user.log_on_client(message)
+
+    @property
+    def store_messages(self):
+        return self._user.store_messages
+
+    @store_messages.setter
+    def store_messages(self, new_value):
+        self._user.store_messages = new_value
+    
     
 
         
