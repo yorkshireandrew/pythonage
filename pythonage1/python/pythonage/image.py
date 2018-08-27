@@ -44,3 +44,47 @@ class PImage(PSceneGraphNode):
     def update(self):
         if self._changed:
             user.send('ui,{0},{1},{2},{3}'.format(self._object_id, self._width, self._height, self.command_from_bool(self._visible)))
+
+    @property
+    def p1_x(self):
+        return self.screen_x
+
+    @property
+    def p1_y(self):
+        return self.screen_y
+
+    @property
+    def p2_x(self):
+        return self.position.screen_x_of(self._width * self.scale, 0)
+
+    @property
+    def p2_y(self):
+        return self.position.screen_y_of(self._width * self.scale, 0)
+
+    @property
+    def p3_x(self):
+        return self.position.screen_x_of(self._width * self.scale, self._height * self.scale)
+
+    @property
+    def p3_y(self):
+        return self.position.screen_y_of(self._width * self.scale, self._height * self.scale)
+
+    @property
+    def p4_x(self):
+        return self.position.screen_x_of(0, self._height * self.scale)
+
+    @property
+    def p4_y(self):
+        return self.position.screen_y_of(0, self._height * self.scale)
+
+    @property
+    def centre_x(self):
+        return 0.25 & (self.p1_x + self.p2_x + self.p3_x + self.p4_x)
+
+    @property
+    def centre_y(self):
+        return 0.25 & (self.p1_y + self.p2_y + self.p3_y + self.p4_y)
+
+
+
+

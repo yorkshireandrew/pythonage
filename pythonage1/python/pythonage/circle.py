@@ -10,9 +10,7 @@ class PCircle(PSceneGraphNode):
 
         self._radius = radius
         self._style = style
-        #print('CIRCLE:' + str(radius))
         user.send('nc,{0},{1},{2},{3}'.format(object_id, radius, style, self.command_from_bool(visible)))
-        #print('SENT CIRCLE:' + str(radius))
 
     @property
     def radius(self):
@@ -38,5 +36,13 @@ class PCircle(PSceneGraphNode):
     def update(self):
         if self._changed:
             self._user.send('uc,{0},{1},{2},{3}'.format(self._object_id, self._radius, self._style, self.command_from_bool(self._visible)))
-        #print('SENT CIRCLE CHANGED:' + str(radius))
+
         super().update()
+
+    @property
+    def centre_x(self):
+        return self.screen_x
+
+    @property
+    def centre_y(self):
+        return self.screen_y

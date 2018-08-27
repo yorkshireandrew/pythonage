@@ -87,3 +87,27 @@ class PLine(PSceneGraphNode):
             self._user.send('ul,{0},{1},{2},{3},{4},{5},{6},{7}'.format(self._object_id, self._x1, self._y1, self._x2, self._y2, self._style, self._width, self.command_from_bool(self._visible)))
 
         super().update()
+
+    @property
+    def p1_x(self):
+        return self.position.screen_x_of(self._x1 * self.scale, self._y1 * self.scale) 
+
+    @property
+    def p1_y(self):
+        return self.position.screen_y_of(self._x1 * self.scale, self._y1 * self.scale)
+
+    @property
+    def p2_x(self):
+        return self.position.screen_x_of(self._x2 * self.scale, self._y2 * self.scale) 
+
+    @property
+    def p2_y(self):
+        return self.position.screen_y_of(self._x2 * self.scale, self._y2 * self.scale) 
+
+    @property
+    def centre_x(self):
+        return 0.5 & (self.p1_x + self.p2_x)
+
+    @property
+    def centre_y(self):
+        return 0.5 & (self.p1_y + self.p2_y)

@@ -210,6 +210,9 @@ class PPlayingGame:
     @store_messages.setter
     def store_messages(self, new_value):
         self._user.store_messages = new_value
+
+    def unity_matrix(self):
+        return ((1.0, 0.0, 0.0),(0.0, 1.0, 0.0)) # Returns a tuple representing a unity matrix
     
     
 

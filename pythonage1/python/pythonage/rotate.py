@@ -27,3 +27,9 @@ class PRotate(PSceneGraphNode):
             self._user.send('ur,{0},{1},{2}'.format(self._object_id, self._angle, self.command_from_bool(self._visible)))
 
         super().update()
+
+    def calculate_position(self, matrix):
+        self.position = matrix
+        rotated = matrix.rotated(self._angle)
+        for child in self._children:
+            child.calculate_position(rotated)

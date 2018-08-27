@@ -38,3 +38,10 @@ class PTranslate(PSceneGraphNode):
             self._user.send('ut,{0},{1},{2},{3}'.format(self._object_id, self._x, self._y, self.command_from_bool(self._visible)))
 
         super().update()
+
+    def calculate_position(self, matrix):
+        self.position = matrix
+        translated = matrix.translated(self._x, self._y)
+        for child in self._children:
+            child.calculate_position(translated)
+

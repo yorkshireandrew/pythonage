@@ -15,6 +15,7 @@ class PSceneGraphNode:
         self._changed = False
         self._layer = 0
         self._scale = 1.0
+        self.postion = None
 
     def __iter__(self):
         return iter(self._children)
@@ -103,4 +104,17 @@ class PSceneGraphNode:
 
     def remove_from_browser(self):
         self._user.send('rem,{0}'.format(self._object_id))
+
+    def calculate_position(self, matrix): # overridden in rotate and translate
+        self.position = matrix
+
+    @property
+    def screen_x(self):
+        return self.position.a13
+
+    @property
+    def screen_y(self):
+        return self.position.a23
+
+        
         
