@@ -13,6 +13,7 @@ from .pixelmap import PPixelMap
 from .line import PLine
 from .text import PText
 from .circle import PCircle
+from .rectangle import PRectangle
 from .javascriptstyle import JavascriptStyle
 
 # Superclass encapsulating a particular users version of a game.
@@ -100,12 +101,14 @@ class PPlayingGame:
         return timeout
 
     def create_sound(self, src):
+        
         new_sound = PSound(self._next_object_id, src, self._user)
         self._objects[self._next_object_id] = new_sound
         self._next_object_id += 1
         return new_sound
 
     def create_pixelmap_from_imagedata(self, imagedata, width, height, visible=True):
+        
         new_pixelmap = PPixelMap(self._next_object_id, width, height, visible, self._user)
         new_pixelmap.from_imagedata(imagedata)
         self._objects[self._next_object_id] = new_pixelmap
@@ -113,6 +116,7 @@ class PPlayingGame:
         return new_pixelmap
 
     def create_pixelmap_from_string(self, width, height, oversample, string_array, visible=True):
+        
         new_pixelmap = PPixelMap(self._next_object_id, width, height, visible, self._user)
         data_height = len(string_array)
         data_width = len(string_array[0])
@@ -122,28 +126,36 @@ class PPlayingGame:
         return new_pixelmap       
 
     def create_line(self, x1, y1, x2, y2, style='black', width=5, visible=True):
-        js_style = JavascriptStyle.compute_style(style)
         
+        js_style = JavascriptStyle.compute_style(style)      
         new_line = PLine(self._next_object_id, x1, y1, x2, y2, js_style, width, visible, self._user)
         self._objects[self._next_object_id] = new_line
         self._next_object_id += 1
         return new_line
 
     def create_text(self, x, y, text, font='20px Georgia', style='black', visible=True):
-        js_style = JavascriptStyle.compute_style(style)
         
+        js_style = JavascriptStyle.compute_style(style)       
         new_text = PText(self._next_object_id, x, y, font, js_style, text, visible, self._user)
         self._objects[self._next_object_id] = new_text
         self._next_object_id += 1
         return new_text
 
     def create_circle(self, radius, style='black', visible=True):
-        js_style = JavascriptStyle.compute_style(style)
         
+        js_style = JavascriptStyle.compute_style(style)     
         new_circle = PCircle(self._next_object_id, radius, js_style, visible, self._user)
         self._objects[self._next_object_id] = new_circle
         self._next_object_id += 1
         return new_circle
+
+    def create_rectangle(self, width, height, style='black', visible=True):
+        
+        js_style = JavascriptStyle.compute_style(style)     
+        new_rectangle = PRectangle(self._next_object_id, width, height, js_style, visible, self._user)
+        self._objects[self._next_object_id] = new_rectangle
+        self._next_object_id += 1
+        return new_rectangle
 
     def remove_timer_from_server(self, timer):
         
@@ -175,44 +187,51 @@ class PPlayingGame:
 
     @property
     def clicked(self):
+        
         return self._user.clicked
 
     def reset_clicked(self):
+        
         self._user.reset_clicked()
 
     @property
     def click_x(self):
+        
         return self._user.click_x
 
     @property
     def click_y(self):
+        
         return self._user.click_y
 
     @property
     def render_complete_notification(self):
+        
         return self._user.render_complete_notification
 
     @render_complete_notification.setter
     def render_complete_notification(self, new_value):
+        
         self._user.render_complete_notification = new_value
 
     @property
     def rendering(self):
+        
         return self._user.rendering
 
     def log_on_client(self, message):
+        
         self._user.log_on_client(message)
 
     @property
     def store_messages(self):
+        
         return self._user.store_messages
 
     @store_messages.setter
     def store_messages(self, new_value):
+        
         self._user.store_messages = new_value
-
-    def unity_matrix(self):
-        return ((1.0, 0.0, 0.0),(0.0, 1.0, 0.0)) # Returns a tuple representing a unity matrix
     
     
 

@@ -73,7 +73,9 @@ class Car_PlayingGame(PPlayingGame):
 
             self.translate3 = self.create_translate(0,0)
             self.circle = self.create_circle(10, 'O')
-            self.circle.remove_from_browser() # should stop circle rendering even though it exists at the python end
+            # self.circle.remove_from_browser() # should stop circle rendering even though it exists at the python end
+            self.rectangle = self.create_rectangle(40,40,'B')
+            self.translate3.append(self.rectangle)
             self.translate3.append(self.circle)
             
 
@@ -82,6 +84,7 @@ class Car_PlayingGame(PPlayingGame):
             #self.sound.play()
 
         if self.car_loaded:
+            
             self.translate.x += 10
             if self.this_key_is_pressed('a'):
                 self.translate.x -= 20
@@ -103,6 +106,9 @@ class Car_PlayingGame(PPlayingGame):
                 self.translate3.y = self.click_y
                 self.translate3.update()
                 self.translate3.render()
+                self.rectangle.width += 5
+                self.rectangle.height -= 5
+                
                 self.circle.radius += 10
                 
         

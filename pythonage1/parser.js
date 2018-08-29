@@ -213,6 +213,16 @@ function pythonage_consume(commandstring){
 		case "rem":
 			var object_id = args[1];
 			delete pythonage_objects[object_id];
+			break
+			
+		case "nrec":
+			pythonage_command_new_rectangle(args);
+			break;
+			
+		case "urec":
+			pythonage_command_update_rectangle(args);
+			break;
+			
 			
 	} // end of switch - do not forget to break
 }
