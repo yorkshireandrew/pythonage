@@ -21,7 +21,7 @@ class PythonageServer:
         self._user_id += 1
         try:
             message = await websocket.recv() # First message should tell us what game the client wants
-            print('PythonageServer got message: {0}'.format(message))
+            # print('PythonageServer got message: {0}'.format(message))
 
             # Use our game factory to create a playing game for us
             frags = message.split(',')
@@ -31,6 +31,7 @@ class PythonageServer:
 
             self._users[user.user_id] = user # Add ourselves to the dictionary of users so users can send messages
             await user.listen_to_websocket_async()
+            
         except websockets.exceptions.ConnectionClosed:
             del self._users[user.user_id]
        
@@ -61,6 +62,6 @@ class PythonageServer:
             tb = traceback.format_exc()
             print('===== TICKING TASK SWALLOWED EXCEPTION ===')
             print(tb)
-            print('===================================')
+            print('===============-------====================')
         print('ticking_task_async completed!') # Should never happen
             

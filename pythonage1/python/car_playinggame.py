@@ -13,7 +13,7 @@ class Car_PlayingGame(PPlayingGame):
         self.car_album = self.create_album()
         self.car_album.append(self.car_imagedata)
         self.car_loaded = False
-        self.create_timer(100, self.check_car_loaded)
+        self.tim = self.create_timer(100, self.check_car_loaded)
         self.sound = self.create_sound('sound/punch.wav')
         self.car_album.append(self.sound)
 
@@ -22,7 +22,6 @@ class Car_PlayingGame(PPlayingGame):
         else:
             self._info = 'Launched with no Launch Info'
             
-
     def check_car_loaded(self):
         print('check car loaded called')
         self.update_keys(('a','s','w','d'))
@@ -115,6 +114,7 @@ class Car_PlayingGame(PPlayingGame):
                 self.rectangle.height -= 5
                 
                 self.circle.radius += 10
+                self.remove_timer_from_server(self.tim)
                 
         
         

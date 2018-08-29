@@ -38,3 +38,4 @@ class PTimerCollection:
 
         for timer_id in undertakers_list:
             del timers[timer_id]
+            print('Removed timer {0}'.format(timer_id))

@@ -11,8 +11,12 @@ class PUser:
         self.user_id = user_id
         self._websocket = websocket
         self._game_factory = game_factory
+        self._reset()
+        
+        print('Created User {0}'.format(user_id))
 
-        # Additional construction
+    def _reset(self):
+        # Construct or set state as though it were our first connection to the browser-playinggame
         self._timer_collection = PTimerCollection()
         self._stored_messages = deque()
         self._send_immediately_messages = deque()
@@ -24,12 +28,6 @@ class PUser:
         self._new_click_y = 0
         self._render_complete_notification = False
         self.rendering = False
-        
-        print('Created User {0}'.format(user_id))
-
-    def set_playing_game(self, playing_game):
-        
-        self._playing_game = playing_game
         
     # Send a message to the users browser, buffering them if store_messages is true. Allows double buffering.
     def send(self, message):
@@ -168,7 +166,7 @@ class PUser:
     def launch_playinggame_from_gamefactory(self, game_name, launch_info):
         
         # Permits one game to act as a prequel or lobby for another
-        self._timer_collection = PTimerCollection()
+        self._reset()
         playing_game = self._game_factory.get_playinggame(game_name, self, launch_info=launch_info)
         self._playing_game = playing_game
 
