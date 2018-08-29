@@ -5,11 +5,13 @@ import websockets
 from pythonage.pythonageserver import PythonageServer
 from pythonage.gamefactory import PGameFactory
 from car_game import Car_Game
+from carlobby_game import CarLobby_Game
 
 if __name__ == '__main__':
     
     game_factory = PGameFactory()
     game_factory.register_game(Car_Game())
+    game_factory.register_game(CarLobby_Game())
 
     pythonage_server = PythonageServer(game_factory)
 

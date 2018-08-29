@@ -17,3 +17,6 @@ class PGame:
     def get_playinggame(self, user):
         raise('get_playinggame was not implemented by a subclass of PGame {0}'.format(self.gamename))
 
+    def get_playinggame(self, user, lauch_info):
+        raise('get_playinggame was not implemented by a subclass of PGame {0}'.format(self.gamename))
+

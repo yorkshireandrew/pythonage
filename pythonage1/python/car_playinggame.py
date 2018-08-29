@@ -2,10 +2,12 @@ from pythonage.playinggame import PPlayingGame
 
 class Car_PlayingGame(PPlayingGame):
 
-    def __init__(self, user, game):
+    def __init__(self, user, game, launch_info=None):
         # First thing we must do is initialise our super class
         # We tell it the name of the game it is playing so it can be shown in logging
         super().__init__(user, game)
+
+        print('Car_PlayingGame init called with {0}'.format(launch_info))
         
         self.car_imagedata = self.create_imagedata('img/car_side1_4.bmp')
         self.car_album = self.create_album()
@@ -14,6 +16,12 @@ class Car_PlayingGame(PPlayingGame):
         self.create_timer(100, self.check_car_loaded)
         self.sound = self.create_sound('sound/punch.wav')
         self.car_album.append(self.sound)
+
+        if launch_info:
+            self._info = launch_info
+        else:
+            self._info = 'Launched with no Launch Info'
+            
 
     def check_car_loaded(self):
         print('check car loaded called')
@@ -64,10 +72,7 @@ class Car_PlayingGame(PPlayingGame):
             self.line.scale = 1
             self.line.render()
 
-            self.text = self.create_text(50,50,'Yippee',style='r')
-            self.text.render()
-            self.text.text = 'FOOOBARRR'
-            self.text.update()
+            self.text = self.create_text(50, 50, self._info, style='r')
             self.text.render()
             self.store_messages = False
 

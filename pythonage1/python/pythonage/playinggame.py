@@ -165,7 +165,7 @@ class PPlayingGame:
         
         self._user.remove_timer_from_server(timeout)
 
-    def remove_all_timers_from_server(self, timer):
+    def remove_all_timers_from_server(self):
         
         self._user.remove_all_timers_from_server()
 
@@ -185,6 +185,16 @@ class PPlayingGame:
         
         return self._user.is_pressed(key)
 
+    def launch(self, game_name, launch_info=None):
+
+        # Tidy up
+        self.store_messages = False
+        self.remove_all_timers_from_server()
+        self.remove_all_from_browser()
+
+        # Instruct the user to aquire a playinggame and attach itself to it. 
+        self._user.launch_playinggame_from_gamefactory(game_name, launch_info)
+        
     @property
     def clicked(self):
         

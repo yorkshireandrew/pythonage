@@ -10,8 +10,8 @@ class Car_Game(PGame):
     def gamename(self):
         return 'cargame'
     
-    def get_playinggame(self, user):
-        return Car_PlayingGame(user, self)
+    def get_playinggame(self, user, launch_info=None):
+        return Car_PlayingGame(user, self, launch_info)
 
 
         

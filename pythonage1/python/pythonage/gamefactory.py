@@ -11,7 +11,7 @@ class PGameFactory:
         print('Registered game ' + game.gamename)
         self._games[game.gamename] = game  
 
-    def get_playinggame(self, gamename, user):
+    def get_playinggame(self, gamename, user, launch_info=None):
         
         print('get playinggame called')
         try:
@@ -20,5 +20,5 @@ class PGameFactory:
             print('User asked for game {0} but it was not registered in PGameFactory'.format(gamename))
             return None
         
-        return game.get_playinggame(user)
+        return game.get_playinggame(user, launch_info)
 

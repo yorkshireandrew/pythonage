@@ -6,10 +6,11 @@ from .timercollection import PTimerCollection
 # and provides a way for a playing game to hook into the servers services.
 class PUser:
 
-    def __init__(self, user_id, websocket):
+    def __init__(self, user_id, websocket, game_factory):
         
         self.user_id = user_id
         self._websocket = websocket
+        self._game_factory = game_factory
 
         # Additional construction
         self._timer_collection = PTimerCollection()
@@ -163,6 +164,13 @@ class PUser:
 
     def remove_all_from_browser(self):
         self.send('ra')
+
+    def launch_playinggame_from_gamefactory(self, game_name, launch_info):
+        
+        # Permits one game to act as a prequel or lobby for another
+        self._timer_collection = PTimerCollection()
+        playing_game = self._game_factory.get_playinggame(game_name, self, launch_info=launch_info)
+        self._playing_game = playing_game
 
         
 

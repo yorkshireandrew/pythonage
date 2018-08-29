@@ -13,6 +13,7 @@ class PTimerCollection:
         
         timer.timer_id = timer_id
         self._timers[timer_id] = timer
+        print('Appended timer:{0}'.format(timer_id))
 
     def remove(self, timer):
         # Mark thing for deletion on the next tick
@@ -20,7 +21,8 @@ class PTimerCollection:
         self._timers[timer.timer_id].dead = True
 
     def remove_all_timers(self):
-        for timer in self._timers:
+        for key, timer in self._timers.items():
+            print('Marked timer {0} for removal'.format(key))
             timer.dead = True
     
     def tick(self): # Periodically called by server
@@ -35,4 +37,4 @@ class PTimerCollection:
                 undertakers_list.append(timer_id)
 
         for timer_id in undertakers_list:
-            del timer_infos[timer_id]
+            del timers[timer_id]
