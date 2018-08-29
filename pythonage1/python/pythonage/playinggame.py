@@ -194,6 +194,11 @@ class PPlayingGame:
 
         # Instruct the user to aquire a playinggame and attach itself to it. 
         self._user.launch_playinggame_from_gamefactory(game_name, launch_info)
+
+    def connection_lost(self):
+        # Callback triggered when the connection to the browser is lost.
+        # Override this callback whenever need to tell the game that the user has gone
+        pass
         
     @property
     def clicked(self):

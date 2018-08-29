@@ -170,6 +170,10 @@ class PUser:
         playing_game = self._game_factory.get_playinggame(game_name, self, launch_info=launch_info)
         self._playing_game = playing_game
 
+
+    def connection_lost(self): # Called by the server when the connection drops
+        self._playing_game.connection_lost()
+
         
 
         

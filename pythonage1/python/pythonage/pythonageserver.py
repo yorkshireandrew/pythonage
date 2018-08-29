@@ -33,6 +33,7 @@ class PythonageServer:
             await user.listen_to_websocket_async()
             
         except websockets.exceptions.ConnectionClosed:
+            user.connection_lost()
             del self._users[user.user_id]
        
 
