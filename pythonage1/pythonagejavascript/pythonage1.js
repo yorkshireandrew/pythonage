@@ -50,6 +50,8 @@ function load(){
 	canvas_context = c.getContext("2d");
 	
 	if(web_socket == null){
+		// ALTER THIS TO POINT TO YOUR PYTHONAGE SERVER
+		// THE PYTHONAGE SERVER HOST MUST BE MATCH THE HOST PROVIDING YOUR PAGE
 		web_socket = new MyWebSocket("localhost", "8765");
 		web_socket.send("requestinggame,"+pythonage_game_name);
 	}
