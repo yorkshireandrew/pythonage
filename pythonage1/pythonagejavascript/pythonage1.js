@@ -44,15 +44,17 @@ function pythonage_error(message){
 }
 
 function load(){
-	key_listener = new keyboard_listener();
+	if(key_listener == null) key_listener = new keyboard_listener();
 	
 	var c = id("my_canvas");
 	canvas_context = c.getContext("2d");
 	
-	web_socket = new MyWebSocket("localhost", "8765");
-	web_socket.send("requestinggame,"+pythonage_game_name);
+	if(web_socket == null){
+		web_socket = new MyWebSocket("localhost", "8765");
+		web_socket.send("requestinggame,"+pythonage_game_name);
+	}
 	
-	touch_listener = new pythonage_touch_listener(web_socket, c);
+	if(touch_listener == null) touch_listener = new pythonage_touch_listener(web_socket, c);
 	resized();
 }
 
