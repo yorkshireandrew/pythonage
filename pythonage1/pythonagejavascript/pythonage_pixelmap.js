@@ -2,7 +2,6 @@
 class pythonage_pixelmap{
 	
 	constructor(object_id, width, height, visible){
-		log('constructing pixelmap')
 		this.object_id = object_id;
 		this.render_width = width;
 		this.render_height = height;
@@ -16,11 +15,9 @@ class pythonage_pixelmap{
 		this.data = null;
 		this.renderable = null;
 		this.scale = 1.0;
-		log('constructed pixelmap')
 	}
 	
 	from_imagedata(imagedata_object_id){
-		log('pixelmap from imagedata');
 		var temp_canvas = document.createElement('canvas');
 		var temp_context = temp_canvas.getContext('2d');
 		var img = pythonage_objects[imagedata_object_id].img;
@@ -29,8 +26,6 @@ class pythonage_pixelmap{
 		this.width = img.width;
 		this.height = img.height;
 		this.renderable = img;
-		//this.canvas2 = temp_canvas;
-		//log('pixelmap from imagedata complete');
 	}
 	
 	make_blue_transparent(){
@@ -53,8 +48,6 @@ class pythonage_pixelmap{
 		}
 		
 		this.renderable = this.imagedata_to_image(this.data);
-		//var temp_context = this.canvas2.getContext('2d');
-		//temp_context.putImageData(this.data,0,0);
 	}
 	
 	imagedata_to_image(imagedata) {
@@ -96,7 +89,6 @@ class pythonage_pixelmap{
 		this.height = height * oversample;
 		var read_index = 0;
 		var write_index = 0;
-		log("OVERSAMPLE" + oversample);
 		for(var y = 0; y < height; y++){
 			for(var os1 = 0; os1 < oversample; os1++){
 				read_index = y * width;
@@ -111,13 +103,11 @@ class pythonage_pixelmap{
 					}
 			}
 		}
-		log("finished data write");
 		this.renderable = this.imagedata_to_image(data);	
 	}
 	
 	render(context){
 		var sc = this.scale;
-		log('Rendering ' + this.render_width + ',' + this.render_height);
 		if(this.visible) context.drawImage(this.renderable, 0, 0, this.width, this.height, 0, 0, Math.floor(this.render_width * sc), Math.floor(this.render_height * sc));
 	}
 	

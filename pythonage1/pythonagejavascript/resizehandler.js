@@ -39,9 +39,6 @@ var resized = function(){
 	
 	var log_el = document.getElementById('log');
     log_el.style.position = "absolute";
-    //canvas.style.width = canv_w + "px";
-    //canvas.style.height = canv_h + "px";
-    //canvas.style.left = canv_left + "px";
 	log_top = (canv_top + canv_h + 20)
     log_el.style.top = ""+log_top+ "px";
 };

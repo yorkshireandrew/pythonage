@@ -60,7 +60,7 @@ function pythonage_command_set_layer(args){
 }
 
 function pythonage_command_log(args){
-	to_log = args[1].split("{{comma}}").join(",");
+	var to_log = args[1].split("{{comma}}").join(",");
 	log(to_log);
 }
 

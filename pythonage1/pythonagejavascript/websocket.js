@@ -9,18 +9,18 @@ class MyWebSocket{
 			 var self = this
 			 
 			 websocket.onopen = function(){
-				 log("Websocket onopen")
+				 //log("Websocket onopen")
 				 for(var pending_open_index in self.pending_open){
 					 websocket.send(self.pending_open[pending_open_index]);
-					 log("sending pending message: " + self.pending_open[pending_open_index]);
+					 //log("sending pending message: " + self.pending_open[pending_open_index]);
 				 }
 				 self.opened = true;
-				log("Websocket onopen complete")				 
+				//log("Websocket onopen complete")				 
 			 };
 			 
 			 websocket.onmessage = function (evt) { 
 	             var received_msg = evt.data;
-	             log("message " + received_msg);
+	             //log("message " + received_msg);
 	             pythonage_consume(received_msg);
 	         };
 	          
@@ -37,10 +37,10 @@ class MyWebSocket{
 	 
 	 send(message){
 		 if(this.opened){
-			 log('websocket open and sending message: ' + message)
+			 //log('websocket open and sending message: ' + message)
 			 this.websocket.send(message);
 		 }else{
-			 log('websocket not ready storing pending message: ' + message)
+			 //log('websocket not ready storing pending message: ' + message)
 			 this.pending_open.push(message);
 		 }
 	 }

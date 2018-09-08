@@ -67,7 +67,6 @@ function pythonage_command_new_translate(args){
 	if(args[4] == "t") visible = true;
 	
 	new pythonage_translate(object_id, x, y, visible);
-	log("new translate");
 }
 
 function pythonage_command_update_translate(args){

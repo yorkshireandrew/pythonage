@@ -97,7 +97,7 @@ class Car_PlayingGame(PPlayingGame):
             print('Second translate update')
             self.translate2.update()
             self.translate2.render_layers()
-            self.log_on_client('<foo,bar>')
+            #self.log_on_client('<foo,bar>') # Example of logging on the browser, handy for debugging
 
             if self.clicked:
                 self.reset_clicked()
