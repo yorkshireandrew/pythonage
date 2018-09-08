@@ -7,7 +7,7 @@ class CarLobby_PlayingGame(PPlayingGame):
         # We tell it the name of the game it is playing so it can be shown in logging
         super().__init__(user, game)
         
-        self.text = self.create_text(50,50,'Click to launch cargame',style='r')
+        self.text = self.create_text(50,50,'Click to launch cargame <,>',style='r')
         self.text.render()
         self.create_timer(100, self.check_for_click)
 

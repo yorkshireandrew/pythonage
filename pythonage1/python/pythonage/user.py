@@ -156,8 +156,6 @@ class PUser:
 
     def log_on_client(self, message):
         to_send = message.replace(',','{{comma}}')
-        to_send = to_send.replace('<','&lt;')
-        to_send = to_send.replace('>','&gt;')
         self.send_immediately('log,{0}'.format(to_send))
 
     def remove_all_from_browser(self):

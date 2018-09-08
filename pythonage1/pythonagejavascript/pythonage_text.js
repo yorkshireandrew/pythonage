@@ -35,8 +35,8 @@ function pythonage_command_new_text(args){
 
 	var visible = false;
 	if(args[7] == "t") visible = true
-	
-	new_text = new pythonage_text(object_id, x, y, font, style, text, visible);	
+	var unescaped_text = text.split("{{comma}}").join(",");
+	new_text = new pythonage_text(object_id, x, y, font, style, unescaped_text, visible);	
 	pythonage_objects[object_id] = new_text;	
 }
 
@@ -49,6 +49,7 @@ function pythonage_command_update_text(args){
 	if(args[3] == "t") visible = true
 	
 	text_object = pythonage_objects[object_id];
-	text_object.text = text;
+	var unescaped_text = text.split("{{comma}}").join(",");
+	text_object.text = unescaped_text;
 	text_object.visible = visible;
 }

@@ -13,9 +13,9 @@ class PText(PSceneGraphNode):
         self._y = y
         self._font = font #TODO validation
         self._style = style
-        self._text = text; #TODO escape , and html <>
-
-        user.send('ntxt,{0},{1},{2},{3},{4},{5},{6}'.format(object_id, x, y, font, self._style, text, self.command_from_bool(visible)))
+        self._text = text;
+        to_send = text.replace(',','{{comma}}')
+        user.send('ntxt,{0},{1},{2},{3},{4},{5},{6}'.format(object_id, x, y, font, self._style, to_send, self.command_from_bool(visible)))
 
     # Readonly properties
     @property
@@ -48,6 +48,7 @@ class PText(PSceneGraphNode):
 
     def update(self):
         if self._changed:
-            self._user.send('utxt,{0},{1},{2}'.format(self._object_id, self._text, self.command_from_bool(self._visible)))
+            to_send = self._text.replace(',','{{comma}}')
+            self._user.send('utxt,{0},{1},{2}'.format(self._object_id, to_send, self.command_from_bool(self._visible)))
 
         super().update()
