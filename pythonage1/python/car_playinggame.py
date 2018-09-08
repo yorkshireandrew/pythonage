@@ -114,7 +114,7 @@ class Car_PlayingGame(PPlayingGame):
                 self.rectangle.height -= 5
                 
                 self.circle.radius += 10
-                self.remove_timer_from_server(self.tim)
+                #self.remove_timer_from_server(self.tim)
                 
         
         
