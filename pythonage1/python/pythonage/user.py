@@ -13,9 +13,10 @@ class PUser:
         self._game_factory = game_factory
         self._reset()
         
-        print('Created User {0}'.format(user_id))
+        # print('Created User {0}'.format(user_id))
 
     def _reset(self):
+        
         # Construct or set state as though it were our first connection to the browser-playinggame
         self._timer_collection = PTimerCollection()
         self._stored_messages = deque()
@@ -37,10 +38,10 @@ class PUser:
             return
         
         if self.store_messages:
-            print('Adding to stored messages:' + message)
+            # print('Adding to stored messages:' + message)
             self._stored_messages.append(message)
         else:
-            print('Adding to Immediate messages:' + message)
+            # print('Adding to Immediate messages:' + message)
             self._send_immediately_messages.append(message)
 
     # Send a message to the users browser immediately ignoring the store_messages field
@@ -59,7 +60,7 @@ class PUser:
                 
         while len(self._send_immediately_messages):
             message = self._send_immediately_messages.popleft()
-            print('sent: {0}'.format(message))
+            # print('sent: {0}'.format(message))
             await websocket.send(message)
 
 
@@ -67,7 +68,7 @@ class PUser:
     async def listen_to_websocket_async(self):
         
         message = await self._websocket.recv()
-        print('User {0} recieved: {1}'.format(self.user_id, message))
+        # print('User {0} recieved: {1}'.format(self.user_id, message))
         while not message == 'byebye':
             fragments = message.split(',')
             command = fragments[0]
@@ -82,7 +83,7 @@ class PUser:
                         pressed_string = next(fragment_iterator)
                         pressed = pressed_string == '1'
                         self._keypresses[key] = pressed
-                        #print('{0}:{1}'.format(key,pressed))
+                        # print('{0}:{1}'.format(key,pressed))
                 except StopIteration:
                     pass
 
@@ -99,7 +100,7 @@ class PUser:
                 self.rendering = False
 
             message = await self._websocket.recv()
-            print('User {0} recieved: {1}'.format(self.user_id, message))
+            # print('User {0} recieved: {1}'.format(self.user_id, message))
 
     def append_timer_to_server(self, timer):
         
@@ -128,25 +129,31 @@ class PUser:
 
     @property
     def clicked(self):
+        
         return self._new_click
 
     def reset_clicked(self):
+        
         self._new_click = False 
 
     @property
     def click_x(self):
+        
         return self._new_click_x
 
     @property
     def click_y(self):
+        
         return self._new_click_y
 
     @property
     def render_complete_notification(self):
+        
         return self._render_complete_notification
 
     @render_complete_notification.setter
     def render_complete_notification(self, new_value):
+        
         if new_value:
             self._render_complete_notification = True
             self.send_immediately('srcn,t')
@@ -155,12 +162,14 @@ class PUser:
             self.send_immediately('srcn,f')
 
     def log_on_client(self, message):
+        
         to_send = message.replace(',','{{comma}}')
         to_send = to_send.replace('<','&lt;')
         to_send = to_send.replace('>','&gt;')
         self.send_immediately('log,{0}'.format(to_send))
 
     def remove_all_from_browser(self):
+        
         self.send('ra')
 
     def launch_playinggame_from_gamefactory(self, game_name, launch_info):
@@ -172,6 +181,7 @@ class PUser:
 
 
     def connection_lost(self): # Called by the server when the connection drops
+        
         self._playing_game.connection_lost()
 
         

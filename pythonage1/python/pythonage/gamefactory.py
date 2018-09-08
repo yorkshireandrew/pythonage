@@ -13,7 +13,6 @@ class PGameFactory:
 
     def get_playinggame(self, gamename, user, launch_info=None):
         
-        print('get playinggame called')
         try:
             game = self._games[gamename.strip()]
         except KeyError:

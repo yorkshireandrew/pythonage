@@ -1,9 +1,12 @@
 # Utility class to create javascript styles from pythonage styles
+# So single characters can be used to pick a colour (like in pixelmap)
+
 class JavascriptStyle:
 
     # Create a javascript style from rgb
     @staticmethod
     def rgb_to_style(r, g, b):
+        
         rs = hex(r)[2:]
         if len(rs) == 1:
             rs = '0{0}'.format(rs)
@@ -18,6 +21,7 @@ class JavascriptStyle:
     # Compute the style if a single character is given otherwise pass through
     @staticmethod
     def compute_style(style):
+        
         if not len(style) == 1:
             return style
         # These should match with colour_data in pixelmap.js

@@ -8,15 +8,19 @@ from .pythonageerror import PythonageError
 class PGame:
 
     def __init__(self):
+        
         self._playinggames = []
 
     @property
     def gamename(self):
+        
         raise PythonageError('gamename has not been implemented on a subclass of PGame')
 
     def get_playinggame(self, user):
+        
         raise('get_playinggame was not implemented by a subclass of PGame {0}'.format(self.gamename))
 
     def get_playinggame(self, user, lauch_info):
+        
         raise('get_playinggame was not implemented by a subclass of PGame {0}'.format(self.gamename))
 

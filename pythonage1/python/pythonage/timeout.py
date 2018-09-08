@@ -6,6 +6,7 @@ import traceback
 class PTimeout():
 
     def __init__(self, interval, callback, gamename):
+        
         self._callback = callback
         self._gamename = gamename
         
@@ -19,9 +20,11 @@ class PTimeout():
 
     @property
     def gamename(self):
+        
         return self._gamename
 
     def tick(self): # Called each server tick
+        
         self._countdown -= 1
         if self._countdown == 0:
             try:

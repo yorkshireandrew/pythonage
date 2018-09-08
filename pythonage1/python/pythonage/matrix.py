@@ -18,15 +18,12 @@ class PMatrix:
         return PMatrix(1.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 
     def translated(self, x, y):
-        #a13 = self.a13 + x
-        #a23 = self.a23 + y
 
         t_matrix = PMatrix(1.0, 0.0, x, 0.0, 1.0, y)
         return PMatrix.multiply(self, t_matrix)
-        
-        #return PMatrix(self.a11, self.a12, a13, self.a21, self.a22, a23)
 
     def rotated(self, angle):
+        
         radians = math.radians(angle)
         b11 = math.cos(radians)
         b12 = -math.sin(radians)
@@ -41,6 +38,7 @@ class PMatrix:
         
     @staticmethod
     def multiply(a,b):
+        
         a11 = a.a11 * b.a11 + a.a12 * b.a21
         a12 = a.a11 * b.a12 + a.a12 * b.a22
         a13 = a.a11 * b.a13 + a.a12 * b.a23 + a.a13
@@ -52,9 +50,11 @@ class PMatrix:
         return PMatrix(a11, a12, a13, a21, a22, a23)
 
     def screen_x_of(self, x, y):
+        
         return self.a11 * x + self.a12 * y + self.a13
 
     def screen_y_of(self, x, y):
+        
         return self.a21 * x + self.a22 * y + self.a23
 
         

@@ -187,7 +187,7 @@ class PPlayingGame:
 
     def launch(self, game_name, launch_info=None):
 
-        # Tidy up
+        # Tidy up any debris left by the old game
         self.store_messages = False
         self.remove_all_timers_from_server()
         self.remove_all_from_browser()
@@ -196,6 +196,7 @@ class PPlayingGame:
         self._user.launch_playinggame_from_gamefactory(game_name, launch_info)
 
     def connection_lost(self):
+        
         # Callback triggered when the connection to the browser is lost.
         # Override this callback whenever need to tell the game that the user has gone
         pass
@@ -248,7 +249,3 @@ class PPlayingGame:
         
         self._user.store_messages = new_value
     
-    
-
-        
-        

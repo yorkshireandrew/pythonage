@@ -5,6 +5,7 @@ import websockets
 
 # Websocket server used during early testing to see what we got sent
 async def handle_connect(websocket, path):
+    
     count = 0
     async for message in websocket:
         print(message)

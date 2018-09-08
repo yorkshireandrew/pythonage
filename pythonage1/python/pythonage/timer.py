@@ -5,6 +5,7 @@ import traceback
 class PTimer():
 
     def __init__(self, interval, callback, gamename):
+        
         self._callback = callback
         if interval <= 0:
             raise PythonageError('Attempt to create a timer with interval {0}'.format(interval))
@@ -19,9 +20,11 @@ class PTimer():
 
     @property
     def gamename(self):
+        
         return self._gamename
 
     def tick(self): # Called each server tick
+        
         self._countdown -= 1
         if self._countdown == 0:
             try:

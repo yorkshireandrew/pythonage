@@ -23,13 +23,13 @@ class Car_PlayingGame(PPlayingGame):
             self._info = 'Launched with no Launch Info'
             
     def check_car_loaded(self):
-        print('check car loaded called')
+        #print('check car loaded called')
         self.update_keys(('a','s','w','d'))
         
         if not self.car_loaded and self.car_album.loaded:
             self.render_complete_notification = True
             self.car_loaded = True
-            print('album loaded')
+            #print('album loaded')
             car_image = self.create_image(self.car_imagedata, 100, 100)
             car_image.scale = 0.25
             translate = self.create_translate(0,0)
@@ -85,16 +85,16 @@ class Car_PlayingGame(PPlayingGame):
 
         if self.car_album.loaded:
             pass
-            #self.sound.play()
+            #self.sound.play() # Example of playing a sound once it is loaded
 
         if self.car_loaded:
             
             self.translate.x += 10
             if self.this_key_is_pressed('a'):
                 self.translate.x -= 20
-            print('First translate update')
+            #print('First translate update')
             self.translate.update()
-            print('Second translate update')
+            #print('Second translate update')
             self.translate2.update()
             self.translate2.render_layers()
             #self.log_on_client('<foo,bar>') # Example of logging on the browser, handy for debugging

@@ -4,6 +4,7 @@
 class PSceneGraphNode:
     
     def __init__(self, user, object_id, visible):
+        
         self._user = user
         self._object_id = object_id
         self._visible = visible
@@ -18,9 +19,11 @@ class PSceneGraphNode:
         self.postion = None
 
     def __iter__(self):
+        
         return iter(self._children)
 
     def append(self, child):
+        
         if child.parent:
             child.parent.detach(child)
             
@@ -37,6 +40,7 @@ class PSceneGraphNode:
         self.parent = item_to_append_to
 
     def detach(self, child):
+        
         child_id = child.object_id
 
         self._user.send('dt,{0},{1}'.format(child.object_id, self._object_id))
@@ -46,41 +50,47 @@ class PSceneGraphNode:
         child.parent = None      
 
     def get_named_child(self, child_name):
+        
         try:
             return next([child for child in self._children if child.name == target_child_name])
         except StopIteration:
             raise KeyError
 
     def render(self):
+        
         self._user.rendering = True
         self._user.send('r,{0}'.format(self._object_id))
 
     def render_layers(self):
+        
         self._user.rendering = True
         self._user.send('rl,{0}'.format(self._object_id))
 
     def update(self):
-        print('update called on {0}'.format(self.object_id))
+        
         for child in self._children:
             child.update()
         self._changed = False
-        print('set changed false on {0}'.format(self.object_id))
 
     @property
     def object_id(self):
+        
         return self._object_id
 
     @property
     def visible(self):
+        
         return self._visible
 
     @visible.setter
     def visible(self, new_visible):
+        
         if not new_visible == self._visible:
             self._changed = True
         self._visible = visible
 
     def command_from_bool(self, input_bool):
+        
         if input_bool:
             return 't'
         else:
@@ -88,32 +98,40 @@ class PSceneGraphNode:
 
     @property
     def layer(self):
+        
         return self._layer
 
     @layer.setter
     def layer(self, new_value):
+        
         self._user.send('sl,{0},{1}'.format(self._object_id, new_value))
 
     @property
     def scale(self):
+        
         return self._scale
 
     @scale.setter
     def scale(self, new_value):
+        
         self._user.send('usc,{0},{1}'.format(self._object_id, new_value))
 
     def remove_from_browser(self):
+        
         self._user.send('rem,{0}'.format(self._object_id))
 
     def calculate_position(self, matrix): # overridden in rotate and translate
+        
         self.position = matrix
 
     @property
     def screen_x(self):
+        
         return self.position.a13
 
     @property
     def screen_y(self):
+        
         return self.position.a23
 
         

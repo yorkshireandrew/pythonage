@@ -63,6 +63,7 @@ class PythonageServer:
             tb = traceback.format_exc()
             print('===== TICKING TASK SWALLOWED EXCEPTION ===')
             print(tb)
-            print('===============-------====================')
+            print('==========================================')
+            
         print('ticking_task_async completed!') # Should never happen
             
