@@ -1,0 +1,961 @@
+##################
+##################
+##              ##
+## PPLayingGame ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+The class that you need to sub-class to create your own game. It represents a particular user playing a particular game.
+It provides features to control the users browser and access to pythonage server and create instances of other pythonage
+classes.
+
+============
+ Properties
+============
+gamename						--> readonly string. the name of the game.
+clicked							--> readonly boolean. Has the web-page been clicked since the last time reset_clicked() was called.
+click_x							--> readonly integer. The x co-ordinate of the last click.
+click_y							--> readonly integer. The y co-ordinate of the last click.
+render_complete_notification	--> boolean, set it True if you want the browser to update your rendering property.
+rendering						--> readonly boolean. Is the browser rendering.
+store_messages					--> boolean, when set True most messages to the browser get queued instead of sent.			
+
+=========
+ Methods
+=========
+
+create_album()
+--------------
+Returns a new PAlbum object.
+
+
+create_imagedata(source)
+------------------------
+Returns a new PImageData object, You can append imagedata and sound objects to this and it will track when they are all loaded.
+
+source 		--> String containing the relative or absolute URL to the image file.
+
+
+create_image(image_data, width, height, visible)
+------------------------------------------------
+Returns a new PImage object that can display an image on the screen.
+
+image_data 	--> A PImageData object, check this has loaded first.
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+create_translate(x, y, visible)
+-------------------------------
+Returns a new PTranslate object, that can be used in a scene-graph to move things on the screen.
+
+visible 	--> Boolean property on PTranslate that controls if objects appended to this translate object can be rendered (default=True).
+
+
+create_rotate(angle, visible)
+-----------------------------
+Returns a new PRotate object, that can be used in a scene_graph to rotate things on the screen.
+
+angle 		--> Clockwise rotation in degrees.
+visible 	--> Boolean property on PTranslate that controls if objects appended to this translate object can be rendered (default=True).
+
+
+create_timer(interval, callback)
+--------------------------------
+Returns a new timer that fires periodically, keep this if you want to remove it later.
+
+interval 	--> Number of pythonage server ticks between each call of callback you want. A pythonage server tick is about 10 milliseconds.
+callback	--> The method or function you want calling periodically.
+
+
+create_timeout(interval, callback)
+----------------------------------
+Returns a new timeout, keep this if you want to remove it later. A timeout will only fire once then automatically removes itself.
+
+interval 	--> Number of pythonage server ticks between each call of callback you want. A pythonage server tick is about 10 milliseconds.
+callback	--> The method or function you want calling periodically.
+
+
+create_pixelmap_from_imagedata(imagedata, width, height, visible)
+-----------------------------------------------------------------
+Returns a new PPixelMap object similar to a PImage,  but you can do other things with it. This seems not to work in chrome.
+
+image_data 	--> A PImageData object, check this has loaded first.
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+create_pixelmap_from_string(width, height, oversample, string_array, visible)
+-----------------------------------------------------------------------------
+Returns a new PPixelMap object built from a string array. Its good for producing 1980s looking pixel-art.
+
+oversample  --> Integer. If your string_array is fairly small this can make the result blurry. 
+				Adding a level of oversampling (say 10) makes the pixelmap less blurry but more pixeley.
+				
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+string_array --> List of strings dictating the colour of 'pixels' in the pixelmap. For example this produces a white and red dot.
+
+            white_and_red_dot = [
+                ' wwww ',
+                'wwRRww',
+				'wRRRRw',
+				'wwRRww',
+				' wwww '
+			]
+			
+Available colours are:
+
+		' ':transparent
+        'w': white
+		'r': red
+		'R': bright red
+		'b': blue
+		'B': bright blue
+		'g': green
+		'G': bright green
+		'y': yellow
+		'Y': bright yellow
+		'p': pink
+		'#': black
+		'm': mud
+		'M': darker mud
+		'o': orange
+		'O': bright orange
+	
+	
+create_line(x1, y1, x2, y2, style, width, visible)
+-----------------------------------------------------
+Returns a new PLine object that can display a line on the screen.
+
+x1			--> Starting x co-ordinate of the line.
+y1			--> Starting y co-ordinate of the line.
+x2			--> Ending x co-ordinate of the line.
+y2			--> Ending y co-ordinate of the line.
+style		--> Either a javascript style (colour) or you can use a pixelmap character (default=black).
+width		--> Width of the line (default=5).
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+create_text(x, y, text, font, style, visible)
+------------------------------------------------
+Returns a PText object that can display text on the screen.
+
+x 			--> x co-ordinate of the text.
+y 			--> y co-ordinate of the text.
+text		--> The text you want to display.
+font		--> String representing the font and font-size you want (Default ='20px Georgia')
+style		--> Either a javascript style (colour) or you can use a pixelmap character (default=black).
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+create_circle(radius, style, visible)
+-------------------------------------
+Returns a PCircle object that can display a circle on the screen.
+
+style		--> Either a javascript style (colour) or you can use a pixelmap character (default=black).
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+create_rectangle(width, height, style, visible)
+-------------------------------------
+Returns a PRectangle object that can display a rectangle on the screen.
+
+style		--> Either a javascript style (colour) or you can use a pixelmap character (default=black).
+visible 	--> PImage boolean property that controls if the object can be rendered (default=True).
+
+
+remove_timer_from_server(timer)
+-------------------------------
+Removes a timer from the pythonage server.
+timer		--> The timer you wish to remove.
+
+
+remove_timeout_from_server(timer)
+-------------------------------
+Removes a timeout from the pythonage server.
+timeout		--> The timeout you wish to remove.
+
+
+remove_all_timers_from_server()
+-------------------------------
+Removes all timers and timeouts for the current user from the pythonage server. If your game is to continue create a new timer!
+
+
+remove_all_from_browser()
+-------------------------
+Removes all objects that have been created on the browser. You might want to use this before a new level to ensure
+everything from the previous level is forgotten about by the browser. Remember though your imagedata and sounds go too!
+
+
+reset_clicked()
+---------------
+Sets the clicked property False, until a new click occurs.
+
+
+update_keys(keylist)
+--------------------
+Sends a query to the browser to get the state of specific keys.
+keylist		--> List of keys to check, for example ["w", "a", "s", d", "left", "up", "right", "down", "space", "backspace","enter"]
+
+
+this_key_is_pressed(key)
+------------------------
+Returns a boolean which is True if the key is currently pressed on the browser. This works only if a query has been sent using update_keys()
+
+
+launch(game_name, launch_info)
+------------------------------
+This allows you to start and switch to a different game that is available on your pythonage server. 
+It removes all timers and timeouts for the current user, aquires a new playinggame (passing launch_info through) 
+then associates the current user with it. It can be uses to implement game lobbies or 'menu' pages where a game can be choosen.
+
+game_name	--> The gamename the requested game has.
+launch_info	--> Whatever information you want to pass through to the PGame sub-class (default=None). 
+				You are responsible for checking the PGame sub-class can accept this.
+
+				
+connection_lost()
+-----------------
+This gets called by the pythonage server if the websocket connection is lost. Override this in your PPlayingGame sub-class if
+you need to take action when this occurs, such as informing your PGame sub-class that the user has now vanished.
+
+
+log_on_client(message)
+----------------------
+Useful for development and debugging allows you to send a log message that will appear on the users browser.
+
+
+######################
+######################
+##                  ##
+##    PTranslate    ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Scene-graph element that represents a change in position, to which other scene-graph elements can be appended.
+
+============
+ Properties
+============
+iter(translation)	--> Returns an iterator for the appended scene-graph elements. 
+x, y		--> co-ordinates that represent how big the change in position is, before scaling.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+screen_x	--> readonly Integer. x co-ordinate of the translations anchor point.
+screen_y	--> readonly Integer. y co-ordinate of the translations anchor point.
+visible 	--> Boolean, controls if the children of this object can be rendered.
+scale		--> Number. Scaling factor that allows the translation to be grown or shrunk. 
+				Handy if the child you are trying to render keeps changing scale too, maybe it is far away so needs to be smaller.
+
+=========
+ Methods
+=========
+append(child)
+-------------
+Appends a scene-graph element to this translation.
+
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent this translation has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent this translation has. 
+
+update()
+--------
+Sends (or queues) a message about property changes on this translation and all its children (recursively) to the browser.
+
+render()
+--------
+If this translation is visible, all the translation's visible children (recursively) are set to render on the browser. 
+This translation being the top-left root node.
+
+render_layers()
+---------------
+Similar to calling render() however the layer property of the visible children gets used to determine the order things get rendered.
+
+get_named_child(name)
+---------------------
+Returns the child with the same name, assuming the name property on the child has been set.
+
+calculate_position(matrix)
+--------------------------
+If it is this translation that you are using to render your scene-graph 
+calling this function passing it a unity PMatrix causes the screen positions of all child scene-graph elements to be calculated.
+
+remove_from_browser()
+---------------------
+Removes the representation of this translation from the browser. 
+
+
+######################
+######################
+##                  ##
+##     PRotate      ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Scene-graph element that represents a rotation, to which other scene-graph elements can be appended.
+
+============
+ Properties
+============
+iter(rotation)	--> Returns an iterator for the appended scene-graph elements. 
+angle		--> Number, clockwise angle in degrees this rotation applies to its child scene-graph elements.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+screen_x	--> readonly Integer. x co-ordinate of the rotation point.
+screen_y	--> readonly Integer. y co-ordinate of the rotation point.
+visible 	--> Boolean, controls if the children of this object can be rendered.
+
+=========
+ Methods
+=========
+append(child)
+-------------
+Appends a scene-graph element to this rotation.
+
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent this rotation has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent this rotation has. 
+
+update()
+--------
+Sends (or queues) a message about property changes on this rotation and all its children (recursively) to the browser.
+
+render()
+--------
+If this rotation is visible, all the rotation's visible children (recursively) are set to render on the browser.
+This rotation being the top-left root node.
+
+render_layers()
+---------------
+Similar to calling render() however the layer property of the visible children gets used to determine the order things get rendered.
+
+get_named_child(name)
+---------------------
+Returns the child with the same name, assuming the name property on the child has been set.
+
+calculate_position(matrix)
+--------------------------
+If it is this rotation that you are using to render your scene-graph 
+calling this function passing it a unity PMatrix causes the screen positions of all child scene-graph elements to be calculated.
+
+remove_from_browser()
+---------------------
+Removes the representation of this rotation from the browser.
+
+
+##################
+##################
+##              ##
+##   PCircle    ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+Represents a circle that can be displayed
+
+============
+ Properties
+============
+radius		--> Integer, radius of the circle before scaling.
+style		--> String, Either a javascript style (colour) or you can use a pixelmap character.
+centre_x	--> Integer. Centre x co-ordinate.
+centre_y	--> Integer. Centre y co-ordinate.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+scale		--> Number. Scaling factor allowing the item to be grown or shrunk.
+screen_x	--> Integer. Centre x co-ordinate.
+screen_y	--> Integer. Centre y co-ordinate.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+
+##################
+##################
+##              ##
+##    PGame     ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+Represents the state of a game (or games) that is shared across multiple playinggames.
+sub-class this to create your own game.
+
+gamename
+
+============
+ Properties
+============
+gamename	--> readonly string. The name of the game, must be unique in the PGameFactory
+
+=========
+ Methods
+=========
+
+get_playinggame(self, user, lauch_info):
+---------------------
+Override this to return your PPlayingGame sub-class. 
+If it can be launched from the PPlayingGame launch method it might get passed some launch information to use.
+It must pass user through to your PPlayingGame sub-class.
+
+
+#########################
+#########################
+##                     ##
+##     PImageData      ##
+##                     ##
+#########################
+#########################
+
+==========
+ Overview
+==========
+Represents some image data the browser has to load, once loaded it can be used to create images.
+
+============
+ Properties
+============
+name		--> optional string property.
+src			--> URL of the image (or relative to your games html file). You can change this but probably shouldn't.
+loaded		--> Readonly boolean. If the imagedata is loaded on the browser.
+not_loaded	--> Readonly boolean. Inverse of the loaded property.	
+
+=========
+ Methods
+=========
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+##################
+##################
+##              ##
+##   PImage     ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+Represents an Image that can be displayed
+
+============
+ Properties
+============
+width		--> Integer. Width of the image before scaling.
+height		--> Integer. Height of the image before scaling.
+
+p1_x, p1_y	--> readonly co-ordinates of the images anchor point, based on a calculate_position() call in the scene-graph.
+p2_x, p2_y	--> readonly co-ordinates of the second point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p3_x, p3_y	--> readonly co-ordinates of the third point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p4_x, p4_y	--> readonly co-ordinates of the fourth point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+
+centre_x	--> readonly Integer. Centre x co-ordinate.
+centre_y	--> readonly Integer. Centre y co-ordinate.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+scale		--> Number. Scaling factor allowing the item to be grown or shrunk.
+screen_x	--> readonly Integer. x co-ordinate of the first point.
+screen_y	--> readonly Integer. y co-ordinate of the first point.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+
+##################
+##################
+##              ##
+##    PLine     ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+Represents a line that can be displayed
+
+============
+ Properties
+============
+width		--> Integer. Width of the line
+style		--> String, Either a javascript style (colour) or you can use a pixelmap character.
+x1, y1		--> Start co-ordinates of the line before scaling.
+x2, y2		--> End co-ordinates of the line before scaling.
+
+
+p1_x, p2_y	--> readonly co-ordinates of the start of the line, based on a calculate_position() call in the scene-graph.
+p2_x, p2_y	--> readonly co-ordinates of the end of the line, based on a calculate_position() call in the scene-graph.
+
+centre_x	--> readonly Integer. Centre x co-ordinate.
+centre_y	--> readonly Integer. Centre y co-ordinate.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+scale		--> Number. Scaling factor allowing the item to be grown or shrunk.
+screen_x	--> readonly Integer. x co-ordinate of the first point.
+screen_y	--> readonly Integer. y co-ordinate of the first point.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+
+#####################
+#####################
+##                 ##
+##   PPixelMap     ##
+##                 ##
+#####################
+#####################
+
+==========
+ Overview
+==========
+Represents pixels that can be displayed
+
+============
+ Properties
+============
+width		--> Integer. Width of the item before scaling.
+height		--> Integer. Height of the item before scaling.
+
+p1_x, p1_y	--> readonly co-ordinates of the images anchor point, based on a calculate_position() call in the scene-graph.
+p2_x, p2_y	--> readonly co-ordinates of the second point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p3_x, p3_y	--> readonly co-ordinates of the third point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p4_x, p4_y	--> readonly co-ordinates of the fourth point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+
+centre_x	--> readonly Integer. Centre x co-ordinate.
+centre_y	--> readonly Integer. Centre y co-ordinate.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+scale		--> Number. Scaling factor allowing the item to be grown or shrunk.
+screen_x	--> readonly Integer. x co-ordinate of the first point.
+screen_y	--> readonly Integer. y co-ordinate of the first point.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+
+make_blue_transparent()
+-----------------------
+Switches any pixels that are pure blue (0,0,255) in the pixelmap to transparent. Might not work on all browsers.
+
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+######################
+######################
+##                  ##
+##   PRectangle     ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Represents an rectangle that can be displayed
+
+============
+ Properties
+============
+width		--> Integer. Width of the image before scaling.
+height		--> Integer. Height of the image before scaling.
+style		--> String, Either a javascript style (colour) or you can use a pixelmap character.
+
+p1_x, p1_y	--> readonly co-ordinates of the images anchor point, based on a calculate_position() call in the scene-graph.
+p2_x, p2_y	--> readonly co-ordinates of the second point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p3_x, p3_y	--> readonly co-ordinates of the third point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+p4_x, p4_y	--> readonly co-ordinates of the fourth point (travelling clockwise), based on a calculate_position() call in the scene-graph.
+
+centre_x	--> readonly Integer. Centre x co-ordinate.
+centre_y	--> readonly Integer. Centre y co-ordinate.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+scale		--> Number. Scaling factor allowing the item to be grown or shrunk.
+screen_x	--> readonly Integer. x co-ordinate of the first point.
+screen_y	--> readonly Integer. y co-ordinate of the first point.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+
+######################
+######################
+##                  ##
+##      PSound      ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Represents a sound that can be played on the browser. It may not play if called to soon after it has already played. 
+
+============
+ Properties
+============
+name		--> optional string property.
+loaded		--> Has the sound loaded on the browser so it is ready to play
+
+=========
+ Methods
+=========
+
+play()
+------
+Sends a message causing the sound to play on the browser. Check the sound has loaded first.
+
+remove_from_browser()
+---------------------
+Removes the representation of this sound from the browser.
+
+######################
+######################
+##                  ##
+##      PText       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Represents text that can be displayed
+
+============
+ Properties
+============
+x, y		--> Co-ordinates to place the text before scaling.
+font		--> string, The javascript font and font-size used to display the text in.
+style		--> String, Either a javascript style (colour) or you can use a pixelmap character.
+text		--> The text to display.
+
+name		--> optional string property.
+layer		--> Integer. The layer the circle is on.
+screen_x	--> readonly Integer. x co-ordinate of the anchor point.
+screen_y	--> readonly Integer. y co-ordinate of the anchor point.
+visible 	--> Boolean, controls if the object can be rendered.
+
+=========
+ Methods
+=========
+append_to(item_to_append_to)
+----------------------------
+Detach from whatever parent the item has in the scene-graph and attach to another.
+
+detach()
+--------
+Detach from whatever parent the item has. 
+
+remove_from_browser()
+---------------------
+Removes the representation of the item from the browser.
+
+update()
+--------
+Sends (or queues) a message about property changes to be sent to the browser.
+
+##################
+##################
+##              ##
+##    PAlbum    ##
+##              ##
+##################
+##################
+
+==========
+ Overview
+==========
+Utility class making it easy to determine all imagedata and sounds for a game are loaded
+
+============
+ Properties
+============
+len(palbum)		--> Number of items in the album.
+pending			--> Number of items still to loaded.
+loaded			--> Readonly boolean. True if the album contains items and none are pending.
+not_loaded		--> Readonly boolean. Inverse of the loaded property.	
+
+=========
+ Methods
+=========
+
+append(imagedata)
+-----------------
+Appends an imagedata or sound object to the album.
+
+
+get_imagedata_named(name)
+-------------------------
+Returns the item that has the given name in the album, or throws a KeyError.
+You need to ensure the items in the album have their name property set for this to work.
+
+
+#########################
+#########################
+##                     ##
+##    PGameFactory     ##
+##                     ##
+#########################
+#########################
+
+==========
+ Overview
+==========
+When starting a pythonage server you need to register PGame instances with this, then use it to create a pythonage server.
+
+=========
+ Methods
+=========
+
+register_game(game)
+-------------------
+Adds a game to the factory so the pythonage server can use it.
+
+game	--> An instance of PGame that you want the pythonage server to be able to support.
+
+
+######################
+######################
+##                  ##
+##  PSuperCollider  ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+Contains several static methods that are useful for collision detection.
+The rectangles you are checking for collision need to have valid (p1_x, p1_y --> p4_x, p4_y) properties;
+so don't forget to use calculate_position(matrix) on something first. 
+
+
+######################
+######################
+##                  ##
+##   PTimeout       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. Represents a timeout, these do not exist on the browser.
+
+######################
+######################
+##                  ##
+##     PTimer       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. Represents a timer, these do not exist on the browser.
+
+############################
+############################
+##                        ##
+##    PTimerCollection    ##
+##                        ##
+############################
+############################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. A PUser has one and uses it to store and tick timers and timeouts.
+
+######################
+######################
+##                  ##
+##      PUser       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. Wraps a websocket and gets tracked by the pythonage server.
+It stores things such as message queues to be sent to the browser and is what PPlayingGame uses to communicate.
+
+######################
+######################
+##                  ##
+##    PVector       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. It gets used in collision detection. 
+A vector is both a start-point (x, y) and a direction (dx, dy), like pointing to something from somewhere.
+Oftern we only care about direction so the start-point is (0,0). 
+You might want consider using PVector, say in your AI so your robots head the right way.
+
+######################
+######################
+##                  ##
+##    PMatrix       ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+The matrix, where is Agent Smith? 
+In actual fact a matrix simply a square block of numbers, but you can do funky things with them like add and multiply them.
+They are a bit complex but if your interested in doing 3D games then your going to need to learn much more about them.
+This is an internal class you should not need to alter. It gets used when calculating all those screen positions.
+Ours look like:
+
+[ a11, a12, a13] 
+[ a21, a22, a23] 
+[ a31, a32, a33] 
+
+a11, a12, a21, a22 represent rotation.
+a13, a23 represent translation.
+a31, a32, a33 are always set to 0,0,1 and are used to cause the translate to happen. We never bother storing these.
+
+
+######################
+######################
+##                  ##
+## PythonageServer  ##
+##                  ##
+######################
+######################
+
+==========
+ Overview
+==========
+This is an internal class you should not need to alter. 
+It stores the PUsers and PGameFactory it starts two async loops. 
+one async loop ticks all the timers and timeouts, while the other sends all the messages.
+It also provides the handle_connect method your startpythonageserver.py must use to start listening for websockets. 
